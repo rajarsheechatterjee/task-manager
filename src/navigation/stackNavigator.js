@@ -14,37 +14,20 @@ import firebase from "../../firebase";
 const Stack = createStackNavigator();
 
 function StackNavigator() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    const checkIfLoggenIn = () => {
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                setIsLoggedIn(true);
-            }
-        });
-    };
-
-    useEffect(() => {
-        checkIfLoggenIn();
-    }, [checkIfLoggenIn]);
-
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                {isLoggedIn ? (
-                    <Stack.Screen
-                        name="Home"
-                        component={Home}
-                        options={{
-                            headerStyle: {
-                                backgroundColor: "purple",
-                            },
-                            headerTintColor: "white",
-                        }}
-                    />
-                ) : (
-                    <Stack.Screen name="Login" component={Login} />
-                )}
+                <Stack.Screen
+                    name="Home"
+                    component={Home}
+                    options={{
+                        headerStyle: {
+                            backgroundColor: "purple",
+                        },
+                        headerTintColor: "white",
+                    }}
+                />
+                <Stack.Screen name="Login" component={Login} />
             </Stack.Navigator>
         </NavigationContainer>
     );

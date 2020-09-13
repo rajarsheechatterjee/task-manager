@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
@@ -10,9 +10,24 @@ import {
 
 import firebase from "../../firebase";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
+    const [loggedIn, setIsLoggedIn] = useState(false);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const checkIfLoggenIn = () => {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                setIsLoggedIn(true);
+                navigation.navigate("Home");
+            }
+        });
+    };
+
+    useEffect(() => {
+        checkIfLoggenIn();
+    }, [checkIfLoggenIn]);
 
     const signupUser = (email, password) => {
         try {

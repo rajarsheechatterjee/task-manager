@@ -11,14 +11,15 @@ import {
 import firebase from "../../firebase";
 
 export default function Home({ navigation }) {
-    const signOut = async () => {
+    async function logout() {
         await firebase.auth().signOut();
-    };
+        navigation.navigate("Login");
+    }
 
     return (
         <View>
             <Text>Home</Text>
-            <Button title="Sign Out" onPress={() => signOut()} />
+            <Button title="Sign Out" onPress={() => logout()} />
         </View>
     );
 }
