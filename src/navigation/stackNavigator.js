@@ -18,7 +18,7 @@ function StackNavigator() {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen
-                    name="Home"
+                    name="Task Monitor"
                     component={Home}
                     options={{
                         headerStyle: {
@@ -27,7 +27,11 @@ function StackNavigator() {
                         headerTintColor: "white",
                     }}
                 />
-                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen
+                    name="Login"
+                    component={Login}
+                    options={{ headerShown: false }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

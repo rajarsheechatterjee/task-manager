@@ -1,4 +1,5 @@
 import * as firebase from "firebase";
+import firestore from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC-w6_Lv4HHiVEYkCH0G7aO8LD1f0jhUpI",
@@ -8,6 +9,8 @@ const firebaseConfig = {
     storageBucket: "shigoto-df868.appspot.com",
 };
 
-const Firebase = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-export default Firebase;
+firebase.firestore();
+
+export default firebase;

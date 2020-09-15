@@ -39,8 +39,10 @@ export default function LoginScreen({ navigation }) {
 
     const loginUser = (email, password) => {
         try {
-            firebase.auth().signInWithEmailAndPassword(email, password);
-            // .then((user) => console.log(user));
+            firebase
+                .auth()
+                .signInWithEmailAndPassword(email, password)
+                .then((user) => console.log(user));
         } catch (error) {
             console.log(error.toString());
         }
