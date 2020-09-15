@@ -14,26 +14,27 @@ import "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
 
 export default function Home({ navigation }) {
-    const dbref = firebase.firestore().collection("tasks");
+    const dbref = firebase
+        .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("tasks");
 
     useEffect(() => {
-        dbref
-            // .where("userId", "==", firebase.auth().currentUser.uid)
-            .orderBy("created", "desc")
-            .onSnapshot((querySnapshot) => {
-                const list = [];
-                querySnapshot.forEach((doc) => {
-                    const { task, created } = doc.data();
-                    list.push({
-                        id: doc.id,
-                        task,
-                        created,
-                    });
+        dbref.orderBy("created", "desc").onSnapshot((querySnapshot) => {
+            const list = [];
+            querySnapshot.forEach((doc) => {
+                const { task, created } = doc.data();
+                list.push({
+                    id: doc.id,
+                    task,
+                    created,
                 });
-                // console.log(list);
-                setTasks(list);
-                setLoading(false);
             });
+            console.log(list);
+            setTasks(list);
+            setLoading(false);
+        });
     }, []);
 
     async function logout() {
@@ -45,9 +46,7 @@ export default function Home({ navigation }) {
     const [taskss, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // async function getTasks() {
-
-    // }
+    // async function getTasks() {}
 
     // function printUser() {
     //     firebase.auth().onAuthStateChanged((user) => {
@@ -89,14 +88,7 @@ export default function Home({ navigation }) {
                     style={{ flex: 1 }}
                     data={taskss}
                     keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <Text>
-                            {item.task}
-                            {/* {new Date(
-                                item.created.toDate()
-                            ).toLocaleTimeString()} */}
-                        </Text>
-                    )}
+                    renderItem={({ item }) => <Text>{item.task}</Text>}
                 />
             )}
         </View>

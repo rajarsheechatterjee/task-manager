@@ -29,20 +29,26 @@ export default function LoginScreen({ navigation }) {
         checkIfLoggenIn();
     }, [checkIfLoggenIn]);
 
-    const signupUser = (email, password) => {
+    const signupUser = async (email, password) => {
         try {
-            firebase.auth().createUserWithEmailAndPassword(email, password);
+            await firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password)
+                .then(() => {
+                    const userUid = firebase.auth().currentUser.uid;
+
+                    firebase.firestore().collection("users").doc(userUid).set({
+                        email: email,
+                    });
+                });
         } catch (error) {
             console.log(error.toString());
         }
     };
 
-    const loginUser = (email, password) => {
+    const loginUser = async (email, password) => {
         try {
-            firebase
-                .auth()
-                .signInWithEmailAndPassword(email, password)
-                .then((user) => console.log(user));
+            await firebase.auth().signInWithEmailAndPassword(email, password);
         } catch (error) {
             console.log(error.toString());
         }
