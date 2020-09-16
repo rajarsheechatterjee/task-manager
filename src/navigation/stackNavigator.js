@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 
 import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { StatusBar } from "react-native";
 
 import Home from "../screens/Home";
+import Tasks from "../screens/Tasks";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 
+import tabNavigator from "./tabNavigator";
+
 import firebase from "../../firebase";
+import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
@@ -19,14 +22,9 @@ function StackNavigator() {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen
-                    name="Task Monitor"
-                    component={Home}
-                    options={{
-                        headerStyle: {
-                            backgroundColor: "purple",
-                        },
-                        headerTintColor: "white",
-                    }}
+                    name="Signup"
+                    component={Signup}
+                    options={{ headerShown: false }}
                 />
                 <Stack.Screen
                     name="Login"
@@ -34,8 +32,8 @@ function StackNavigator() {
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name="Signup"
-                    component={Signup}
+                    name="Task Monitor"
+                    component={tabNavigator}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

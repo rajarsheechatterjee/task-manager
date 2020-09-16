@@ -15,15 +15,12 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../../firebase";
 
 export default function LoginScreen({ navigation }) {
-    const [loggedIn, setIsLoggedIn] = useState(false);
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const checkIfLoggenIn = () => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-                setIsLoggedIn(true);
                 navigation.navigate("Task Monitor");
             }
         });
@@ -45,14 +42,6 @@ export default function LoginScreen({ navigation }) {
                         email: email,
                     });
                 });
-        } catch (error) {
-            console.log(error.toString());
-        }
-    };
-
-    const loginUser = async (email, password) => {
-        try {
-            await firebase.auth().signInWithEmailAndPassword(email, password);
         } catch (error) {
             console.log(error.toString());
         }
@@ -89,16 +78,6 @@ export default function LoginScreen({ navigation }) {
                         }}
                         onChangeText={(password) => setPassword(password)}
                     />
-                    <Button
-                        title="Sign up "
-                        color="purple"
-                        onPress={() => signupUser(email, password)}
-                    />
-                    <Button
-                        title="Login "
-                        color="coral"
-                        onPress={() => loginUser(email, password)}
-                    />
                     <Text
                         style={styles.navigateText}
                         onPress={() => navigation.navigate("Login")}
@@ -109,6 +88,7 @@ export default function LoginScreen({ navigation }) {
                 <View style={styles.buttonWrapper}>
                     <TouchableHighlight
                         style={[{ opacity: 0.6 }, styles.button]}
+                        onPress={() => signupUser(email, password)}
                     >
                         <Icon
                             name="angle-right"
@@ -152,6 +132,8 @@ const styles = StyleSheet.create({
         color: "white",
     },
     buttonWrapper: {
+        marginTop: 70,
+        flex: 1,
         alignItems: "flex-end",
         right: 20,
         bottom: 20,

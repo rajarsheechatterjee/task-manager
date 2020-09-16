@@ -4,9 +4,13 @@ import {
     Text,
     View,
     TextInput,
+    ScrollView,
     Button,
+    TouchableOpacity,
     TouchableHighlight,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import firebase from "../../firebase";
@@ -15,9 +19,14 @@ import "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
 
 export default function Home({ navigation }) {
-    const [newTask, setNewTask] = useState("");
     const [tasksList, setTasksList] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         getTasks();
+    //     })
+    // );
 
     // useEffect(() => {
     //     let mounted = true;
@@ -25,67 +34,34 @@ export default function Home({ navigation }) {
     //     return () => {
     //         return () => (mounted = false);
     //     };
-    // }, [addTask]);
+    // }, [getTasks]);
 
-    // function getTasks() {
-    //     const dbRef = firebase
-    //         .firestore()
-    //         .collection("users")
-    //         .doc(firebase.auth().currentUser.uid)
-    //         .collection("tasks");
-
-    //     dbRef.orderBy("created", "desc").onSnapshot((querySnapshot) => {
-    //         const list = [];
-    //         querySnapshot.forEach((doc) => {
-    //             const { task, created } = doc.data();
-    //             list.push({
-    //                 id: doc.id,
-    //                 task,
-    //                 created,
-    //             });
-    //         });
-    //         setTasksList(list);
-    //         setLoading(false);
-    //     });
-    // }
-
-    async function logout() {
-        await firebase.auth().signOut();
-        navigation.navigate("Login");
-    }
-
-    function addTask(task) {
-        const t = firebase.firestore.Timestamp.fromDate(new Date());
-
-        firebase
+    function getTasks() {
+        const dbRef = firebase
             .firestore()
             .collection("users")
             .doc(firebase.auth().currentUser.uid)
-            .collection("tasks")
-            .add({
-                task: task,
-                userId: firebase.auth().currentUser.uid,
-                created: t,
-            })
-            .catch((error) => console.log(error));
-    }
+            .collection("tasks");
 
+        dbRef.orderBy("created", "desc").onSnapshot((querySnapshot) => {
+            const list = [];
+            querySnapshot.forEach((doc) => {
+                const { task, created } = doc.data();
+                list.push({
+                    id: doc.id,
+                    task,
+                    created,
+                });
+                setTasksList(list);
+                setLoading(false);
+            });
+        });
+    }
     return (
         <View style={{ flex: 1 }}>
-            <Text>Home</Text>
-            <Button title="Sign Out" onPress={() => logout()} />
-            <View>
-                <TextInput
-                    style={styles.txtinpt}
-                    onChangeText={(text) => setNewTask(text)}
-                />
-                <Button
-                    title="Add"
-                    color="coral"
-                    onPress={() => addTask(newTask)}
-                />
-            </View>
-            {/* {!loading && (
+            {/* <Button title="Sync your tasks" onPress={() => getTasks()} /> */}
+
+            {!loading && (
                 <FlatList
                     style={{ flex: 1 }}
                     data={tasksList}
@@ -96,18 +72,19 @@ export default function Home({ navigation }) {
                         </View>
                     )}
                 />
-            )} */}
-            <View style={styles.buttonWrapper}>
+            )}
+
+            <View style={styles.buttonWrapper2}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => logout()}
+                    onPress={() => getTasks()}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                 >
                     <MaterialCommunityIcons
-                        name="logout-variant"
+                        name="cached"
                         color="#118086"
-                        size={28}
+                        size={32}
                         style={styles.icon}
                     />
                 </TouchableHighlight>
@@ -115,14 +92,14 @@ export default function Home({ navigation }) {
             <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => logout()}
+                    onPress={() => navigation.navigate("Add New Task")}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                 >
                     <MaterialCommunityIcons
-                        name="logout-variant"
+                        name="plus"
                         color="#118086"
-                        size={28}
+                        size={32}
                         style={styles.icon}
                     />
                 </TouchableHighlight>
@@ -150,6 +127,11 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 20,
         right: 20,
+    },
+    buttonWrapper2: {
+        position: "absolute",
+        bottom: 20,
+        left: 20,
     },
     button: {
         alignItems: "center",

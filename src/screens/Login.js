@@ -15,15 +15,12 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../../firebase";
 
 export default function LoginScreen({ navigation }) {
-    const [loggedIn, setIsLoggedIn] = useState(false);
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const checkIfLoggenIn = () => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-                setIsLoggedIn(true);
                 navigation.navigate("Task Monitor");
             }
         });
@@ -32,23 +29,6 @@ export default function LoginScreen({ navigation }) {
     useEffect(() => {
         checkIfLoggenIn();
     }, [checkIfLoggenIn]);
-
-    const signupUser = async (email, password) => {
-        try {
-            await firebase
-                .auth()
-                .createUserWithEmailAndPassword(email, password)
-                .then(() => {
-                    const userUid = firebase.auth().currentUser.uid;
-
-                    firebase.firestore().collection("users").doc(userUid).set({
-                        email: email,
-                    });
-                });
-        } catch (error) {
-            console.log(error.toString());
-        }
-    };
 
     const loginUser = async (email, password) => {
         try {
@@ -89,20 +69,6 @@ export default function LoginScreen({ navigation }) {
                         }}
                         onChangeText={(password) => setPassword(password)}
                     />
-                    <Button
-                        title="Sign up "
-                        color="purple"
-                        onPress={() => signupUser(email, password)}
-                    />
-                    <Button
-                        title="Login "
-                        color="coral"
-                        onPress={() => loginUser(email, password)}
-                    />
-                    <Button
-                        title="Navigate"
-                        onPress={() => navigation.navigate("Signup")}
-                    />
                     <Text
                         style={styles.navigateText}
                         onPress={() => navigation.navigate("Signup")}
@@ -113,6 +79,7 @@ export default function LoginScreen({ navigation }) {
                 <View style={styles.buttonWrapper}>
                     <TouchableHighlight
                         style={[{ opacity: 0.6 }, styles.button]}
+                        onPress={() => loginUser(email, password)}
                     >
                         <Icon
                             name="angle-right"
