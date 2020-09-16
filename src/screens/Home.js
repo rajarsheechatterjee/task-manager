@@ -14,39 +14,50 @@ import "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
 
 export default function Home({ navigation }) {
-    const dbref = firebase
-        .firestore()
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .collection("tasks");
+    const [task1, setTask1] = useState("");
+    const [taskss, setTasks] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        dbref.orderBy("created", "desc").onSnapshot((querySnapshot) => {
-            const list = [];
-            querySnapshot.forEach((doc) => {
-                const { task, created } = doc.data();
-                list.push({
-                    id: doc.id,
-                    task,
-                    created,
-                });
-            });
-            console.log(list);
-            setTasks(list);
-            setLoading(false);
-        });
-    }, []);
+        checkIfLoggenIn();
+        getTasks();
+    }, [getTasks]);
 
     async function logout() {
         await firebase.auth().signOut();
         navigation.navigate("Login");
     }
 
-    const [task1, setTask1] = useState("");
-    const [taskss, setTasks] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const checkIfLoggenIn = () => {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (!user) {
+                navigation.navigate("Login");
+            }
+        });
+    };
 
-    // async function getTasks() {}
+    async function getTasks() {
+        await firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("tasks")
+            .orderBy("created", "desc")
+            .onSnapshot((querySnapshot) => {
+                const list = [];
+                querySnapshot.forEach((doc) => {
+                    const { task, created } = doc.data();
+                    list.push({
+                        id: doc.id,
+                        task,
+                        created,
+                    });
+                });
+                // console.log(list);
+                setTasks(list);
+                setLoading(false);
+            });
+    }
 
     // function printUser() {
     //     firebase.auth().onAuthStateChanged((user) => {
@@ -59,7 +70,11 @@ export default function Home({ navigation }) {
     function addTask(task) {
         const t = firebase.firestore.Timestamp.fromDate(new Date());
 
-        dbref
+        firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("tasks")
             .add({
                 task: task,
                 userId: firebase.auth().currentUser.uid,

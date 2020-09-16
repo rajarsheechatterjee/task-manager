@@ -8,6 +8,7 @@ import { StatusBar } from "react-native";
 
 import Home from "../screens/Home";
 import Login from "../screens/Login";
+import Signup from "../screens/Signup";
 
 import firebase from "../../firebase";
 
@@ -30,6 +31,11 @@ function StackNavigator() {
                 <Stack.Screen
                     name="Login"
                     component={Login}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Signup"
+                    component={Signup}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

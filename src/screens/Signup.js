@@ -62,7 +62,7 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.wrapper} behavior="padding">
             <View style={styles.scrollViewWrapper}>
                 <ScrollView style={styles.avoidView}>
-                    <Text style={styles.loginHeader}>Login</Text>
+                    <Text style={styles.loginHeader}>Sign Up</Text>
                     <Text style={styles.labelText}>E-mail</Text>
                     <TextInput
                         textContentType="emailAddress"
@@ -99,15 +99,11 @@ export default function LoginScreen({ navigation }) {
                         color="coral"
                         onPress={() => loginUser(email, password)}
                     />
-                    <Button
-                        title="Navigate"
-                        onPress={() => navigation.navigate("Signup")}
-                    />
                     <Text
                         style={styles.navigateText}
-                        onPress={() => navigation.navigate("Signup")}
+                        onPress={() => navigation.navigate("Login")}
                     >
-                        Dont have an account? Create one
+                        Already have an account? Login
                     </Text>
                 </ScrollView>
                 <View style={styles.buttonWrapper}>
