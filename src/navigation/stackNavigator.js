@@ -5,7 +5,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { StatusBar } from "react-native";
 
-import Home from "../screens/Home";
 import Tasks from "../screens/Tasks";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";

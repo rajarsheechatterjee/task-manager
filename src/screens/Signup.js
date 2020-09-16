@@ -132,8 +132,6 @@ const styles = StyleSheet.create({
         color: "white",
     },
     buttonWrapper: {
-        marginTop: 70,
-        flex: 1,
         alignItems: "flex-end",
         right: 20,
         bottom: 20,

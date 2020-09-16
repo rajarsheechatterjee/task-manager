@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { StatusBar } from "react-native";
 
-import Home from "../screens/Home";
+import Home from "../screens/AddTask";
 import Tasks from "../screens/Tasks";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
@@ -19,7 +19,7 @@ function StackNavigator() {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Tasks"
+                name="Your Tasks"
                 component={Tasks}
                 options={{
                     headerStyle: {

@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { StatusBar } from "react-native";
 
-import Home from "../screens/Home";
+import AddTask from "../screens/AddTask";
 
 import firebase from "../../firebase";
 
@@ -16,8 +16,8 @@ function StackNavigator() {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Add a new Task or Reminder"
-                component={Home}
+                name="Add New Task"
+                component={AddTask}
                 options={{
                     headerStyle: {
                         backgroundColor: "#118086",
