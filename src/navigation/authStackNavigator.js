@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from "react";
-
+import React from "react";
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 
-import { StatusBar } from "react-native";
-
-import Tasks from "../screens/Tasks";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 
 import tabNavigator from "./tabNavigator";
-
-import firebase from "../../firebase";
-import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 

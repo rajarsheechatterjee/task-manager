@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import "react-native-gesture-handler";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import addTaskStack from "./addTaskNavigator";
-import taskStack from "./taskStackNavigator";
-
-import { NavigationContainer } from "@react-navigation/native";
+import taskListStack from "./taskListStackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +13,7 @@ function tabNavigator() {
         <Tab.Navigator>
             <Tab.Screen
                 name="Your Tasks"
-                component={taskStack}
+                component={taskListStack}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
@@ -31,7 +30,7 @@ function tabNavigator() {
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
-                            name="plus"
+                            name="pencil-plus"
                             color={color}
                             size={size}
                         />

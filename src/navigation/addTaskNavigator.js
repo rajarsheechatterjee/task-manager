@@ -1,33 +1,79 @@
-import React, { useState, useEffect } from "react";
-
+import React from "react";
 import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { StyleSheet, View, Text } from "react-native";
+import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
+import AddTasks from "../screens/AddTask";
 
-import { StatusBar } from "react-native";
-
-import AddTask from "../screens/AddTask";
-
-import firebase from "../../firebase";
+// import firebase from "../../firebase";
+// import "firebase/firestore";
 
 const Stack = createStackNavigator();
 
-function StackNavigator() {
+export default function StackNavigator({ navigation }) {
+    // const logout = async () => {
+    //     await firebase.auth().signOut();
+    //     navigation.navigate("Login");
+    // };
+
+    _menu = null;
+
+    setMenuRef = (ref) => {
+        _menu = ref;
+    };
+
+    hideMenu = () => {
+        _menu.hide();
+    };
+
+    showMenu = () => {
+        _menu.show();
+    };
+
     return (
         <Stack.Navigator>
             <Stack.Screen
                 name="Add New Task"
-                component={AddTask}
+                component={AddTasks}
                 options={{
                     headerStyle: {
                         backgroundColor: "#118086",
                     },
                     headerTintColor: "white",
                     headerLeft: false,
+                    headerRight: () => (
+                        <View style={styles.icon}>
+                            <Menu
+                                ref={setMenuRef}
+                                button={
+                                    <Text onPress={showMenu}>
+                                        <MaterialCommunityIcons
+                                            name="dots-vertical"
+                                            color="white"
+                                            size={24}
+                                        />
+                                    </Text>
+                                }
+                            >
+                                <MenuItem onPress={hideMenu}>
+                                    {/* <MaterialCommunityIcons
+                                        name="logout-variant"
+                                        size={15}
+                                    /> */}
+                                    Logout
+                                </MenuItem>
+                            </Menu>
+                        </View>
+                    ),
                 }}
             />
         </Stack.Navigator>
     );
 }
 
-export default StackNavigator;
+const styles = StyleSheet.create({
+    icon: {
+        marginRight: 16,
+    },
+});

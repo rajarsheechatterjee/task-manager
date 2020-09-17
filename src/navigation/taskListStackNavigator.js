@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from "react";
-
+import React from "react";
 import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { StatusBar } from "react-native";
-
-import Home from "../screens/AddTask";
-import Tasks from "../screens/Tasks";
-import Login from "../screens/Login";
-import Signup from "../screens/Signup";
-
-import firebase from "../../firebase";
+import TaskList from "../screens/Tasks";
+import TaskItem from "../screens/TaskItem";
 
 const Stack = createStackNavigator();
 
@@ -20,13 +12,24 @@ function StackNavigator() {
         <Stack.Navigator>
             <Stack.Screen
                 name="Your Tasks"
-                component={Tasks}
+                component={TaskList}
                 options={{
                     headerStyle: {
                         backgroundColor: "#118086",
                     },
                     headerTintColor: "white",
                     headerLeft: false,
+                }}
+            />
+            <Stack.Screen
+                name="TaskItem"
+                component={TaskItem}
+                options={{
+                    headerTitle: "",
+                    headerStyle: {
+                        backgroundColor: "#118086",
+                    },
+                    headerTintColor: "white",
                 }}
             />
         </Stack.Navigator>

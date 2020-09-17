@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     TouchableHighlight,
 } from "react-native";
+import moment from "moment";
 import { useFocusEffect } from "@react-navigation/native";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -43,20 +44,29 @@ export default function Home({ navigation }) {
             .doc(firebase.auth().currentUser.uid)
             .collection("tasks");
 
-        dbRef.orderBy("created", "desc").onSnapshot((querySnapshot) => {
+        dbRef.orderBy("createdAt", "desc").onSnapshot((querySnapshot) => {
             const list = [];
             querySnapshot.forEach((doc) => {
-                const { task, created } = doc.data();
+                const {
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
+                } = doc.data();
+
                 list.push({
                     id: doc.id,
-                    task,
-                    created,
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
                 });
                 setTasksList(list);
                 setLoading(false);
             });
         });
     }
+
     return (
         <View style={{ flex: 1 }}>
             {/* <Button title="Sync your tasks" onPress={() => getTasks()} /> */}
@@ -67,9 +77,36 @@ export default function Home({ navigation }) {
                     data={tasksList}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                        <View style={styles.taskListView}>
-                            <Text style={styles.taskList}>{item.task}</Text>
-                        </View>
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate("TaskItem", item)
+                            }
+                        >
+                            <View style={styles.taskListView}>
+                                {/* <View style={styles.deleteContainer}>
+                                    <TouchableOpacity>
+                                        <MaterialCommunityIcons
+                                            size={30}
+                                            name="check-circle-outline"
+                                            color="#FF5A5F"
+                                        />
+                                    </TouchableOpacity>
+                                </View> */}
+                                <Text style={styles.taskList}>
+                                    {item.taskTitle}
+                                </Text>
+                                <Text style={styles.taskListDate}>
+                                    {moment(item.createdAt.toDate()).calendar()}
+                                </Text>
+
+                                <MaterialCommunityIcons
+                                    name="chevron-right"
+                                    color="#118086"
+                                    size={30}
+                                    style={styles.rightIcon}
+                                />
+                            </View>
+                        </TouchableOpacity>
                     )}
                 />
             )}
@@ -116,12 +153,24 @@ const styles = StyleSheet.create({
     },
     taskListView: {
         flex: 1,
+        // position: "relative",
         backgroundColor: "#f4f4f4",
         paddingVertical: 10,
     },
     taskList: {
         // margin: 10,
-        padding: 10,
+        paddingTop: 10,
+        paddingHorizontal: 60,
+        fontSize: 18,
+        fontWeight: "700",
+        color: "#484848",
+    },
+    taskListDate: {
+        // margin: 10,
+        paddingBottom: 10,
+        paddingHorizontal: 60,
+        fontSize: 14,
+        color: "#767676",
     },
     buttonWrapper: {
         position: "absolute",
@@ -144,5 +193,17 @@ const styles = StyleSheet.create({
     icon: {
         marginRight: -2,
         marginTop: -2,
+    },
+    rightIcon: {
+        position: "absolute",
+        right: 40,
+        top: 20,
+    },
+    deleteContainer: {
+        width: 40,
+        justifyContent: "center",
+        position: "absolute",
+        left: 20,
+        top: 25,
     },
 });

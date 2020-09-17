@@ -7,6 +7,7 @@ import {
     Button,
     TouchableHighlight,
     TouchableOpacity,
+    TouchableNativeFeedback,
 } from "react-native";
 
 import firebase from "../../firebase";
@@ -15,10 +16,11 @@ import "firebase/firestore";
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { block } from "react-native-reanimated";
 
 export default function Home({ navigation }) {
-    const [newTask, setNewTask] = useState("");
+    const [newTaskTitle, setNewTaskTitle] = useState("");
+    const [newTaskContent, setNewTaskContent] = useState("");
+
     const [isVisible, setIsVisible] = useState(false);
     const [chosenDate, setChosenDate] = useState("");
 
@@ -27,7 +29,7 @@ export default function Home({ navigation }) {
         navigation.navigate("Login");
     }
 
-    async function addTask(task) {
+    async function addTask(taskTitle, taskTime, taskContent) {
         const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
 
         await firebase
@@ -36,9 +38,11 @@ export default function Home({ navigation }) {
             .doc(firebase.auth().currentUser.uid)
             .collection("tasks")
             .add({
-                task: task,
                 userId: firebase.auth().currentUser.uid,
-                created: timeStamp,
+                taskTitle: taskTitle,
+                taskTime: taskTime,
+                taskContent: taskContent,
+                createdAt: timeStamp,
             })
             .catch((error) => console.log(error));
 
@@ -63,7 +67,7 @@ export default function Home({ navigation }) {
             <View>
                 <TextInput
                     style={[styles.txtinpt, styles.txtInputTitle]}
-                    onChangeText={(text) => setNewTask(text)}
+                    onChangeText={(text) => setNewTaskTitle(text)}
                     placeholder="Task Title"
                 />
             </View>
@@ -75,6 +79,7 @@ export default function Home({ navigation }) {
                     editable={false}
                 />
                 <TouchableOpacity
+                    activeOpacity={0.7}
                     style={styles.datePicker}
                     onPress={() => showPicker()}
                 >
@@ -94,13 +99,16 @@ export default function Home({ navigation }) {
                 <TextInput
                     multiline={true}
                     style={styles.txtinpt}
-                    // onChangeText={(text) => setNewTask(text)}
+                    onChangeText={(text) => setNewTaskContent(text)}
                     placeholder="Content"
                 />
             </View>
             <TouchableOpacity
+                activeOpacity={0.7}
                 style={styles.addTaskButton}
-                onPress={() => addTask(newTask)}
+                onPress={() =>
+                    addTask(newTaskTitle, chosenDate, newTaskContent)
+                }
             >
                 <Text numberOfLines={1} style={styles.datePickerText}>
                     Add Task
@@ -145,6 +153,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         paddingTop: 60,
+        backgroundColor: "#f4f4f4",
     },
     inputLabel: {
         fontWeight: "700",
