@@ -1,15 +1,33 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
+
 import moment from "moment";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function TaskItem({ route }) {
-    const { taskTitle, taskTime, taskContent, createdAt } = route.params;
+    const {
+        isCompleted,
+        taskTitle,
+        taskTime,
+        taskContent,
+        createdAt,
+    } = route.params;
     return (
         <View style={styles.mainContainer}>
             <View
                 style={{ borderBottomWidth: 1, borderBottomColor: "#E8E8E8" }}
             >
-                <Text style={styles.taskTitle}>{taskTitle}</Text>
+                <Text style={styles.taskTitle}>
+                    {taskTitle}{" "}
+                    {isCompleted && (
+                        <MaterialCommunityIcons
+                            name="checkbox-marked-circle"
+                            color="green"
+                            size={25}
+                            style={{ paddingTop: 15 }}
+                        />
+                    )}
+                </Text>
             </View>
             <View>
                 <Text style={styles.taskDate}>
@@ -34,7 +52,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         color: "#484848",
     },
-    taskTitle: { fontWeight: "700", fontSize: 40, paddingVertical: 5 },
+    taskTitle: { fontWeight: "700", fontSize: 36, paddingVertical: 5 },
     taskDate: {
         paddingVertical: 10,
         fontSize: 14,
