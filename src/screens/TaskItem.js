@@ -1,20 +1,14 @@
-import React, { useState, useEffect } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    Button,
-    TouchableOpacity,
-    KeyboardAvoidingView,
-    TouchableHighlight,
-} from "react-native";
+import React from "react";
+import { Text, View } from "react-native";
+import moment from "moment";
 
 export default function TaskItem({ route }) {
-    const item = route.params;
+    const { taskTitle, taskTime, taskContent, createdAt } = route.params;
     return (
         <View>
-            <Text>{item.taskTitle}</Text>
+            <Text>{taskTitle}</Text>
+            <Text> {moment(createdAt.toDate()).calendar()}</Text>
+            <Text>{taskContent}</Text>
         </View>
     );
 }

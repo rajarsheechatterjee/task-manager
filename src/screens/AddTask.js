@@ -29,7 +29,12 @@ export default function Home({ navigation }) {
         navigation.navigate("Login");
     }
 
-    async function addTask(taskTitle, taskTime, taskContent) {
+    async function addTask(
+        taskTitle,
+        taskTime,
+        taskContent,
+        isCompleted = false
+    ) {
         const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
 
         await firebase
@@ -43,6 +48,7 @@ export default function Home({ navigation }) {
                 taskTime: taskTime,
                 taskContent: taskContent,
                 createdAt: timeStamp,
+                isCompleted: isCompleted,
             })
             .catch((error) => console.log(error));
 
