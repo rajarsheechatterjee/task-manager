@@ -4,9 +4,6 @@ import {
     Text,
     View,
     TextInput,
-    Button,
-    TouchableOpacity,
-    KeyboardAvoidingView,
     TouchableHighlight,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -18,13 +15,13 @@ export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const checkIfLoggenIn = () => {
+    function checkIfLoggenIn() {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 navigation.navigate("Task Monitor");
             }
         });
-    };
+    }
 
     useEffect(() => {
         checkIfLoggenIn();

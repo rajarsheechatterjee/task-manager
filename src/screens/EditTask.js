@@ -4,11 +4,10 @@ import {
     Text,
     View,
     TextInput,
-    Button,
     TouchableHighlight,
     TouchableOpacity,
-    TouchableNativeFeedback,
 } from "react-native";
+import { CheckBox } from "react-native-elements";
 
 import firebase from "../../firebase";
 import "firebase/firestore";
@@ -16,27 +15,37 @@ import "firebase/firestore";
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import Ripple from "react-native-material-ripple";
 
-export default function Home({ navigation }) {
-    const [newTaskTitle, setNewTaskTitle] = useState("");
-    const [newTaskContent, setNewTaskContent] = useState("");
+export default function EditTask({ route, navigation }) {
+    const taskItem = route.params;
+    const [newTaskTitle, setNewTaskTitle] = useState(taskItem.taskTitle);
+    const [newTaskContent, setNewTaskContent] = useState(taskItem.taskContent);
+    const [isChecked, setIsChecked] = useState(taskItem.isCompleted);
 
     const [isVisible, setIsVisible] = useState(false);
-    const [chosenDate, setChosenDate] = useState("");
+    const [chosenDate, setChosenDate] = useState(taskItem.taskTime);
 
+    function updateIsCompleted(isChecked, taskId) {
+        const dbRef = firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("tasks");
+
+        if (isChecked) {
+            dbRef.doc(taskId).update({ isCompleted: false });
+            setIsChecked(false);
+        } else {
+            dbRef.doc(taskId).update({ isCompleted: true });
+            setIsChecked(true);
+        }
+    }
     async function logout() {
         await firebase.auth().signOut();
         navigation.navigate("Login");
     }
 
-    async function addTask(
-        taskTitle,
-        taskTime,
-        taskContent,
-        isCompleted = false,
-        isUpdated = false
-    ) {
+    async function addTask(taskTitle, taskTime, taskContent, isCompleted) {
         const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
 
         await firebase
@@ -44,14 +53,15 @@ export default function Home({ navigation }) {
             .collection("users")
             .doc(firebase.auth().currentUser.uid)
             .collection("tasks")
-            .add({
+            .doc(taskItem.id)
+            .update({
                 userId: firebase.auth().currentUser.uid,
                 taskTitle: taskTitle,
                 taskTime: taskTime,
                 taskContent: taskContent,
                 createdAt: timeStamp,
-                isCompleted: isCompleted,
-                isUpdated: isUpdated,
+                isCompleted: isChecked,
+                isUpdated: true,
             })
             .catch((error) => console.log(error));
 
@@ -72,8 +82,8 @@ export default function Home({ navigation }) {
         setChosenDate(moment(datetime).format("YYYY-MM-DD HH:mm"));
         setIsVisible(false);
     };
-    showPicker = () => {
-        setChosenDate("");
+
+    const showPicker = () => {
         setIsVisible(true);
     };
 
@@ -83,10 +93,10 @@ export default function Home({ navigation }) {
 
     return (
         <View style={styles.mainContainer}>
-            <Text style={styles.screenHeader}>Add a New Task</Text>
-
+            <Text style={styles.screenHeader}>Edit Task</Text>
             <View>
                 <TextInput
+                    defaultValue={taskItem.taskTitle}
                     style={[styles.txtinpt, styles.txtInputTitle]}
                     onChangeText={(text) => setNewTaskTitle(text)}
                     placeholder="Task Title"
@@ -94,9 +104,9 @@ export default function Home({ navigation }) {
             </View>
             <View style={{ flexDirection: "row" }}>
                 <TextInput
+                    defaultValue={chosenDate}
                     style={[{ width: "59%", marginRight: 5 }, styles.txtinpt]}
                     placeholder="Date & Time"
-                    defaultValue={chosenDate}
                     editable={false}
                 />
                 <TouchableOpacity
@@ -118,10 +128,19 @@ export default function Home({ navigation }) {
             </View>
             <View>
                 <TextInput
+                    defaultValue={taskItem.taskContent}
                     multiline={true}
                     style={styles.txtinpt}
                     onChangeText={(text) => setNewTaskContent(text)}
                     placeholder="Content"
+                />
+                <CheckBox
+                    center
+                    title="Completed"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    checked={isChecked}
+                    onPress={() => updateIsCompleted(isChecked, taskItem.id)}
                 />
             </View>
             <TouchableOpacity
@@ -133,10 +152,10 @@ export default function Home({ navigation }) {
                 }}
             >
                 <Text numberOfLines={1} style={styles.datePickerText}>
-                    Add Task
+                    Save Changes
                 </Text>
             </TouchableOpacity>
-            {/* <View style={styles.buttonWrapper}>
+            <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
                     onPress={() => logout()}
@@ -150,7 +169,7 @@ export default function Home({ navigation }) {
                         style={styles.icon}
                     />
                 </TouchableHighlight>
-            </View> */}
+            </View>
             <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}

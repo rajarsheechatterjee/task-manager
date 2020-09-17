@@ -1,39 +1,17 @@
 import React, { useState } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    ScrollView,
-    Button,
-    TouchableOpacity,
-    TouchableHighlight,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-
-import moment from "moment";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import firebase from "../../firebase";
 import "firebase/firestore";
 
+import moment from "moment";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ripple from "react-native-material-ripple";
+
 export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         getTasks();
-    //     })
-    // );
-
-    // useEffect(() => {
-    //     let mounted = true;
-    //     getTasks();
-    //     return () => {
-    //         return () => (mounted = false);
-    //     };
-    // }, [getTasks]);
 
     function getTasks() {
         const dbRef = firebase
@@ -51,6 +29,7 @@ export default function Home({ navigation }) {
                     taskContent,
                     createdAt,
                     isCompleted,
+                    isUpdated,
                 } = doc.data();
 
                 list.push({
@@ -60,6 +39,7 @@ export default function Home({ navigation }) {
                     taskContent,
                     createdAt,
                     isCompleted,
+                    isUpdated,
                 });
                 setTasksList(list);
                 setLoading(false);
@@ -135,6 +115,7 @@ export default function Home({ navigation }) {
                                         },
                                     ]}
                                 >
+                                    {item.isUpdated && "Updated on "}
                                     {moment(item.createdAt.toDate()).calendar()}
                                 </Text>
                                 <View style={styles.buttonWrapper3}>

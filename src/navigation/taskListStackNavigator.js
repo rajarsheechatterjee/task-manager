@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import TaskList from "../screens/Tasks";
 import TaskItem from "../screens/TaskItem";
+import EditTask from "../screens/EditTask";
 
 const Stack = createStackNavigator();
 
@@ -25,7 +26,18 @@ function StackNavigator() {
                 name="TaskItem"
                 component={TaskItem}
                 options={{
-                    headerTitle: "",
+                    headerTitle: "Task Item",
+                    headerStyle: {
+                        backgroundColor: "#118086",
+                    },
+                    headerTintColor: "white",
+                }}
+            />
+            <Stack.Screen
+                name="EditTask"
+                component={EditTask}
+                options={{
+                    headerTitle: "Edit Task Details",
                     headerStyle: {
                         backgroundColor: "#118086",
                     },

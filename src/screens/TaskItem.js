@@ -1,41 +1,88 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
+
+import firebase from "../../firebase";
+import "firebase/firestore";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function TaskItem({ route }) {
-    const {
-        isCompleted,
-        taskTitle,
-        taskTime,
-        taskContent,
-        createdAt,
-    } = route.params;
+export default function TaskItem({ route, navigation }) {
+    const taskItem = route.params;
+
+    async function deleteTask(id) {
+        await firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("tasks")
+            .doc(id)
+            .delete();
+
+        navigation.navigate("Your Tasks");
+    }
+
     return (
-        <View style={styles.mainContainer}>
-            <View
-                style={{ borderBottomWidth: 1, borderBottomColor: "#E8E8E8" }}
-            >
-                <Text style={styles.taskTitle}>
-                    {taskTitle}{" "}
-                    {isCompleted && (
-                        <MaterialCommunityIcons
-                            name="checkbox-marked-circle"
-                            color="green"
-                            size={25}
-                            style={{ paddingTop: 15 }}
-                        />
-                    )}
-                </Text>
+        <View style={{ flex: 1 }}>
+            <View style={styles.mainContainer}>
+                <View
+                    style={{
+                        borderBottomWidth: 1,
+                        borderBottomColor: "#E8E8E8",
+                    }}
+                >
+                    <Text style={styles.taskTitle}>
+                        {taskItem.taskTitle}{" "}
+                        {taskItem.isCompleted && (
+                            <MaterialCommunityIcons
+                                name="checkbox-marked-circle"
+                                color="green"
+                                size={25}
+                                style={{ paddingTop: 15 }}
+                            />
+                        )}
+                    </Text>
+                </View>
+                <View>
+                    <Text style={styles.taskDate}>
+                        {moment(taskItem.createdAt.toDate()).calendar()}
+                    </Text>
+                </View>
+                <View>
+                    <Text style={styles.taskContent}>
+                        {taskItem.taskContent}
+                    </Text>
+                </View>
             </View>
-            <View>
-                <Text style={styles.taskDate}>
-                    {moment(createdAt.toDate()).calendar()}
-                </Text>
+            <View style={styles.buttonWrapper}>
+                <TouchableHighlight
+                    style={[{ opacity: 1 }, styles.button]}
+                    onPress={() => navigation.navigate("EditTask", taskItem)}
+                    activeOpacity={0.6}
+                    underlayColor="#DDDDDD"
+                >
+                    <MaterialCommunityIcons
+                        name="pencil"
+                        color="#118086"
+                        size={28}
+                        style={styles.icon}
+                    />
+                </TouchableHighlight>
             </View>
-            <View>
-                <Text style={styles.taskContent}>{taskContent}</Text>
+            <View style={styles.buttonWrapper2}>
+                <TouchableHighlight
+                    style={[{ opacity: 1 }, styles.button]}
+                    onPress={() => deleteTask(taskItem.id)}
+                    activeOpacity={0.6}
+                    underlayColor="#DDDDDD"
+                >
+                    <MaterialCommunityIcons
+                        name="trash-can-outline"
+                        color="#E53935"
+                        size={28}
+                        style={styles.icon}
+                    />
+                </TouchableHighlight>
             </View>
         </View>
     );
@@ -61,5 +108,27 @@ const styles = StyleSheet.create({
     taskContent: {
         fontSize: 18,
         lineHeight: 29,
+    },
+    buttonWrapper: {
+        position: "absolute",
+        bottom: 20,
+        right: 20,
+    },
+    buttonWrapper2: {
+        position: "absolute",
+        bottom: 20,
+        left: 20,
+    },
+    button: {
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 50,
+        width: 60,
+        height: 60,
+        backgroundColor: "white",
+    },
+    icon: {
+        marginRight: -2,
+        marginTop: -2,
     },
 });
