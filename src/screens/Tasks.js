@@ -9,15 +9,13 @@ import {
     TouchableOpacity,
     TouchableHighlight,
 } from "react-native";
-import moment from "moment";
-import { useFocusEffect } from "@react-navigation/native";
+import { FlatList } from "react-native-gesture-handler";
 
+import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import firebase from "../../firebase";
-
 import "firebase/firestore";
-import { FlatList } from "react-native-gesture-handler";
 
 export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);

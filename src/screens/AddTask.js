@@ -52,8 +52,18 @@ export default function Home({ navigation }) {
             })
             .catch((error) => console.log(error));
 
+        setNewTaskTitle("");
+        setNewTaskContent("");
+        setChosenDate("");
+
         navigation.navigate("Your Tasks");
     }
+
+    // function clearTextInputs() {
+    //     setNewTaskContent("");
+    //     setNewTaskTitle("");
+    //     setChosenDate("");
+    // }
 
     const handlePicker = (datetime) => {
         setChosenDate(moment(datetime).format("YYYY-MM-DD HH:mm"));
@@ -112,9 +122,10 @@ export default function Home({ navigation }) {
             <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.addTaskButton}
-                onPress={() =>
-                    addTask(newTaskTitle, chosenDate, newTaskContent)
-                }
+                onPress={() => {
+                    addTask(newTaskTitle, chosenDate, newTaskContent);
+                    // clearTextInputs();
+                }}
             >
                 <Text numberOfLines={1} style={styles.datePickerText}>
                     Add Task
