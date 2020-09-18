@@ -62,6 +62,77 @@ export default function Home({ navigation }) {
         });
     }
 
+    function sortByPriority() {
+        const dbRef = firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("tasks");
+
+        dbRef.orderBy("priorityIs", "asc").onSnapshot((querySnapshot) => {
+            const list = [];
+            querySnapshot.forEach((doc) => {
+                const {
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
+                    priorityIs,
+                    isCompleted,
+                    isUpdated,
+                } = doc.data();
+
+                list.push({
+                    id: doc.id,
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
+                    priorityIs,
+                    isCompleted,
+                    isUpdated,
+                });
+                setTasksList(list);
+                setLoading(false);
+            });
+        });
+    }
+
+    function sortByDueAt() {
+        const dbRef = firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("tasks");
+
+        dbRef.orderBy("taskTime", "asc").onSnapshot((querySnapshot) => {
+            const list = [];
+            querySnapshot.forEach((doc) => {
+                const {
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
+                    priorityIs,
+                    isCompleted,
+                    isUpdated,
+                } = doc.data();
+
+                list.push({
+                    id: doc.id,
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
+                    priorityIs,
+                    isCompleted,
+                    isUpdated,
+                });
+                setTasksList(list);
+                setLoading(false);
+            });
+        });
+    }
     const logoStyles = [styles.logoStyle];
 
     // Sync button animation
@@ -91,7 +162,22 @@ export default function Home({ navigation }) {
     };
 
     return (
-        <View style={{ flex: 1, paddingVertical: 5 }}>
+        <View style={{ flex: 1, paddingBottom: 5 }}>
+            <View style={styles.sortContainer}>
+                <Text
+                    style={styles.sortContainerText}
+                    onPress={() => sortByPriority()}
+                >
+                    Sort By Priority
+                </Text>
+                <Text> | </Text>
+                <Text
+                    style={styles.sortContainerText}
+                    onPress={() => sortByDueAt()}
+                >
+                    Sort By Due At
+                </Text>
+            </View>
             {!loading && (
                 <FlatList
                     style={{ flex: 1 }}
@@ -214,6 +300,15 @@ export default function Home({ navigation }) {
 
 const styles = StyleSheet.create({
     mainContainer: {},
+    sortContainer: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        marginBottom: 5,
+        backgroundColor: "white",
+        flexDirection: "row",
+        justifyContent: "space-around",
+    },
+    sortContainerText: { color: "#484848", fontWeight: "700" },
     taskListView: {
         flex: 1,
         marginVertical: 5,
