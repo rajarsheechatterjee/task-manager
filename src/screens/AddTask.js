@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     TouchableNativeFeedback,
 } from "react-native";
+import { CheckBox } from "react-native-elements";
 
 import firebase from "../../firebase";
 import "firebase/firestore";
@@ -21,6 +22,8 @@ import Ripple from "react-native-material-ripple";
 export default function Home({ navigation }) {
     const [newTaskTitle, setNewTaskTitle] = useState("");
     const [newTaskContent, setNewTaskContent] = useState("");
+    // const [isChecked, setIsChecked] = useState(false);
+    const [priorityIs, setPriorityIs] = useState(2);
 
     const [isVisible, setIsVisible] = useState(false);
     const [chosenDate, setChosenDate] = useState("");
@@ -34,6 +37,7 @@ export default function Home({ navigation }) {
         taskTitle,
         taskTime,
         taskContent,
+        priorityIs,
         isCompleted = false,
         isUpdated = false
     ) {
@@ -50,6 +54,7 @@ export default function Home({ navigation }) {
                 taskTime: taskTime,
                 taskContent: taskContent,
                 createdAt: timeStamp,
+                priorityIs: priorityIs,
                 isCompleted: isCompleted,
                 isUpdated: isUpdated,
             })
@@ -61,6 +66,14 @@ export default function Home({ navigation }) {
 
         navigation.navigate("Your Tasks");
     }
+
+    // function handleIsChecked() {
+    //     if (isChecked) {
+    //         setIsChecked(false);
+    //     } else {
+    //         setIsChecked(true);
+    //     }
+    // }
 
     // function clearTextInputs() {
     //     setNewTaskContent("");
@@ -124,12 +137,75 @@ export default function Home({ navigation }) {
                     onChangeText={(text) => setNewTaskContent(text)}
                     placeholder="Content"
                 />
+                <View>
+                    <Text style={styles.taskStatus}>Task Priority</Text>
+                </View>
+
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <CheckBox
+                        center
+                        title="High"
+                        checkedColor="red"
+                        uncheckedColor="red"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checked={priorityIs === 1 ? true : false}
+                        onPress={() => setPriorityIs(1)}
+                        containerStyle={styles.checkBox}
+                    />
+                    <CheckBox
+                        center
+                        title="Medium"
+                        checkedColor="orange"
+                        uncheckedColor="orange"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checked={priorityIs === 2 ? true : false}
+                        onPress={() => setPriorityIs(2)}
+                        containerStyle={styles.checkBox}
+                    />
+                    <CheckBox
+                        center
+                        title="Low"
+                        checkedColor="blue"
+                        uncheckedColor="blue"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checked={priorityIs === 3 ? true : false}
+                        onPress={() => setPriorityIs(3)}
+                        containerStyle={styles.checkBox}
+                    />
+                </View>
+                {/* <View>
+                    <Text style={styles.taskStatus}>Task Status</Text>
+                </View>
+                <CheckBox
+                    center
+                    title="Completed"
+                    checkedColor="green"
+                    uncheckedColor="green"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    checked={isChecked}
+                    onPress={() => handleIsChecked()}
+                    containerStyle={styles.checkBox}
+                /> */}
             </View>
             <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.addTaskButton}
                 onPress={() => {
-                    addTask(newTaskTitle, chosenDate, newTaskContent);
+                    addTask(
+                        newTaskTitle,
+                        chosenDate,
+                        newTaskContent,
+                        priorityIs
+                    );
                     // clearTextInputs();
                 }}
             >
@@ -233,7 +309,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 12,
         paddingHorizontal: 13,
-        marginVertical: 5,
+        marginVertical: 10,
     },
     datePickerText: {
         fontSize: 16,
@@ -241,5 +317,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         alignSelf: "center",
         // textTransform: "uppercase",
+    },
+    taskStatus: {
+        fontWeight: "700",
+        fontSize: 18,
+        textAlign: "center",
+        marginVertical: 10,
+    },
+    checkBox: {
+        borderRadius: 10,
     },
 });

@@ -25,6 +25,8 @@ export default function EditTask({ route, navigation }) {
     const [isVisible, setIsVisible] = useState(false);
     const [chosenDate, setChosenDate] = useState(taskItem.taskTime);
 
+    const [priorityIs, setPriorityIs] = useState(taskItem.priorityIs);
+
     function updateIsCompleted(isChecked, taskId) {
         const dbRef = firebase
             .firestore()
@@ -40,12 +42,8 @@ export default function EditTask({ route, navigation }) {
             setIsChecked(true);
         }
     }
-    async function logout() {
-        await firebase.auth().signOut();
-        navigation.navigate("Login");
-    }
 
-    async function addTask(taskTitle, taskTime, taskContent, isCompleted) {
+    async function updateTask(taskTitle, taskTime, taskContent, taskPriority) {
         const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
 
         await firebase
@@ -60,6 +58,7 @@ export default function EditTask({ route, navigation }) {
                 taskTime: taskTime,
                 taskContent: taskContent,
                 createdAt: timeStamp,
+                priorityIs: taskPriority,
                 isCompleted: isChecked,
                 isUpdated: true,
             })
@@ -134,20 +133,76 @@ export default function EditTask({ route, navigation }) {
                     onChangeText={(text) => setNewTaskContent(text)}
                     placeholder="Content"
                 />
+
+                <View>
+                    <Text style={styles.taskStatus}>Task Priority</Text>
+                </View>
+
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <CheckBox
+                        center
+                        title="High"
+                        checkedColor="red"
+                        uncheckedColor="red"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checked={priorityIs === 1 ? true : false}
+                        onPress={() => setPriorityIs(1)}
+                        containerStyle={styles.checkBox}
+                    />
+                    <CheckBox
+                        center
+                        title="Medium"
+                        checkedColor="orange"
+                        uncheckedColor="orange"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checked={priorityIs === 2 ? true : false}
+                        onPress={() => setPriorityIs(2)}
+                        containerStyle={styles.checkBox}
+                    />
+                    <CheckBox
+                        center
+                        title="Low"
+                        checkedColor="blue"
+                        uncheckedColor="blue"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checked={priorityIs === 3 ? true : false}
+                        onPress={() => setPriorityIs(3)}
+                        containerStyle={styles.checkBox}
+                    />
+                </View>
+                <View>
+                    <Text style={styles.taskStatus}>Task Status</Text>
+                </View>
                 <CheckBox
                     center
                     title="Completed"
+                    checkedColor="green"
+                    uncheckedColor="green"
                     checkedIcon="dot-circle-o"
                     uncheckedIcon="circle-o"
                     checked={isChecked}
                     onPress={() => updateIsCompleted(isChecked, taskItem.id)}
+                    containerStyle={styles.checkBox}
                 />
             </View>
             <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.addTaskButton}
                 onPress={() => {
-                    addTask(newTaskTitle, chosenDate, newTaskContent);
+                    updateTask(
+                        newTaskTitle,
+                        chosenDate,
+                        newTaskContent,
+                        priorityIs
+                    );
                     // clearTextInputs();
                 }}
             >
@@ -163,7 +218,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         padding: 10,
-        paddingTop: 60,
+        paddingTop: 40,
         backgroundColor: "#f4f4f4",
     },
     screenHeader: {
@@ -236,7 +291,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 12,
         paddingHorizontal: 13,
-        marginVertical: 5,
+        marginVertical: 10,
     },
     datePickerText: {
         fontSize: 16,
@@ -244,5 +299,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         alignSelf: "center",
         // textTransform: "uppercase",
+    },
+    taskStatus: {
+        fontWeight: "700",
+        fontSize: 18,
+        textAlign: "center",
+        marginVertical: 10,
+    },
+    checkBox: {
+        borderRadius: 10,
     },
 });

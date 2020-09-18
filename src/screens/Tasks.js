@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableHighlight,
+    Animated,
+} from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { CheckBox } from "react-native-elements";
 
 import firebase from "../../firebase";
 import "firebase/firestore";
@@ -11,7 +18,11 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [menuToggled, setMenuToggled] = useState(false);
 
+    /**
+     * Gets all tasks of a user
+     */
     function getTasks() {
         const dbRef = firebase
             .firestore()
@@ -27,6 +38,7 @@ export default function Home({ navigation }) {
                     taskTime,
                     taskContent,
                     createdAt,
+                    priorityIs,
                     isCompleted,
                     isUpdated,
                 } = doc.data();
@@ -37,6 +49,7 @@ export default function Home({ navigation }) {
                     taskTime,
                     taskContent,
                     createdAt,
+                    priorityIs,
                     isCompleted,
                     isUpdated,
                 });
@@ -46,6 +59,39 @@ export default function Home({ navigation }) {
         });
     }
 
+    /**
+     * Sets the priority marker's color
+     * @param {Number} priority
+     */
+    function priorityColor(priority) {
+        if (priority === 1) {
+            return {
+                backgroundColor: "red",
+                borderColor: "red",
+            };
+        } else if (priority === 2) {
+            return {
+                backgroundColor: "orange",
+                borderColor: "orange",
+            };
+        } else if (priority === 3) {
+            return {
+                backgroundColor: "dodgerblue",
+                borderColor: "dodgerblue",
+            };
+        } else {
+            return {
+                backgroundColor: "white",
+                borderColor: "white",
+            };
+        }
+    }
+
+    /**
+     * Updates the task status
+     * @param {Boolean} isCompleted
+     * @param {Number} taskId
+     */
     function updateIsCompleted(isCompleted, taskId) {
         const dbRef = firebase
             .firestore()
@@ -60,8 +106,36 @@ export default function Home({ navigation }) {
         }
     }
 
+    const logoStyles = [styles.logoStyle];
+
+    // Sync button animation
+    if (menuToggled !== null) {
+        const animation = new Animated.Value(menuToggled ? 0 : 1);
+
+        Animated.timing(animation, {
+            toValue: menuToggled ? 1 : 0,
+            duration: 200,
+            useNativeDriver: true,
+        }).start();
+
+        const rotateInterpolate = animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: ["0deg", "360deg"],
+        });
+        const animatedStyles = { transform: [{ rotate: rotateInterpolate }] };
+        logoStyles.push(animatedStyles);
+    }
+
+    function handleOnPress() {
+        if (menuToggled) {
+            setMenuToggled(false);
+        } else {
+            setMenuToggled(true);
+        }
+    }
+
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, paddingVertical: 5 }}>
             {!loading && (
                 <FlatList
                     style={{ flex: 1 }}
@@ -71,7 +145,7 @@ export default function Home({ navigation }) {
                         <View style={styles.mainContainer}>
                             <View style={styles.taskListView}>
                                 <View style={styles.checkbox}>
-                                    <TouchableHighlight
+                                    {/* <TouchableHighlight
                                         style={[{ opacity: 1 }, styles.button2]}
                                         onPress={() =>
                                             updateIsCompleted(
@@ -92,7 +166,22 @@ export default function Home({ navigation }) {
                                             size={25}
                                             style={styles.icon}
                                         />
-                                    </TouchableHighlight>
+                                    </TouchableHighlight> */}
+                                    <CheckBox
+                                        center
+                                        checkedColor="#118086"
+                                        uncheckedColor="#118086"
+                                        checkedIcon="dot-circle-o"
+                                        uncheckedIcon="circle-o"
+                                        checked={item.isCompleted}
+                                        onPress={() =>
+                                            updateIsCompleted(
+                                                item.isCompleted,
+                                                item.id
+                                            )
+                                        }
+                                        containerStyle={styles.checkBox2}
+                                    />
                                 </View>
                                 <Text
                                     style={[
@@ -115,6 +204,14 @@ export default function Home({ navigation }) {
                                     {item.isUpdated && "Updated on "}
                                     {moment(item.createdAt.toDate()).calendar()}
                                 </Text>
+                                <View style={styles.taskListDate2}>
+                                    <View
+                                        style={[
+                                            styles.taskPriority,
+                                            priorityColor(item.priorityIs),
+                                        ]}
+                                    />
+                                </View>
                                 <View style={styles.buttonWrapper3}>
                                     <TouchableHighlight
                                         style={[{ opacity: 1 }, styles.button2]}
@@ -144,16 +241,21 @@ export default function Home({ navigation }) {
             <View style={styles.buttonWrapper2}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => getTasks()}
+                    onPress={() => {
+                        handleOnPress();
+                        getTasks();
+                    }}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                 >
-                    <MaterialCommunityIcons
-                        name="cached"
-                        color="#118086"
-                        size={32}
-                        style={styles.icon}
-                    />
+                    <Animated.View style={logoStyles}>
+                        <MaterialCommunityIcons
+                            name="cached"
+                            color="#118086"
+                            size={32}
+                            style={styles.icon}
+                        />
+                    </Animated.View>
                 </TouchableHighlight>
             </View>
 
@@ -180,7 +282,7 @@ const styles = StyleSheet.create({
     mainContainer: {},
     taskListView: {
         flex: 1,
-        marginTop: 10,
+        marginVertical: 5,
         backgroundColor: "#fff",
         // elevation: ,
         marginHorizontal: 7,
@@ -196,11 +298,15 @@ const styles = StyleSheet.create({
         color: "#484848",
     },
     taskListDate: {
-        // margin: 10,
-        paddingBottom: 10,
+        marginBottom: 10,
         marginHorizontal: 80,
         fontSize: 14,
         color: "#767676",
+    },
+    taskListDate2: {
+        position: "absolute",
+        left: 65,
+        top: 17,
     },
     buttonWrapper: {
         position: "absolute",
@@ -244,8 +350,8 @@ const styles = StyleSheet.create({
     },
     checkbox: {
         position: "absolute",
-        left: 10,
-        top: 10,
+        left: 8,
+        top: 14,
     },
     deleteContainer: {
         width: 40,
@@ -253,5 +359,18 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 20,
         top: 25,
+    },
+
+    taskPriority: {
+        marginTop: 5,
+        width: 4,
+        height: 40,
+        borderRadius: 9999,
+        borderWidth: 1,
+    },
+    checkBox2: {
+        borderRadius: 10,
+        backgroundColor: "transparent",
+        borderWidth: 0,
     },
 });
