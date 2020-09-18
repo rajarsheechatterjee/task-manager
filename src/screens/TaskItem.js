@@ -1,26 +1,13 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 
-import firebase from "../../firebase";
-import "firebase/firestore";
+import { deleteTask } from "../utils/firebase";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function TaskItem({ route, navigation }) {
     const taskItem = route.params;
-
-    async function deleteTask(id) {
-        await firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks")
-            .doc(id)
-            .delete();
-
-        navigation.navigate("Your Tasks");
-    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -72,7 +59,7 @@ export default function TaskItem({ route, navigation }) {
             <View style={styles.buttonWrapper2}>
                 <TouchableHighlight
                     style={[{ opacity: 1 }, styles.button]}
-                    onPress={() => deleteTask(taskItem.id)}
+                    onPress={() => deleteTask(navigation, taskItem.id)}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                 >

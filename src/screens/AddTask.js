@@ -4,87 +4,43 @@ import {
     Text,
     View,
     TextInput,
-    Button,
     TouchableHighlight,
     TouchableOpacity,
-    TouchableNativeFeedback,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 
-import firebase from "../../firebase";
-import "firebase/firestore";
+import { logout, addTask } from "../utils/firebase";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import Ripple from "react-native-material-ripple";
 
 export default function Home({ navigation }) {
     const [newTaskTitle, setNewTaskTitle] = useState("");
     const [newTaskContent, setNewTaskContent] = useState("");
-    // const [isChecked, setIsChecked] = useState(false);
     const [priorityIs, setPriorityIs] = useState(2);
 
     const [isVisible, setIsVisible] = useState(false);
     const [chosenDate, setChosenDate] = useState("");
 
-    async function logout() {
-        await firebase.auth().signOut();
-        navigation.navigate("Login");
-    }
-
-    async function addTask(
-        taskTitle,
-        taskTime,
-        taskContent,
-        priorityIs,
-        isCompleted = false,
-        isUpdated = false
-    ) {
-        const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
-
-        await firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks")
-            .add({
-                userId: firebase.auth().currentUser.uid,
-                taskTitle: taskTitle,
-                taskTime: taskTime,
-                taskContent: taskContent,
-                createdAt: timeStamp,
-                priorityIs: priorityIs,
-                isCompleted: isCompleted,
-                isUpdated: isUpdated,
-            })
-            .catch((error) => console.log(error));
-
+    const handleAddTask = async () => {
+        await addTask(
+            navigation,
+            newTaskTitle,
+            chosenDate,
+            newTaskContent,
+            priorityIs
+        );
         setNewTaskTitle("");
         setNewTaskContent("");
         setChosenDate("");
-
-        navigation.navigate("Your Tasks");
-    }
-
-    // function handleIsChecked() {
-    //     if (isChecked) {
-    //         setIsChecked(false);
-    //     } else {
-    //         setIsChecked(true);
-    //     }
-    // }
-
-    // function clearTextInputs() {
-    //     setNewTaskContent("");
-    //     setNewTaskTitle("");
-    //     setChosenDate("");
-    // }
+    };
 
     const handlePicker = (datetime) => {
         setChosenDate(moment(datetime).format("YYYY-MM-DD HH:mm"));
         setIsVisible(false);
     };
+
     showPicker = () => {
         setChosenDate("");
         setIsVisible(true);
@@ -104,6 +60,7 @@ export default function Home({ navigation }) {
                     style={[styles.txtinpt, styles.txtInputTitle]}
                     onChangeText={(text) => setNewTaskTitle(text)}
                     placeholder="Task Title"
+                    defaultValue={newTaskTitle}
                 />
             </View>
             <View style={{ flexDirection: "row" }}>
@@ -136,7 +93,10 @@ export default function Home({ navigation }) {
                     style={styles.txtinpt}
                     onChangeText={(text) => setNewTaskContent(text)}
                     placeholder="Content"
+                    defaultValue={newTaskContent}
                 />
+            </View>
+            <View>
                 <View>
                     <Text style={styles.taskStatus}>Task Priority</Text>
                 </View>
@@ -181,32 +141,12 @@ export default function Home({ navigation }) {
                         containerStyle={styles.checkBox}
                     />
                 </View>
-                {/* <View>
-                    <Text style={styles.taskStatus}>Task Status</Text>
-                </View>
-                <CheckBox
-                    center
-                    title="Completed"
-                    checkedColor="green"
-                    uncheckedColor="green"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    checked={isChecked}
-                    onPress={() => handleIsChecked()}
-                    containerStyle={styles.checkBox}
-                /> */}
             </View>
             <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.addTaskButton}
                 onPress={() => {
-                    addTask(
-                        newTaskTitle,
-                        chosenDate,
-                        newTaskContent,
-                        priorityIs
-                    );
-                    // clearTextInputs();
+                    handleAddTask();
                 }}
             >
                 <Text numberOfLines={1} style={styles.datePickerText}>
@@ -216,7 +156,7 @@ export default function Home({ navigation }) {
             <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => logout()}
+                    onPress={() => logout(navigation)}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                 >
@@ -268,15 +208,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2.22,
         elevation: 3,
     },
-    taskListView: {
-        flex: 1,
-        backgroundColor: "#f4f4f4",
-        paddingVertical: 10,
-    },
-    taskList: {
-        // margin: 10,
-        padding: 10,
-    },
     buttonWrapper: {
         position: "absolute",
         bottom: 20,
@@ -316,7 +247,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
         alignSelf: "center",
-        // textTransform: "uppercase",
+        textTransform: "uppercase",
     },
     taskStatus: {
         fontWeight: "700",

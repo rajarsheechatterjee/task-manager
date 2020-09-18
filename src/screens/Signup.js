@@ -9,40 +9,15 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import firebase from "../../firebase";
+import { checkIfLoggedIn, signupUser } from "../utils/firebase";
 
-export default function LoginScreen({ navigation }) {
+export default function SignupScreen({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    function checkIfLoggenIn() {
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                navigation.navigate("Task Monitor");
-            }
-        });
-    }
-
     useEffect(() => {
-        checkIfLoggenIn();
-    }, [checkIfLoggenIn]);
-
-    const signupUser = async (email, password) => {
-        try {
-            await firebase
-                .auth()
-                .createUserWithEmailAndPassword(email, password)
-                .then(() => {
-                    const userUid = firebase.auth().currentUser.uid;
-
-                    firebase.firestore().collection("users").doc(userUid).set({
-                        email: email,
-                    });
-                });
-        } catch (error) {
-            console.log(error.toString());
-        }
-    };
+        checkIfLoggedIn(navigation);
+    }, [checkIfLoggedIn]);
 
     return (
         <View style={styles.wrapper} behavior="padding">

@@ -4,19 +4,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { StyleSheet, View, Text } from "react-native";
 import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
-import AddTasks from "../screens/AddTask";
 
-// import firebase from "../../firebase";
-// import "firebase/firestore";
+import AddTasks from "../screens/AddTask";
 
 const Stack = createStackNavigator();
 
 export default function StackNavigator({ navigation }) {
-    // const logout = async () => {
-    //     await firebase.auth().signOut();
-    //     navigation.navigate("Login");
-    // };
-
     _menu = null;
 
     setMenuRef = (ref) => {

@@ -12,6 +12,9 @@ import { CheckBox } from "react-native-elements";
 import firebase from "../../firebase";
 import "firebase/firestore";
 
+import { updateIsCompleted } from "../utils/firebase";
+import { priorityColor } from "../utils/priority";
+
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -59,53 +62,6 @@ export default function Home({ navigation }) {
         });
     }
 
-    /**
-     * Sets the priority marker's color
-     * @param {Number} priority
-     */
-    function priorityColor(priority) {
-        if (priority === 1) {
-            return {
-                backgroundColor: "red",
-                borderColor: "red",
-            };
-        } else if (priority === 2) {
-            return {
-                backgroundColor: "orange",
-                borderColor: "orange",
-            };
-        } else if (priority === 3) {
-            return {
-                backgroundColor: "dodgerblue",
-                borderColor: "dodgerblue",
-            };
-        } else {
-            return {
-                backgroundColor: "white",
-                borderColor: "white",
-            };
-        }
-    }
-
-    /**
-     * Updates the task status
-     * @param {Boolean} isCompleted
-     * @param {Number} taskId
-     */
-    function updateIsCompleted(isCompleted, taskId) {
-        const dbRef = firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks");
-
-        if (isCompleted) {
-            dbRef.doc(taskId).update({ isCompleted: false });
-        } else {
-            dbRef.doc(taskId).update({ isCompleted: true });
-        }
-    }
-
     const logoStyles = [styles.logoStyle];
 
     // Sync button animation
@@ -126,13 +82,13 @@ export default function Home({ navigation }) {
         logoStyles.push(animatedStyles);
     }
 
-    function handleOnPress() {
+    const handleOnPress = () => {
         if (menuToggled) {
             setMenuToggled(false);
         } else {
             setMenuToggled(true);
         }
-    }
+    };
 
     return (
         <View style={{ flex: 1, paddingVertical: 5 }}>
@@ -145,28 +101,6 @@ export default function Home({ navigation }) {
                         <View style={styles.mainContainer}>
                             <View style={styles.taskListView}>
                                 <View style={styles.checkbox}>
-                                    {/* <TouchableHighlight
-                                        style={[{ opacity: 1 }, styles.button2]}
-                                        onPress={() =>
-                                            updateIsCompleted(
-                                                item.isCompleted,
-                                                item.id
-                                            )
-                                        }
-                                        activeOpacity={0.6}
-                                        underlayColor="#DDDDDD"
-                                    >
-                                        <MaterialCommunityIcons
-                                            name={
-                                                item.isCompleted
-                                                    ? "check-circle-outline"
-                                                    : "checkbox-blank-circle-outline"
-                                            }
-                                            color="#118086"
-                                            size={25}
-                                            style={styles.icon}
-                                        />
-                                    </TouchableHighlight> */}
                                     <CheckBox
                                         center
                                         checkedColor="#118086"
@@ -284,13 +218,11 @@ const styles = StyleSheet.create({
         flex: 1,
         marginVertical: 5,
         backgroundColor: "#fff",
-        // elevation: ,
         marginHorizontal: 7,
         borderRadius: 15,
         paddingVertical: 9,
     },
     taskList: {
-        // margin: 10,
         paddingTop: 10,
         marginHorizontal: 80,
         fontSize: 18,
@@ -337,7 +269,6 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: 60,
         height: 60,
-        // backgroundColor: "white",
     },
     icon: {
         marginRight: -2,

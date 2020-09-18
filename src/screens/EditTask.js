@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 
+import { updateTask } from "../utils/firebase";
+
 import firebase from "../../firebase";
 import "firebase/firestore";
 
@@ -42,40 +44,6 @@ export default function EditTask({ route, navigation }) {
             setIsChecked(true);
         }
     }
-
-    async function updateTask(taskTitle, taskTime, taskContent, taskPriority) {
-        const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
-
-        await firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks")
-            .doc(taskItem.id)
-            .update({
-                userId: firebase.auth().currentUser.uid,
-                taskTitle: taskTitle,
-                taskTime: taskTime,
-                taskContent: taskContent,
-                createdAt: timeStamp,
-                priorityIs: taskPriority,
-                isCompleted: isChecked,
-                isUpdated: true,
-            })
-            .catch((error) => console.log(error));
-
-        setNewTaskTitle("");
-        setNewTaskContent("");
-        setChosenDate("");
-
-        navigation.navigate("Your Tasks");
-    }
-
-    // function clearTextInputs() {
-    //     setNewTaskContent("");
-    //     setNewTaskTitle("");
-    //     setChosenDate("");
-    // }
 
     const handlePicker = (datetime) => {
         setChosenDate(moment(datetime).format("YYYY-MM-DD HH:mm"));
@@ -133,7 +101,8 @@ export default function EditTask({ route, navigation }) {
                     onChangeText={(text) => setNewTaskContent(text)}
                     placeholder="Content"
                 />
-
+            </View>
+            <View>
                 <View>
                     <Text style={styles.taskStatus}>Task Priority</Text>
                 </View>
@@ -198,10 +167,13 @@ export default function EditTask({ route, navigation }) {
                 style={styles.addTaskButton}
                 onPress={() => {
                     updateTask(
+                        navigation,
+                        taskItem.id,
                         newTaskTitle,
                         chosenDate,
                         newTaskContent,
-                        priorityIs
+                        priorityIs,
+                        isChecked
                     );
                     // clearTextInputs();
                 }}

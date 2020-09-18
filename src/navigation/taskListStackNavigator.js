@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import TaskList from "../screens/Tasks";
 import TaskItem from "../screens/TaskItem";
 import EditTask from "../screens/EditTask";
+import { StatusBar } from "react-native";
 
 const Stack = createStackNavigator();
 
