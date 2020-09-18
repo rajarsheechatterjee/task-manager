@@ -155,36 +155,6 @@ export default function EditTask({ route, navigation }) {
                     Save Changes
                 </Text>
             </TouchableOpacity>
-            <View style={styles.buttonWrapper}>
-                <TouchableHighlight
-                    style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => logout()}
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
-                >
-                    <MaterialCommunityIcons
-                        name="logout-variant"
-                        color="#118086"
-                        size={28}
-                        style={styles.icon}
-                    />
-                </TouchableHighlight>
-            </View>
-            <View style={styles.buttonWrapper}>
-                <TouchableHighlight
-                    style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => logout()}
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
-                >
-                    <MaterialCommunityIcons
-                        name="logout-variant"
-                        color="#118086"
-                        size={28}
-                        style={styles.icon}
-                    />
-                </TouchableHighlight>
-            </View>
         </View>
     );
 }

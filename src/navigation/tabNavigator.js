@@ -5,13 +5,12 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import addTaskStack from "./addTaskNavigator";
 import taskListStack from "./taskListStackNavigator";
-import Ripple from "react-native-material-ripple";
 
 const Tab = createBottomTabNavigator();
 
 function tabNavigator() {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator tabBarOptions={{ activeTintColor: "#118086" }}>
             <Tab.Screen
                 name="Your Tasks"
                 component={taskListStack}

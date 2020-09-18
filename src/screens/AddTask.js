@@ -87,6 +87,7 @@ export default function Home({ navigation }) {
 
             <View>
                 <TextInput
+                    // defaultValue={newTaskTitle}
                     style={[styles.txtinpt, styles.txtInputTitle]}
                     onChangeText={(text) => setNewTaskTitle(text)}
                     placeholder="Task Title"
@@ -136,21 +137,6 @@ export default function Home({ navigation }) {
                     Add Task
                 </Text>
             </TouchableOpacity>
-            {/* <View style={styles.buttonWrapper}>
-                <TouchableHighlight
-                    style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => logout()}
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
-                >
-                    <MaterialCommunityIcons
-                        name="logout-variant"
-                        color="#118086"
-                        size={28}
-                        style={styles.icon}
-                    />
-                </TouchableHighlight>
-            </View> */}
             <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}

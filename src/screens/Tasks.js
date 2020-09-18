@@ -7,7 +7,6 @@ import "firebase/firestore";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Ripple from "react-native-material-ripple";
 
 export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);
@@ -63,8 +62,6 @@ export default function Home({ navigation }) {
 
     return (
         <View style={{ flex: 1 }}>
-            {/* <Button title="Sync your tasks" onPress={() => getTasks()} /> */}
-
             {!loading && (
                 <FlatList
                     style={{ flex: 1 }}
@@ -159,6 +156,7 @@ export default function Home({ navigation }) {
                     />
                 </TouchableHighlight>
             </View>
+
             <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
