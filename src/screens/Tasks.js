@@ -9,15 +9,16 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { CheckBox } from "react-native-elements";
 
-import firebase from "../../firebase";
-import "firebase/firestore";
-
 import {
     updateIsCompleted,
-    getTasks,
-    getTasksByPriority,
+    // getTasks,
+    // getTasksByPriority,
+    // getTasksByDueAt,
 } from "../utils/firebase";
 import { priorityColor } from "../utils/priority";
+
+import firebase from "../../firebase";
+import "firebase/firestore";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -27,25 +28,109 @@ export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [menuToggled, setMenuToggled] = useState(false);
+    // const [sortMode, setSortMode] = useState(1)
 
     /**
      * Gets all tasks of a user
      */
-    const handleGetTasks = async () => {
-        let list = await getTasks();
 
-        setTasksList(list);
-        setLoading(false);
+    // const handleGetTasks = async () => {
+    //     let list = [];
+    //     list = await getTasks();
+
+    //     setTasksList(list);
+    //     setLoading(false);
+    // };
+
+    // const handleGetTasksByPriority = async () => {
+    //     let list = await getTasksByPriority();
+
+    //     setTasksList(list);
+    //     setLoading(false);
+    // };
+
+    // const handleGetTasksByDueAt = async () => {
+    //     let list = await getTasksByDueAt();
+
+    //     setTasksList(list);
+    //     setLoading(false);
+    // };
+
+    const getTasks = async () => {
+        const dbRef = firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("tasks");
+
+        dbRef.orderBy("createdAt", "desc").onSnapshot((querySnapshot) => {
+            const list = [];
+            querySnapshot.forEach((doc) => {
+                const {
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
+                    priorityIs,
+                    isCompleted,
+                    isUpdated,
+                } = doc.data();
+
+                list.push({
+                    id: doc.id,
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
+                    priorityIs,
+                    isCompleted,
+                    isUpdated,
+                });
+            });
+
+            setTasksList(list);
+            setLoading(false);
+        });
     };
 
-    const handleGetTasksByPriority = async () => {
-        let list = await getTasksByPriority();
+    const getTasksByPriority = () => {
+        const dbRef = firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("tasks");
 
-        setTasksList(list);
-        setLoading(false);
+        dbRef.orderBy("priorityIs", "asc").onSnapshot((querySnapshot) => {
+            const list = [];
+            querySnapshot.forEach((doc) => {
+                const {
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
+                    priorityIs,
+                    isCompleted,
+                    isUpdated,
+                } = doc.data();
+
+                list.push({
+                    id: doc.id,
+                    taskTitle,
+                    taskTime,
+                    taskContent,
+                    createdAt,
+                    priorityIs,
+                    isCompleted,
+                    isUpdated,
+                });
+            });
+
+            setTasksList(list);
+            setLoading(false);
+        });
     };
 
-    function sortByDueAt() {
+    const getTasksByDueAt = () => {
         const dbRef = firebase
             .firestore()
             .collection("users")
@@ -75,11 +160,13 @@ export default function Home({ navigation }) {
                     isCompleted,
                     isUpdated,
                 });
-                setTasksList(list);
-                setLoading(false);
             });
+
+            setTasksList(list);
+            setLoading(false);
         });
-    }
+    };
+
     const logoStyles = [styles.logoStyle];
 
     // Sync button animation
@@ -108,11 +195,16 @@ export default function Home({ navigation }) {
         }
     };
 
+    const handleUpdateTask = async (isCompleted, id) => {
+        await updateIsCompleted(isCompleted, id);
+        // getTasks();
+    };
+
     return (
         <View style={{ flex: 1, paddingBottom: 5 }}>
-            <View style={styles.sortContainer}>
+            {/* <View style={styles.sortContainer}>
                 <Ripple
-                    onPress={() => handleGetTasksByPriority()}
+                    onPress={() => getTasksByPriority()}
                     style={{
                         flex: 1,
                         paddingHorizontal: 20,
@@ -124,7 +216,7 @@ export default function Home({ navigation }) {
                     </Text>
                 </Ripple>
                 <Ripple
-                    onPress={() => sortByDueAt()}
+                    onPress={() => getTasksByDueAt()}
                     style={{
                         flex: 1,
                         paddingHorizontal: 20,
@@ -133,7 +225,7 @@ export default function Home({ navigation }) {
                 >
                     <Text style={styles.sortContainerText}>Sort By Due At</Text>
                 </Ripple>
-            </View>
+            </View> */}
             {!loading && (
                 <FlatList
                     style={{ flex: 1 }}
@@ -151,7 +243,7 @@ export default function Home({ navigation }) {
                                         uncheckedIcon="circle-o"
                                         checked={item.isCompleted}
                                         onPress={() =>
-                                            updateIsCompleted(
+                                            handleUpdateTask(
                                                 item.isCompleted,
                                                 item.id
                                             )
@@ -218,7 +310,7 @@ export default function Home({ navigation }) {
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
                     onPress={() => {
-                        handleGetTasks();
+                        getTasks();
                         handleOnPress();
                     }}
                     activeOpacity={0.6}
@@ -263,7 +355,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
     },
     sortContainerText: {
-        color: "#484848",
+        color: "#767676",
         fontWeight: "700",
         textAlign: "center",
     },

@@ -7,9 +7,12 @@ import {
     TouchableHighlight,
     TouchableOpacity,
 } from "react-native";
+import Button from "../components/Button";
 import { CheckBox } from "react-native-elements";
 
-import { logout, addTask } from "../utils/firebase";
+import * as SMS from "expo-sms";
+
+import { logout, addTask, getTasks } from "../utils/firebase";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -31,6 +34,7 @@ export default function Home({ navigation }) {
             newTaskContent,
             priorityIs
         );
+
         setNewTaskTitle("");
         setNewTaskContent("");
         setChosenDate("");
@@ -48,6 +52,16 @@ export default function Home({ navigation }) {
 
     const hidePicker = () => {
         setIsVisible(false);
+    };
+
+    const handleSMS = async () => {
+        const isAvailable = await SMS.isAvailableAsync();
+        if (isAvailable) {
+            const { result } = await SMS.sendSMSAsync(
+                ["7982548300", "9654294131"],
+                "You have been added as a collaborator"
+            );
+        }
     };
 
     return (
@@ -142,17 +156,11 @@ export default function Home({ navigation }) {
                     />
                 </View>
             </View>
-            <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.addTaskButton}
-                onPress={() => {
-                    handleAddTask();
-                }}
-            >
-                <Text numberOfLines={1} style={styles.datePickerText}>
-                    Add Task
-                </Text>
-            </TouchableOpacity>
+
+            <Button onPress={handleAddTask} title="Add Task" />
+
+            {/* <Button onPress={handleSMS} title="Send SMS" /> */}
+
             <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
@@ -257,5 +265,7 @@ const styles = StyleSheet.create({
     },
     checkBox: {
         borderRadius: 10,
+        // flex: 1 / 3,
+        // paddingHorizontal: 10,
     },
 });
