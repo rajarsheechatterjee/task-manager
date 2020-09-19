@@ -28,7 +28,8 @@ export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [menuToggled, setMenuToggled] = useState(false);
-    // const [sortMode, setSortMode] = useState(1)
+    const [sortMode, setSortMode] = useState("createdAt");
+    const [sortOrder, setSortOrder] = useState("desc");
 
     /**
      * Gets all tasks of a user
@@ -56,14 +57,15 @@ export default function Home({ navigation }) {
     //     setLoading(false);
     // };
 
-    const getTasks = async () => {
+    const getTasks = async (sortBy, sortOrder) => {
+        await setTasksList([]);
         const dbRef = firebase
             .firestore()
             .collection("users")
             .doc(firebase.auth().currentUser.uid)
             .collection("tasks");
 
-        dbRef.orderBy("createdAt", "desc").onSnapshot((querySnapshot) => {
+        dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
             const list = [];
             querySnapshot.forEach((doc) => {
                 const {
@@ -200,32 +202,65 @@ export default function Home({ navigation }) {
         // getTasks();
     };
 
+    const handleSortByPriority = async () => {
+        await setSortMode("priorityIs");
+        await setSortOrder("asc");
+        getTasks(sortMode, sortOrder);
+    };
+
+    const handleSortByDueAt = async () => {
+        await setSortMode("taskTime");
+        await setSortOrder("asc");
+        getTasks(sortMode, sortOrder);
+    };
+
+    const handleSortByCreatedAt = async () => {
+        await setSortMode("createdAt");
+        await setSortOrder("desc");
+        getTasks(sortMode, sortOrder);
+    };
+
     return (
         <View style={{ flex: 1, paddingBottom: 5 }}>
-            {/* <View style={styles.sortContainer}>
+            <View style={styles.sortContainer}>
+                <View style={{ flex: 1, paddingVertical: 7 }}>
+                    <Text style={styles.sortContainerText}>Sort By</Text>
+                </View>
                 <Ripple
-                    onPress={() => getTasksByPriority()}
+                    onPress={() => handleSortByPriority()}
+                    style={{
+                        flex: 1,
+                        paddingVertical: 7,
+                    }}
+                >
+                    <Text style={styles.sortContainerText}>Priority</Text>
+                </Ripple>
+                <View style={{ paddingVertical: 7 }}>
+                    <Text style={styles.sortContainerText}>|</Text>
+                </View>
+                <Ripple
+                    onPress={() => handleSortByDueAt()}
+                    style={{
+                        flex: 1,
+                        paddingVertical: 7,
+                    }}
+                >
+                    <Text style={styles.sortContainerText}>Due At</Text>
+                </Ripple>
+                <View style={{ paddingVertical: 7 }}>
+                    <Text style={styles.sortContainerText}>|</Text>
+                </View>
+                <Ripple
+                    onPress={() => handleSortByCreatedAt()}
                     style={{
                         flex: 1,
                         paddingHorizontal: 20,
                         paddingVertical: 7,
                     }}
                 >
-                    <Text style={styles.sortContainerText}>
-                        Sort By Priority
-                    </Text>
+                    <Text style={styles.sortContainerText}>Created At</Text>
                 </Ripple>
-                <Ripple
-                    onPress={() => getTasksByDueAt()}
-                    style={{
-                        flex: 1,
-                        paddingHorizontal: 20,
-                        paddingVertical: 7,
-                    }}
-                >
-                    <Text style={styles.sortContainerText}>Sort By Due At</Text>
-                </Ripple>
-            </View> */}
+            </View>
             {!loading && (
                 <FlatList
                     style={{ flex: 1 }}
@@ -310,7 +345,7 @@ export default function Home({ navigation }) {
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
                     onPress={() => {
-                        getTasks();
+                        getTasks(sortMode, sortOrder);
                         handleOnPress();
                     }}
                     activeOpacity={0.6}
