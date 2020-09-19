@@ -12,11 +12,16 @@ import { CheckBox } from "react-native-elements";
 import firebase from "../../firebase";
 import "firebase/firestore";
 
-import { updateIsCompleted } from "../utils/firebase";
+import {
+    updateIsCompleted,
+    getTasks,
+    getTasksByPriority,
+} from "../utils/firebase";
 import { priorityColor } from "../utils/priority";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ripple from "react-native-material-ripple";
 
 export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);
@@ -26,77 +31,19 @@ export default function Home({ navigation }) {
     /**
      * Gets all tasks of a user
      */
-    function getTasks() {
-        const dbRef = firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks");
+    const handleGetTasks = async () => {
+        let list = await getTasks();
 
-        dbRef.orderBy("createdAt", "desc").onSnapshot((querySnapshot) => {
-            const list = [];
-            querySnapshot.forEach((doc) => {
-                const {
-                    taskTitle,
-                    taskTime,
-                    taskContent,
-                    createdAt,
-                    priorityIs,
-                    isCompleted,
-                    isUpdated,
-                } = doc.data();
+        setTasksList(list);
+        setLoading(false);
+    };
 
-                list.push({
-                    id: doc.id,
-                    taskTitle,
-                    taskTime,
-                    taskContent,
-                    createdAt,
-                    priorityIs,
-                    isCompleted,
-                    isUpdated,
-                });
-                setTasksList(list);
-                setLoading(false);
-            });
-        });
-    }
+    const handleGetTasksByPriority = async () => {
+        let list = await getTasksByPriority();
 
-    function sortByPriority() {
-        const dbRef = firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks");
-
-        dbRef.orderBy("priorityIs", "asc").onSnapshot((querySnapshot) => {
-            const list = [];
-            querySnapshot.forEach((doc) => {
-                const {
-                    taskTitle,
-                    taskTime,
-                    taskContent,
-                    createdAt,
-                    priorityIs,
-                    isCompleted,
-                    isUpdated,
-                } = doc.data();
-
-                list.push({
-                    id: doc.id,
-                    taskTitle,
-                    taskTime,
-                    taskContent,
-                    createdAt,
-                    priorityIs,
-                    isCompleted,
-                    isUpdated,
-                });
-                setTasksList(list);
-                setLoading(false);
-            });
-        });
-    }
+        setTasksList(list);
+        setLoading(false);
+    };
 
     function sortByDueAt() {
         const dbRef = firebase
@@ -164,19 +111,28 @@ export default function Home({ navigation }) {
     return (
         <View style={{ flex: 1, paddingBottom: 5 }}>
             <View style={styles.sortContainer}>
-                <Text
-                    style={styles.sortContainerText}
-                    onPress={() => sortByPriority()}
+                <Ripple
+                    onPress={() => handleGetTasksByPriority()}
+                    style={{
+                        flex: 1,
+                        paddingHorizontal: 20,
+                        paddingVertical: 7,
+                    }}
                 >
-                    Sort By Priority
-                </Text>
-                <Text> | </Text>
-                <Text
-                    style={styles.sortContainerText}
+                    <Text style={styles.sortContainerText}>
+                        Sort By Priority
+                    </Text>
+                </Ripple>
+                <Ripple
                     onPress={() => sortByDueAt()}
+                    style={{
+                        flex: 1,
+                        paddingHorizontal: 20,
+                        paddingVertical: 7,
+                    }}
                 >
-                    Sort By Due At
-                </Text>
+                    <Text style={styles.sortContainerText}>Sort By Due At</Text>
+                </Ripple>
             </View>
             {!loading && (
                 <FlatList
@@ -262,8 +218,8 @@ export default function Home({ navigation }) {
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
                     onPress={() => {
+                        handleGetTasks();
                         handleOnPress();
-                        getTasks();
                     }}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
@@ -301,14 +257,16 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
     mainContainer: {},
     sortContainer: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
         marginBottom: 5,
         backgroundColor: "white",
         flexDirection: "row",
         justifyContent: "space-around",
     },
-    sortContainerText: { color: "#484848", fontWeight: "700" },
+    sortContainerText: {
+        color: "#484848",
+        fontWeight: "700",
+        textAlign: "center",
+    },
     taskListView: {
         flex: 1,
         marginVertical: 5,
