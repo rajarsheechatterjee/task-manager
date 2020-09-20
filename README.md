@@ -1,5 +1,5 @@
 # Shigoto
->Free and open source task manager/reminder application for Android/IOS using React Native (Expo CLI)
+>Free and open source task manager/reminder application for Android/IOS built with React Native (Expo CLI)
 
 ## Features
 - [x] Signup and login with your account
