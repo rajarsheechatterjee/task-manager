@@ -9,12 +9,7 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { CheckBox } from "react-native-elements";
 
-import {
-    updateIsCompleted,
-    // getTasks,
-    // getTasksByPriority,
-    // getTasksByDueAt,
-} from "../utils/firebase";
+import { updateIsCompleted } from "../utils/firebase";
 import { priorityColor } from "../utils/priority";
 
 import firebase from "../../firebase";
@@ -31,34 +26,9 @@ export default function Home({ navigation }) {
     const [sortMode, setSortMode] = useState("createdAt");
     const [sortOrder, setSortOrder] = useState("desc");
 
-    /**
-     * Gets all tasks of a user
-     */
-
-    // const handleGetTasks = async () => {
-    //     let list = [];
-    //     list = await getTasks();
-
-    //     setTasksList(list);
-    //     setLoading(false);
-    // };
-
-    // const handleGetTasksByPriority = async () => {
-    //     let list = await getTasksByPriority();
-
-    //     setTasksList(list);
-    //     setLoading(false);
-    // };
-
-    // const handleGetTasksByDueAt = async () => {
-    //     let list = await getTasksByDueAt();
-
-    //     setTasksList(list);
-    //     setLoading(false);
-    // };
-
     const getTasks = async (sortBy, sortOrder) => {
         await setTasksList([]);
+        await setLoading(true);
         const dbRef = firebase
             .firestore()
             .collection("users")
@@ -66,80 +36,6 @@ export default function Home({ navigation }) {
             .collection("tasks");
 
         dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
-            const list = [];
-            querySnapshot.forEach((doc) => {
-                const {
-                    taskTitle,
-                    taskTime,
-                    taskContent,
-                    createdAt,
-                    priorityIs,
-                    isCompleted,
-                    isUpdated,
-                } = doc.data();
-
-                list.push({
-                    id: doc.id,
-                    taskTitle,
-                    taskTime,
-                    taskContent,
-                    createdAt,
-                    priorityIs,
-                    isCompleted,
-                    isUpdated,
-                });
-            });
-
-            setTasksList(list);
-            setLoading(false);
-        });
-    };
-
-    const getTasksByPriority = () => {
-        const dbRef = firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks");
-
-        dbRef.orderBy("priorityIs", "asc").onSnapshot((querySnapshot) => {
-            const list = [];
-            querySnapshot.forEach((doc) => {
-                const {
-                    taskTitle,
-                    taskTime,
-                    taskContent,
-                    createdAt,
-                    priorityIs,
-                    isCompleted,
-                    isUpdated,
-                } = doc.data();
-
-                list.push({
-                    id: doc.id,
-                    taskTitle,
-                    taskTime,
-                    taskContent,
-                    createdAt,
-                    priorityIs,
-                    isCompleted,
-                    isUpdated,
-                });
-            });
-
-            setTasksList(list);
-            setLoading(false);
-        });
-    };
-
-    const getTasksByDueAt = () => {
-        const dbRef = firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks");
-
-        dbRef.orderBy("taskTime", "asc").onSnapshot((querySnapshot) => {
             const list = [];
             querySnapshot.forEach((doc) => {
                 const {
@@ -199,7 +95,6 @@ export default function Home({ navigation }) {
 
     const handleUpdateTask = async (isCompleted, id) => {
         await updateIsCompleted(isCompleted, id);
-        // getTasks();
     };
 
     const handleSortByPriority = async () => {
@@ -245,7 +140,7 @@ export default function Home({ navigation }) {
                         paddingVertical: 7,
                     }}
                 >
-                    <Text style={styles.sortContainerText}>Due At</Text>
+                    <Text style={styles.sortContainerText}>Due Time</Text>
                 </Ripple>
                 <View style={{ paddingVertical: 7 }}>
                     <Text style={styles.sortContainerText}>|</Text>
@@ -256,8 +151,17 @@ export default function Home({ navigation }) {
                         flex: 1,
                         paddingHorizontal: 20,
                         paddingVertical: 7,
+                        flexDirection: "row",
                     }}
                 >
+                    {sortMode === "createdAt" && (
+                        <MaterialCommunityIcons
+                            name="arrow-down"
+                            color="blue"
+                            size={16}
+                            style={{ paddingTop: 2 }}
+                        />
+                    )}
                     <Text style={styles.sortContainerText}>Created At</Text>
                 </Ripple>
             </View>
@@ -364,14 +268,17 @@ export default function Home({ navigation }) {
 
             <View style={styles.buttonWrapper}>
                 <TouchableHighlight
-                    style={[{ opacity: 0.8 }, styles.button]}
+                    style={[
+                        styles.button,
+                        { opacity: 0.9, backgroundColor: "#118086" },
+                    ]}
                     onPress={() => navigation.navigate("Add New Task")}
                     activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
+                    underlayColor="#085f63"
                 >
                     <MaterialCommunityIcons
                         name="plus"
-                        color="#118086"
+                        color="white"
                         size={32}
                         style={styles.icon}
                     />

@@ -104,6 +104,7 @@ export default function Home({ navigation }) {
             <View>
                 <TextInput
                     multiline={true}
+                    // minHeight={60}
                     style={styles.txtinpt}
                     onChangeText={(text) => setNewTaskContent(text)}
                     placeholder="Content"
