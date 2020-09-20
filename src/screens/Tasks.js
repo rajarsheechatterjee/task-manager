@@ -28,8 +28,6 @@ export default function Home({ navigation }) {
     const [sortOrder, setSortOrder] = useState("desc");
 
     const getTasks = async (sortBy, sortOrder) => {
-        await setTasksList([]);
-        await setLoading(true);
         const dbRef = firebase
             .firestore()
             .collection("users")
@@ -127,24 +125,52 @@ export default function Home({ navigation }) {
                     <Text style={styles.sortContainerText}>Sort By</Text>
                 </View>
                 <Ripple
-                    onPress={() => handleSortByPriority()}
+                    onPress={async () => {
+                        await setTasksList([]);
+                        handleSortByPriority();
+                    }}
                     style={{
                         flex: 1,
+                        paddingHorizontal: 5,
                         paddingVertical: 7,
+                        flexDirection: "row",
                     }}
                 >
+                    {sortMode === "priorityIs" && (
+                        <MaterialCommunityIcons
+                            name="arrow-up"
+                            color="blue"
+                            size={16}
+                            style={{ paddingTop: 2 }}
+                        />
+                    )}
+
                     <Text style={styles.sortContainerText}>Priority</Text>
                 </Ripple>
                 <View style={{ paddingVertical: 7 }}>
                     <Text style={styles.sortContainerText}>|</Text>
                 </View>
                 <Ripple
-                    onPress={() => handleSortByDueAt()}
+                    onPress={async () => {
+                        await setTasksList([]);
+                        handleSortByDueAt();
+                    }}
                     style={{
                         flex: 1,
+                        paddingHorizontal: 5,
                         paddingVertical: 7,
+                        flexDirection: "row",
                     }}
                 >
+                    {sortMode === "taskTime" && (
+                        <MaterialCommunityIcons
+                            name="arrow-up"
+                            color="blue"
+                            size={16}
+                            style={{ paddingTop: 2 }}
+                        />
+                    )}
+
                     <Text style={styles.sortContainerText}>Due Time</Text>
                 </Ripple>
                 <View style={{ paddingVertical: 7 }}>
@@ -154,7 +180,7 @@ export default function Home({ navigation }) {
                     onPress={() => handleSortByCreatedAt()}
                     style={{
                         flex: 1,
-                        paddingHorizontal: 20,
+                        paddingHorizontal: 5,
                         paddingVertical: 7,
                         flexDirection: "row",
                     }}
@@ -167,7 +193,7 @@ export default function Home({ navigation }) {
                             style={{ paddingTop: 2 }}
                         />
                     )}
-                    <Text style={styles.sortContainerText}>Created At</Text>
+                    <Text style={styles.sortContainerText}>Created On</Text>
                 </Ripple>
             </View>
             {!loading && (
