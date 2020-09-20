@@ -5,6 +5,7 @@ import {
     View,
     TouchableHighlight,
     Animated,
+    ToastAndroid,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { CheckBox } from "react-native-elements";
@@ -113,6 +114,10 @@ export default function Home({ navigation }) {
         await setSortMode("createdAt");
         await setSortOrder("desc");
         getTasks(sortMode, sortOrder);
+    };
+
+    const handleToast = () => {
+        ToastAndroid.show("Synced with cloud storage", ToastAndroid.SHORT);
     };
 
     return (
@@ -251,6 +256,7 @@ export default function Home({ navigation }) {
                     onPress={() => {
                         getTasks(sortMode, sortOrder);
                         handleOnPress();
+                        handleToast();
                     }}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
