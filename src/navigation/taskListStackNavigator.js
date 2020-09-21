@@ -2,7 +2,7 @@ import React from "react";
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import TaskList from "../screens/Tasks";
+import TaskList from "../screens/TaskList/Tasks";
 import TaskItem from "../screens/TaskItem";
 import EditTask from "../screens/EditTask";
 

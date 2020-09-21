@@ -22,7 +22,7 @@ export default function TaskItem({ route, navigation }) {
                         {taskItem.taskTitle}{" "}
                         {taskItem.isCompleted && (
                             <MaterialCommunityIcons
-                                name="checkbox-marked-circle"
+                                name="check-all"
                                 color="green"
                                 size={25}
                                 style={{ paddingTop: 15 }}
@@ -41,7 +41,7 @@ export default function TaskItem({ route, navigation }) {
                     </Text>
                 </View>
             </View>
-            <View style={styles.buttonWrapper}>
+            <View style={styles.editTaskButton}>
                 <TouchableHighlight
                     style={[{ opacity: 1 }, styles.button]}
                     onPress={() => navigation.navigate("EditTask", taskItem)}
@@ -56,7 +56,7 @@ export default function TaskItem({ route, navigation }) {
                     />
                 </TouchableHighlight>
             </View>
-            <View style={styles.buttonWrapper2}>
+            <View style={styles.deleteButtonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 1 }, styles.button]}
                     onPress={() => deleteTask(navigation, taskItem.id)}
@@ -96,12 +96,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         lineHeight: 29,
     },
-    buttonWrapper: {
+    editTaskButton: {
         position: "absolute",
         bottom: 20,
         right: 20,
     },
-    buttonWrapper2: {
+    deleteButtonWrapper: {
         position: "absolute",
         bottom: 20,
         left: 20,

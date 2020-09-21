@@ -8,21 +8,21 @@ import {
     ToastAndroid,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { CheckBox } from "react-native-elements";
+import TaskCard from "./Components/TaskCard";
 
-import { updateIsCompleted } from "../utils/firebase";
-import { priorityColor } from "../utils/priority";
-
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import "firebase/firestore";
 
-import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ripple from "react-native-material-ripple";
 
 export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);
+    const [tasksList2, setTasksList2] = useState([]);
+    const [tasksList3, setTasksList3] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loading2, setLoading2] = useState(true);
+    const [loading3, setLoading3] = useState(true);
     const [menuToggled, setMenuToggled] = useState(false);
     const [sortMode, setSortMode] = useState("createdAt");
     const [sortOrder, setSortOrder] = useState("desc");
@@ -59,8 +59,16 @@ export default function Home({ navigation }) {
                 });
             });
 
-            setTasksList(list);
-            setLoading(false);
+            if (sortMode === "createdAt") {
+                setTasksList(list);
+                setLoading(false);
+            } else if (sortMode === "priorityIs") {
+                setTasksList2(list);
+                setLoading2(false);
+            } else if (sortMode === "taskTime") {
+                setTasksList3(list);
+                setLoading3(false);
+            }
         });
     };
 
@@ -90,10 +98,6 @@ export default function Home({ navigation }) {
         } else {
             setMenuToggled(true);
         }
-    };
-
-    const handleUpdateTask = async (isCompleted, id) => {
-        await updateIsCompleted(isCompleted, id);
     };
 
     const handleSortByPriority = async () => {
@@ -126,7 +130,6 @@ export default function Home({ navigation }) {
                 </View>
                 <Ripple
                     onPress={async () => {
-                        await setTasksList([]);
                         handleSortByPriority();
                     }}
                     style={{
@@ -152,7 +155,6 @@ export default function Home({ navigation }) {
                 </View>
                 <Ripple
                     onPress={async () => {
-                        await setTasksList([]);
                         handleSortByDueAt();
                     }}
                     style={{
@@ -196,91 +198,42 @@ export default function Home({ navigation }) {
                     <Text style={styles.sortContainerText}>Created On</Text>
                 </Ripple>
             </View>
-            {!loading && (
+            {!loading && sortMode === "createdAt" && (
                 <FlatList
                     style={{ flex: 1 }}
                     data={tasksList}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                        <View style={styles.mainContainer}>
-                            <View style={styles.taskListView}>
-                                <View style={styles.checkbox}>
-                                    <CheckBox
-                                        center
-                                        checkedColor="#118086"
-                                        uncheckedColor="#118086"
-                                        checkedIcon="dot-circle-o"
-                                        uncheckedIcon="circle-o"
-                                        checked={item.isCompleted}
-                                        onPress={() =>
-                                            handleUpdateTask(
-                                                item.isCompleted,
-                                                item.id
-                                            )
-                                        }
-                                        containerStyle={styles.checkBox2}
-                                    />
-                                </View>
-                                <Text
-                                    style={[
-                                        styles.taskList,
-                                        item.isCompleted && {
-                                            textDecorationLine: "line-through",
-                                        },
-                                    ]}
-                                >
-                                    {item.taskTitle}
-                                </Text>
-                                <Text
-                                    style={[
-                                        styles.taskListDate,
-                                        item.isCompleted && {
-                                            textDecorationLine: "line-through",
-                                        },
-                                    ]}
-                                >
-                                    {item.isUpdated && "Updated on "}
-                                    {moment(item.createdAt.toDate()).calendar()}
-                                </Text>
-                                <View style={styles.taskListDate2}>
-                                    <View
-                                        style={[
-                                            styles.taskPriority,
-                                            priorityColor(item.priorityIs),
-                                        ]}
-                                    />
-                                </View>
-                                <View style={styles.buttonWrapper3}>
-                                    <TouchableHighlight
-                                        style={[{ opacity: 1 }, styles.button2]}
-                                        onPress={() =>
-                                            navigation.navigate(
-                                                "TaskItem",
-                                                item
-                                            )
-                                        }
-                                        activeOpacity={0.6}
-                                        underlayColor="#DDDDDD"
-                                    >
-                                        <MaterialCommunityIcons
-                                            name="chevron-right"
-                                            color="#118086"
-                                            size={30}
-                                            style={styles.icon}
-                                        />
-                                    </TouchableHighlight>
-                                </View>
-                            </View>
-                        </View>
+                        <TaskCard navigation={navigation} taskItem={item} />
+                    )}
+                />
+            )}
+            {!loading2 && sortMode === "priorityIs" && (
+                <FlatList
+                    style={{ flex: 1 }}
+                    data={tasksList2}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <TaskCard navigation={navigation} taskItem={item} />
+                    )}
+                />
+            )}
+            {!loading3 && sortMode === "taskTime" && (
+                <FlatList
+                    style={{ flex: 1 }}
+                    data={tasksList3}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <TaskCard navigation={navigation} taskItem={item} />
                     )}
                 />
             )}
 
-            <View style={styles.buttonWrapper2}>
+            <View style={styles.syncButtonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => {
-                        getTasks(sortMode, sortOrder);
+                    onPress={async () => {
+                        await getTasks(sortMode, sortOrder);
                         handleOnPress();
                         handleToast();
                     }}
@@ -321,7 +274,6 @@ export default function Home({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    mainContainer: {},
     sortContainer: {
         marginBottom: 5,
         backgroundColor: "white",
@@ -333,46 +285,15 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         textAlign: "center",
     },
-    taskListView: {
-        flex: 1,
-        marginVertical: 5,
-        backgroundColor: "#fff",
-        marginHorizontal: 7,
-        borderRadius: 15,
-        paddingVertical: 9,
-    },
-    taskList: {
-        paddingTop: 10,
-        marginHorizontal: 80,
-        fontSize: 18,
-        fontWeight: "700",
-        color: "#484848",
-    },
-    taskListDate: {
-        marginBottom: 10,
-        marginHorizontal: 80,
-        fontSize: 14,
-        color: "#767676",
-    },
-    taskListDate2: {
-        position: "absolute",
-        left: 65,
-        top: 17,
-    },
     buttonWrapper: {
         position: "absolute",
         bottom: 20,
         right: 20,
     },
-    buttonWrapper2: {
+    syncButtonWrapper: {
         position: "absolute",
         bottom: 20,
         left: 20,
-    },
-    buttonWrapper3: {
-        position: "absolute",
-        right: 25,
-        top: 10,
     },
     button: {
         alignItems: "center",
@@ -382,45 +303,8 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: "white",
     },
-    button2: {
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 50,
-        width: 60,
-        height: 60,
-    },
     icon: {
         marginRight: -2,
         marginTop: -2,
-    },
-    rightIcon: {
-        position: "absolute",
-        right: 40,
-        top: 20,
-    },
-    checkbox: {
-        position: "absolute",
-        left: 8,
-        top: 14,
-    },
-    deleteContainer: {
-        width: 40,
-        justifyContent: "center",
-        position: "absolute",
-        left: 20,
-        top: 25,
-    },
-
-    taskPriority: {
-        marginTop: 5,
-        width: 4,
-        height: 40,
-        borderRadius: 9999,
-        borderWidth: 1,
-    },
-    checkBox2: {
-        borderRadius: 10,
-        backgroundColor: "transparent",
-        borderWidth: 0,
     },
 });
