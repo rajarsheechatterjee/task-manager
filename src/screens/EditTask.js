@@ -8,14 +8,14 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
+import Button from "../components/Button";
 
 import { updateTask } from "../utils/firebase";
 
-import firebase from "../../firebase";
+import firebase from "../../firebaseConfig";
 import "firebase/firestore";
 
 import moment from "moment";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function EditTask({ route, navigation }) {
@@ -56,6 +56,18 @@ export default function EditTask({ route, navigation }) {
 
     const hidePicker = () => {
         setIsVisible(false);
+    };
+
+    const handleEditTask = () => {
+        updateTask(
+            navigation,
+            taskItem.id,
+            newTaskTitle,
+            chosenDate,
+            newTaskContent,
+            priorityIs,
+            isChecked
+        );
     };
 
     return (
@@ -162,26 +174,7 @@ export default function EditTask({ route, navigation }) {
                     containerStyle={styles.checkBox}
                 />
             </View>
-            <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.addTaskButton}
-                onPress={() => {
-                    updateTask(
-                        navigation,
-                        taskItem.id,
-                        newTaskTitle,
-                        chosenDate,
-                        newTaskContent,
-                        priorityIs,
-                        isChecked
-                    );
-                    // clearTextInputs();
-                }}
-            >
-                <Text numberOfLines={1} style={styles.datePickerText}>
-                    Save Changes
-                </Text>
-            </TouchableOpacity>
+            <Button onPress={handleEditTask} title="Save Changes" />
         </View>
     );
 }
@@ -270,7 +263,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
         alignSelf: "center",
-        // textTransform: "uppercase",
+        textTransform: "uppercase",
     },
     taskStatus: {
         fontWeight: "700",

@@ -6,9 +6,11 @@ import {
     TextInput,
     TouchableHighlight,
     TouchableOpacity,
+    ToastAndroid,
 } from "react-native";
 import Button from "../components/Button";
 import { CheckBox } from "react-native-elements";
+import Colors from "../theming/colors";
 
 import * as SMS from "expo-sms";
 
@@ -17,6 +19,7 @@ import { logout, addTask, getTasks } from "../utils/firebase";
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { color } from "react-native-reanimated";
 
 export default function Home({ navigation }) {
     const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -34,6 +37,8 @@ export default function Home({ navigation }) {
             newTaskContent,
             priorityIs
         );
+
+        ToastAndroid.show("Task Added", ToastAndroid.SHORT);
 
         setNewTaskTitle("");
         setNewTaskContent("");
@@ -125,8 +130,8 @@ export default function Home({ navigation }) {
                     <CheckBox
                         center
                         title="High"
-                        checkedColor="red"
-                        uncheckedColor="red"
+                        checkedColor={Colors.priorityHigh}
+                        uncheckedColor={Colors.priorityHigh}
                         checkedIcon="dot-circle-o"
                         uncheckedIcon="circle-o"
                         checked={priorityIs === 1 ? true : false}
@@ -136,8 +141,8 @@ export default function Home({ navigation }) {
                     <CheckBox
                         center
                         title="Medium"
-                        checkedColor="orange"
-                        uncheckedColor="orange"
+                        checkedColor={Colors.priorityMid}
+                        uncheckedColor={Colors.priorityMid}
                         checkedIcon="dot-circle-o"
                         uncheckedIcon="circle-o"
                         checked={priorityIs === 2 ? true : false}
@@ -160,8 +165,6 @@ export default function Home({ navigation }) {
 
             <Button onPress={handleAddTask} title="Add Task" />
 
-            {/* <Button onPress={handleSMS} title="Send SMS" /> */}
-
             <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
@@ -171,7 +174,7 @@ export default function Home({ navigation }) {
                 >
                     <MaterialCommunityIcons
                         name="logout-variant"
-                        color="#118086"
+                        color={Colors.accentColor}
                         size={28}
                         style={styles.icon}
                     />
@@ -187,6 +190,7 @@ const styles = StyleSheet.create({
         padding: 10,
         paddingTop: 60,
         backgroundColor: "#f4f4f4",
+        color: Colors.textColor,
     },
     screenHeader: {
         fontSize: 28,
@@ -237,7 +241,7 @@ const styles = StyleSheet.create({
     datePicker: {
         width: "40%",
         elevation: 8,
-        backgroundColor: "#118086",
+        backgroundColor: Colors.accentColor,
         borderRadius: 10,
         paddingVertical: 12,
         paddingHorizontal: 13,
@@ -245,7 +249,7 @@ const styles = StyleSheet.create({
     },
     addTaskButton: {
         elevation: 8,
-        backgroundColor: "#118086",
+        backgroundColor: Colors.accentColor,
         borderRadius: 10,
         paddingVertical: 12,
         paddingHorizontal: 13,

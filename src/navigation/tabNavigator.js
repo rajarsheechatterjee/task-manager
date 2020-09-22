@@ -2,6 +2,7 @@ import React from "react";
 import "react-native-gesture-handler";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Colors from "../theming/colors";
 
 import addTaskStack from "./addTaskNavigator";
 import taskListStack from "./taskListStackNavigator";
@@ -10,7 +11,7 @@ const Tab = createBottomTabNavigator();
 
 function tabNavigator() {
     return (
-        <Tab.Navigator tabBarOptions={{ activeTintColor: "#118086" }}>
+        <Tab.Navigator tabBarOptions={{ activeTintColor: Colors.accentColor }}>
             <Tab.Screen
                 name="Your Tasks"
                 component={taskListStack}

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
 import { CheckBox } from "react-native-elements";
+import Colors from "../../../theming/colors";
 
 import { updateIsCompleted } from "../../utils/firebase";
 import { priorityColor } from "../../utils/priority";
@@ -15,8 +16,8 @@ export default function TaskCard({ taskItem, navigation }) {
                 <View style={styles.checkbox}>
                     <CheckBox
                         center
-                        checkedColor="#118086"
-                        uncheckedColor="#118086"
+                        checkedColor={Colors.accentColor}
+                        uncheckedColor={Colors.accentColor}
                         checkedIcon="dot-circle-o"
                         uncheckedIcon="circle-o"
                         checked={taskItem.isCompleted}
@@ -66,7 +67,7 @@ export default function TaskCard({ taskItem, navigation }) {
                     >
                         <MaterialCommunityIcons
                             name="chevron-right"
-                            color="#118086"
+                            color={Colors.accentColor}
                             size={30}
                             style={styles.icon}
                         />

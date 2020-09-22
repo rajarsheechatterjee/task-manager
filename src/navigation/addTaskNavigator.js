@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { StyleSheet, View, Text } from "react-native";
 import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
+import Colors from "../theming/colors";
 
 import AddTasks from "../screens/AddTask";
 
@@ -31,7 +32,7 @@ export default function StackNavigator({ navigation }) {
                 component={AddTasks}
                 options={{
                     headerStyle: {
-                        backgroundColor: "#118086",
+                        backgroundColor: Colors.accentColor,
                     },
                     headerTintColor: "white",
                     headerLeft: false,

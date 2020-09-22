@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import TaskCard from "./Components/TaskCard";
+import Colors from "../../theming/colors";
 
-import firebase from "../../../firebase";
+import firebase from "../../../firebaseConfig";
 import "firebase/firestore";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -34,7 +35,7 @@ export default function Home({ navigation }) {
             .doc(firebase.auth().currentUser.uid)
             .collection("tasks");
 
-        dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
+        await dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
             const list = [];
             querySnapshot.forEach((doc) => {
                 const {
@@ -123,8 +124,8 @@ export default function Home({ navigation }) {
     };
 
     return (
-        <View style={{ flex: 1, paddingBottom: 5 }}>
-            <View style={styles.sortContainer}>
+        <View style={{ flex: 1, paddingVertical: 5 }}>
+            {/* <View style={styles.sortContainer}>
                 <View style={{ flex: 1, paddingVertical: 7 }}>
                     <Text style={styles.sortContainerText}>Sort By</Text>
                 </View>
@@ -139,20 +140,17 @@ export default function Home({ navigation }) {
                         flexDirection: "row",
                     }}
                 >
+                    <Text style={styles.sortContainerText}>Priority</Text>
                     {sortMode === "priorityIs" && (
                         <MaterialCommunityIcons
                             name="arrow-up"
                             color="blue"
-                            size={16}
-                            style={{ paddingTop: 2 }}
+                            size={18}
+                            style={{ paddingTop: 1, paddingLeft: 5 }}
                         />
                     )}
-
-                    <Text style={styles.sortContainerText}>Priority</Text>
                 </Ripple>
-                <View style={{ paddingVertical: 7 }}>
-                    <Text style={styles.sortContainerText}>|</Text>
-                </View>
+
                 <Ripple
                     onPress={async () => {
                         handleSortByDueAt();
@@ -164,20 +162,17 @@ export default function Home({ navigation }) {
                         flexDirection: "row",
                     }}
                 >
+                    <Text style={styles.sortContainerText}>Due Time</Text>
                     {sortMode === "taskTime" && (
                         <MaterialCommunityIcons
                             name="arrow-up"
                             color="blue"
-                            size={16}
-                            style={{ paddingTop: 2 }}
+                            size={18}
+                            style={{ paddingTop: 1, paddingLeft: 5 }}
                         />
                     )}
-
-                    <Text style={styles.sortContainerText}>Due Time</Text>
                 </Ripple>
-                <View style={{ paddingVertical: 7 }}>
-                    <Text style={styles.sortContainerText}>|</Text>
-                </View>
+
                 <Ripple
                     onPress={() => handleSortByCreatedAt()}
                     style={{
@@ -187,17 +182,17 @@ export default function Home({ navigation }) {
                         flexDirection: "row",
                     }}
                 >
+                    <Text style={styles.sortContainerText}>Created On</Text>
                     {sortMode === "createdAt" && (
                         <MaterialCommunityIcons
                             name="arrow-down"
                             color="blue"
-                            size={16}
-                            style={{ paddingTop: 2 }}
+                            size={18}
+                            style={{ paddingTop: 1, paddingLeft: 5 }}
                         />
                     )}
-                    <Text style={styles.sortContainerText}>Created On</Text>
                 </Ripple>
-            </View>
+            </View> */}
             {!loading && sortMode === "createdAt" && (
                 <FlatList
                     style={{ flex: 1 }}
@@ -208,7 +203,7 @@ export default function Home({ navigation }) {
                     )}
                 />
             )}
-            {!loading2 && sortMode === "priorityIs" && (
+            {/* {!loading2 && sortMode === "priorityIs" && (
                 <FlatList
                     style={{ flex: 1 }}
                     data={tasksList2}
@@ -227,7 +222,7 @@ export default function Home({ navigation }) {
                         <TaskCard navigation={navigation} taskItem={item} />
                     )}
                 />
-            )}
+            )} */}
 
             <View style={styles.syncButtonWrapper}>
                 <TouchableHighlight
@@ -243,7 +238,7 @@ export default function Home({ navigation }) {
                     <Animated.View style={logoStyles}>
                         <MaterialCommunityIcons
                             name="cached"
-                            color="#118086"
+                            color={Colors.accentColor}
                             size={32}
                             style={styles.icon}
                         />
@@ -255,7 +250,7 @@ export default function Home({ navigation }) {
                 <TouchableHighlight
                     style={[
                         styles.button,
-                        { opacity: 0.9, backgroundColor: "#118086" },
+                        { opacity: 0.9, backgroundColor: Colors.accentColor },
                     ]}
                     onPress={() => navigation.navigate("Add New Task")}
                     activeOpacity={0.6}
@@ -281,7 +276,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
     },
     sortContainerText: {
-        color: "#767676",
+        color: Colors.subTextColor,
         fontWeight: "700",
         textAlign: "center",
     },

@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
+import Colors from "../theming/colors";
 
 import { deleteTask } from "../utils/firebase";
 
@@ -50,7 +51,7 @@ export default function TaskItem({ route, navigation }) {
                 >
                     <MaterialCommunityIcons
                         name="pencil"
-                        color="#118086"
+                        color={Colors.accentColor}
                         size={28}
                         style={styles.icon}
                     />
@@ -84,13 +85,13 @@ const styles = StyleSheet.create({
         paddingTop: 15,
         borderRadius: 15,
         backgroundColor: "white",
-        color: "#484848",
+        color: Colors.textColor,
     },
     taskTitle: { fontWeight: "700", fontSize: 36, paddingVertical: 5 },
     taskDate: {
         paddingVertical: 10,
         fontSize: 14,
-        color: "#767676",
+        color: Colors.subTextColor,
     },
     taskContent: {
         fontSize: 18,

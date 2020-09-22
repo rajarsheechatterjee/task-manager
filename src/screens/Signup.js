@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
+import colors from "../theming/colors";
+import Colors from "../theming/colors";
 
 import { checkIfLoggedIn, signupUser } from "../utils/firebase";
 
@@ -64,7 +66,7 @@ export default function SignupScreen({ navigation }) {
                     >
                         <Icon
                             name="angle-right"
-                            color="#118086"
+                            color={Colors.accentColor}
                             size={32}
                             style={styles.icon}
                         />
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
     wrapper: {
         display: "flex",
         flex: 1,
-        backgroundColor: "#118086",
+        backgroundColor: Colors.accentColor,
     },
     scrollViewWrapper: {
         marginTop: 70,

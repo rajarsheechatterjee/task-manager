@@ -1,6 +1,7 @@
 import React from "react";
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
+import Colors from "../theming/colors";
 
 import TaskList from "../screens/TaskList/Tasks";
 import TaskItem from "../screens/TaskItem";
@@ -16,7 +17,7 @@ function StackNavigator() {
                 component={TaskList}
                 options={{
                     headerStyle: {
-                        backgroundColor: "#118086",
+                        backgroundColor: Colors.accentColor,
                     },
                     headerTintColor: "white",
                     headerLeft: false,
@@ -28,7 +29,7 @@ function StackNavigator() {
                 options={{
                     headerTitle: "Task Item",
                     headerStyle: {
-                        backgroundColor: "#118086",
+                        backgroundColor: Colors.accentColor,
                     },
                     headerTintColor: "white",
                 }}
@@ -39,7 +40,7 @@ function StackNavigator() {
                 options={{
                     headerTitle: "Edit Task Details",
                     headerStyle: {
-                        backgroundColor: "#118086",
+                        backgroundColor: Colors.accentColor,
                     },
                     headerTintColor: "white",
                 }}
