@@ -34,7 +34,8 @@
     "react-native-screens": "~2.10.1",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.7",
-    "react-native-windows": "^0.63.2"
+    "react-native-windows": "^0.63.2",
+    "rn-sliding-up-panel": "^2.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
