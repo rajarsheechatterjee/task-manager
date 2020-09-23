@@ -122,9 +122,5 @@ export const updateIsCompleted = async (isCompleted, taskId) => {
         .doc(firebase.auth().currentUser.uid)
         .collection("tasks");
 
-    if (isCompleted) {
-        dbRef.doc(taskId).update({ isCompleted: false });
-    } else {
-        dbRef.doc(taskId).update({ isCompleted: true });
-    }
+    dbRef.doc(taskId).update({ isCompleted: !isCompleted });
 };

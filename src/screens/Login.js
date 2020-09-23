@@ -5,7 +5,7 @@ import {
     View,
     TextInput,
     TouchableHighlight,
-    Alert,
+    ToastAndroid,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -20,6 +20,25 @@ export default function LoginScreen({ navigation }) {
     useEffect(() => {
         checkIfLoggedIn(navigation);
     }, [checkIfLoggedIn]);
+
+    const handleLogin = () => {
+        const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (!re.test(email)) {
+            ToastAndroid.showWithGravity(
+                "Enter a valid email",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+        } else if (password.length < 6) {
+            ToastAndroid.showWithGravity(
+                "Password should be of atleast 6 characters",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+        } else {
+            loginUser(email, password);
+        }
+    };
 
     return (
         <View style={styles.wrapper} behavior="padding">
@@ -62,7 +81,7 @@ export default function LoginScreen({ navigation }) {
                 <View style={styles.buttonWrapper}>
                     <TouchableHighlight
                         style={[{ opacity: 0.6 }, styles.button]}
-                        onPress={() => loginUser(email, password)}
+                        onPress={handleLogin}
                     >
                         <Icon
                             name="angle-right"

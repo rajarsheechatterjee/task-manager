@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -6,79 +6,17 @@ import {
     TouchableHighlight,
     Animated,
     ToastAndroid,
-    Button,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import TaskCard from "./Components/TaskCard";
 import Colors from "../../theming/colors";
 import SlidingUpPanel from "rn-sliding-up-panel";
-import { useHeaderHeight } from "@react-navigation/stack";
-
+import CustomHeader from "./Components/Header";
 import firebase from "../../../firebaseConfig";
 import "firebase/firestore";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ripple from "react-native-material-ripple";
-
-import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
-import { logout } from "../utils/firebase";
-
-const CustomHeader = ({ navigation, handleSlider }) => {
-    _menu = null;
-
-    setMenuRef = (ref) => {
-        _menu = ref;
-    };
-
-    hideMenu = () => {
-        _menu.hide();
-    };
-
-    showMenu = () => {
-        _menu.show();
-    };
-
-    const handleToast = () => {
-        ToastAndroid.show("Succesfully logged out", ToastAndroid.SHORT);
-    };
-
-    return (
-        <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Your Tasks</Text>
-            <View style={{ flexDirection: "row" }}>
-                <MaterialCommunityIcons
-                    name="filter-variant"
-                    color="white"
-                    size={25}
-                    style={{ marginRight: 21 }}
-                    onPress={handleSlider}
-                />
-                <Menu
-                    ref={setMenuRef}
-                    button={
-                        <Text onPress={showMenu}>
-                            <MaterialCommunityIcons
-                                name="dots-vertical"
-                                color="white"
-                                size={25}
-                            />
-                        </Text>
-                    }
-                >
-                    <MenuItem
-                        onPress={() => {
-                            hideMenu();
-                            logout(navigation);
-                            handleToast();
-                        }}
-                    >
-                        Logout
-                    </MenuItem>
-                </Menu>
-            </View>
-        </View>
-    );
-};
 
 export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);
@@ -136,9 +74,9 @@ export default function Home({ navigation }) {
         });
     };
 
+    // Sync button animation & style
     const logoStyles = [styles.logoStyle];
 
-    // Sync button animation
     if (menuToggled !== null) {
         const animation = new Animated.Value(menuToggled ? 0 : 1);
 
@@ -193,74 +131,6 @@ export default function Home({ navigation }) {
                 handleSlider={() => _panel.show()}
             />
             <View style={{ flex: 1, paddingVertical: 5 }}>
-                {/* <View style={styles.sortContainer}>
-                <View style={{ flex: 1, paddingVertical: 7 }}>
-                    <Text style={styles.sortContainerText}>Sort By</Text>
-                </View>
-                <Ripple
-                    onPress={async () => {
-                        handleSortByPriority();
-                    }}
-                    style={{
-                        flex: 1,
-                        paddingHorizontal: 5,
-                        paddingVertical: 7,
-                        flexDirection: "row",
-                    }}
-                >
-                    <Text style={styles.sortContainerText}>Priority</Text>
-                    {sortMode === "priorityIs" && (
-                        <MaterialCommunityIcons
-                            name="arrow-up"
-                            color="blue"
-                            size={18}
-                            style={{ paddingTop: 1, paddingLeft: 5 }}
-                        />
-                    )}
-                </Ripple>
-
-                <Ripple
-                    onPress={async () => {
-                        handleSortByDueAt();
-                    }}
-                    style={{
-                        flex: 1,
-                        paddingHorizontal: 5,
-                        paddingVertical: 7,
-                        flexDirection: "row",
-                    }}
-                >
-                    <Text style={styles.sortContainerText}>Due Time</Text>
-                    {sortMode === "taskTime" && (
-                        <MaterialCommunityIcons
-                            name="arrow-up"
-                            color="blue"
-                            size={18}
-                            style={{ paddingTop: 1, paddingLeft: 5 }}
-                        />
-                    )}
-                </Ripple>
-
-                <Ripple
-                    onPress={() => handleSortByCreatedAt()}
-                    style={{
-                        flex: 1,
-                        paddingHorizontal: 5,
-                        paddingVertical: 7,
-                        flexDirection: "row",
-                    }}
-                >
-                    <Text style={styles.sortContainerText}>Created On</Text>
-                    {sortMode === "createdAt" && (
-                        <MaterialCommunityIcons
-                            name="arrow-down"
-                            color="blue"
-                            size={18}
-                            style={{ paddingTop: 1, paddingLeft: 5 }}
-                        />
-                    )}
-                </Ripple>
-            </View> */}
                 {!loading && sortMode === "createdAt" && (
                     <FlatList
                         style={{ flex: 1 }}
@@ -332,10 +202,9 @@ export default function Home({ navigation }) {
                 </View>
                 <SlidingUpPanel
                     ref={(c) => (_panel = c)}
-                    draggableRange={{ top: 200, bottom: 0 }}
-                    style
+                    draggableRange={{ top: 190, bottom: 0 }}
                 >
-                    <View style={styles.container}>
+                    <View style={styles.sliderContainer}>
                         <Ripple
                             style={{
                                 flex: 1,
@@ -354,7 +223,7 @@ export default function Home({ navigation }) {
                                 {sortMode === "createdAt" && (
                                     <MaterialCommunityIcons
                                         name="arrow-down"
-                                        color="blue"
+                                        color={Colors.accentColor}
                                         size={20}
                                         style={{
                                             marginLeft: 7,
@@ -370,9 +239,7 @@ export default function Home({ navigation }) {
                                 justifyContent: "center",
                                 paddingHorizontal: 20,
                             }}
-                            onPress={() => {
-                                handleSortByPriority();
-                            }}
+                            onPress={handleSortByPriority}
                         >
                             <View style={{ flexDirection: "row" }}>
                                 <Text style={{ fontSize: 14 }}>
@@ -381,7 +248,7 @@ export default function Home({ navigation }) {
                                 {sortMode === "priorityIs" && (
                                     <MaterialCommunityIcons
                                         name="arrow-down"
-                                        color="blue"
+                                        color={Colors.accentColor}
                                         size={20}
                                         style={{
                                             marginLeft: 7,
@@ -397,9 +264,7 @@ export default function Home({ navigation }) {
                                 justifyContent: "center",
                                 paddingHorizontal: 20,
                             }}
-                            onPress={() => {
-                                handleSortByDueAt();
-                            }}
+                            onPress={handleSortByDueAt}
                         >
                             <View style={{ flexDirection: "row" }}>
                                 <Text style={{ fontSize: 14 }}>
@@ -408,7 +273,7 @@ export default function Home({ navigation }) {
                                 {sortMode === "taskTime" && (
                                     <MaterialCommunityIcons
                                         name="arrow-up"
-                                        color="blue"
+                                        color={Colors.accentColor}
                                         size={20}
                                         style={{
                                             marginLeft: 7,
@@ -425,8 +290,8 @@ export default function Home({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        height: 200,
+    sliderContainer: {
+        height: 190,
         backgroundColor: "white",
         flexDirection: "column",
     },
@@ -462,18 +327,6 @@ const styles = StyleSheet.create({
     icon: {
         marginRight: -2,
         marginTop: -2,
-    },
-    headerContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        height: 56,
-        backgroundColor: Colors.accentColor,
-        padding: 15,
-    },
-    headerText: {
-        color: "white",
-        fontSize: 20,
-        fontWeight: "bold",
     },
     rippleCont: {},
 });

@@ -8,7 +8,7 @@ import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function TaskItem({ route, navigation }) {
-    const taskItem = route.params;
+    const { id, taskTitle, taskContent, taskTime, isCompleted } = route.params;
 
     return (
         <View style={{ flex: 1 }}>
@@ -20,8 +20,8 @@ export default function TaskItem({ route, navigation }) {
                     }}
                 >
                     <Text style={styles.taskTitle}>
-                        {taskItem.taskTitle}{" "}
-                        {taskItem.isCompleted && (
+                        {taskTitle}{" "}
+                        {isCompleted && (
                             <MaterialCommunityIcons
                                 name="check-all"
                                 color="green"
@@ -33,19 +33,19 @@ export default function TaskItem({ route, navigation }) {
                 </View>
                 <View>
                     <Text style={styles.taskDate}>
-                        {moment(taskItem.createdAt.toDate()).calendar()}
+                        Due {moment(taskTime).calendar()}
                     </Text>
                 </View>
                 <View>
-                    <Text style={styles.taskContent}>
-                        {taskItem.taskContent}
-                    </Text>
+                    <Text style={styles.taskContent}>{taskContent}</Text>
                 </View>
             </View>
             <View style={styles.editTaskButton}>
                 <TouchableHighlight
                     style={[{ opacity: 1 }, styles.button]}
-                    onPress={() => navigation.navigate("EditTask", taskItem)}
+                    onPress={() =>
+                        navigation.navigate("EditTask", route.params)
+                    }
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                 >
@@ -60,7 +60,7 @@ export default function TaskItem({ route, navigation }) {
             <View style={styles.deleteButtonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 1 }, styles.button]}
-                    onPress={() => deleteTask(navigation, taskItem.id)}
+                    onPress={() => deleteTask(navigation, id)}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                 >

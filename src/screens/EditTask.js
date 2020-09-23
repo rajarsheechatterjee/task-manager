@@ -4,7 +4,7 @@ import {
     Text,
     View,
     TextInput,
-    TouchableHighlight,
+    ToastAndroid,
     TouchableOpacity,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
@@ -58,16 +58,26 @@ export default function EditTask({ route, navigation }) {
         setIsVisible(false);
     };
 
-    const handleEditTask = () => {
-        updateTask(
-            navigation,
-            taskItem.id,
-            newTaskTitle,
-            chosenDate,
-            newTaskContent,
-            priorityIs,
-            isChecked
-        );
+    const handleEditTask = async () => {
+        if (newTaskTitle === "") {
+            ToastAndroid.show("Task title is empty", ToastAndroid.SHORT);
+        } else if (newTaskContent === "") {
+            ToastAndroid.show("Task content is empty", ToastAndroid.SHORT);
+        } else if (chosenDate === "") {
+            ToastAndroid.show("Task time is empty", ToastAndroid.SHORT);
+        } else {
+            await updateTask(
+                navigation,
+                taskItem.id,
+                newTaskTitle,
+                chosenDate,
+                newTaskContent,
+                priorityIs,
+                isChecked
+            );
+
+            ToastAndroid.show("Task Updated", ToastAndroid.SHORT);
+        }
     };
 
     return (

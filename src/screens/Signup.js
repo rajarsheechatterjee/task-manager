@@ -5,6 +5,7 @@ import {
     View,
     TextInput,
     TouchableHighlight,
+    ToastAndroid,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -16,6 +17,25 @@ import { checkIfLoggedIn, signupUser } from "../utils/firebase";
 export default function SignupScreen({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const handleSignup = () => {
+        const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (!re.test(email)) {
+            ToastAndroid.showWithGravity(
+                "Enter a valid email",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+        } else if (password.length < 6) {
+            ToastAndroid.showWithGravity(
+                "Password should be of atleast 6 characters",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+        } else {
+            signupUser(email, password);
+        }
+    };
 
     useEffect(() => {
         checkIfLoggedIn(navigation);
@@ -62,7 +82,7 @@ export default function SignupScreen({ navigation }) {
                 <View style={styles.buttonWrapper}>
                     <TouchableHighlight
                         style={[{ opacity: 0.6 }, styles.button]}
-                        onPress={() => signupUser(email, password)}
+                        onPress={handleSignup}
                     >
                         <Icon
                             name="angle-right"

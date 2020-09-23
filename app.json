@@ -22,7 +22,7 @@
         },
         "android": {
             "package": "com.rajarsheechatterjee.shigoto",
-            "versionCode": 2
+            "versionCode": 3
         },
         "web": {
             "favicon": "./assets/favicon.png"

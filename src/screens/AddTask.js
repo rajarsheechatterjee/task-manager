@@ -31,19 +31,27 @@ export default function Home({ navigation }) {
     const [chosenDate, setChosenDate] = useState("");
 
     const handleAddTask = async () => {
-        await addTask(
-            navigation,
-            newTaskTitle,
-            chosenDate,
-            newTaskContent,
-            priorityIs
-        );
+        if (newTaskTitle === "") {
+            ToastAndroid.show("Task title is empty", ToastAndroid.SHORT);
+        } else if (newTaskContent === "") {
+            ToastAndroid.show("Task content is empty", ToastAndroid.SHORT);
+        } else if (chosenDate === "") {
+            ToastAndroid.show("Task time is empty", ToastAndroid.SHORT);
+        } else {
+            await addTask(
+                navigation,
+                newTaskTitle,
+                chosenDate,
+                newTaskContent,
+                priorityIs
+            );
 
-        ToastAndroid.show("Task Added", ToastAndroid.SHORT);
+            ToastAndroid.show("Task Added", ToastAndroid.SHORT);
 
-        setNewTaskTitle("");
-        setNewTaskContent("");
-        setChosenDate("");
+            setNewTaskTitle("");
+            setNewTaskContent("");
+            setChosenDate("");
+        }
     };
 
     const handlePicker = (datetime) => {
