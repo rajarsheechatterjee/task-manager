@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 7,
         borderRadius: 15,
         paddingVertical: 9,
-        elevation: 3,
+        elevation: 2,
     },
     taskItemTitle: {
         paddingTop: 10,

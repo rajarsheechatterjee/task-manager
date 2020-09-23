@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
@@ -7,6 +7,7 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     ToastAndroid,
+    Alert,
 } from "react-native";
 import Button from "../components/Button";
 import { CheckBox } from "react-native-elements";
@@ -59,19 +60,15 @@ export default function Home({ navigation }) {
         setIsVisible(false);
     };
 
-    const handleSMS = async () => {
-        const isAvailable = await SMS.isAvailableAsync();
-        if (isAvailable) {
-            const { result } = await SMS.sendSMSAsync(
-                ["7982548300", "9654294131"],
-                "You have been added as a collaborator"
-            );
-        }
-    };
-
-    const handleToast = () => {
-        ToastAndroid.show("Succesfully logged out", ToastAndroid.SHORT);
-    };
+    // const handleSMS = async () => {
+    //     const isAvailable = await SMS.isAvailableAsync();
+    //     if (isAvailable) {
+    //         const { result } = await SMS.sendSMSAsync(
+    //             ["7982548300", "9654294131"],
+    //             "You have been added as a collaborator"
+    //         );
+    //     }
+    // };
 
     return (
         <View style={styles.mainContainer}>
@@ -165,7 +162,7 @@ export default function Home({ navigation }) {
 
             <Button onPress={handleAddTask} title="Add Task" />
 
-            <View style={styles.buttonWrapper}>
+            {/* <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
                     onPress={() => {
@@ -182,7 +179,7 @@ export default function Home({ navigation }) {
                         style={styles.icon}
                     />
                 </TouchableHighlight>
-            </View>
+            </View> */}
         </View>
     );
 }
