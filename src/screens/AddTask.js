@@ -19,7 +19,7 @@ import { logout, addTask, getTasks } from "../utils/firebase";
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { color } from "react-native-reanimated";
+import Ripple from "react-native-material-ripple";
 
 export default function Home({ navigation }) {
     const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -69,6 +69,10 @@ export default function Home({ navigation }) {
         }
     };
 
+    const handleToast = () => {
+        ToastAndroid.show("Succesfully logged out", ToastAndroid.SHORT);
+    };
+
     return (
         <View style={styles.mainContainer}>
             <Text style={styles.screenHeader}>Add a New Task</Text>
@@ -89,15 +93,11 @@ export default function Home({ navigation }) {
                     defaultValue={chosenDate}
                     editable={false}
                 />
-                <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={styles.datePicker}
-                    onPress={() => showPicker()}
-                >
+                <Ripple style={styles.datePicker} onPress={() => showPicker()}>
                     <Text numberOfLines={1} style={styles.datePickerText}>
                         Pick Date & Time
                     </Text>
-                </TouchableOpacity>
+                </Ripple>
                 <DateTimePickerModal
                     isVisible={isVisible}
                     onConfirm={handlePicker}
@@ -168,7 +168,10 @@ export default function Home({ navigation }) {
             <View style={styles.buttonWrapper}>
                 <TouchableHighlight
                     style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => logout(navigation)}
+                    onPress={() => {
+                        logout(navigation);
+                        handleToast();
+                    }}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
                 >

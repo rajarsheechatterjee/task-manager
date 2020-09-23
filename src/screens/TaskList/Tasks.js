@@ -19,11 +19,11 @@ import Ripple from "react-native-material-ripple";
 
 export default function Home({ navigation }) {
     const [tasksList, setTasksList] = useState([]);
-    const [tasksList2, setTasksList2] = useState([]);
-    const [tasksList3, setTasksList3] = useState([]);
+    // const [tasksList2, setTasksList2] = useState([]);
+    // const [tasksList3, setTasksList3] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [loading2, setLoading2] = useState(true);
-    const [loading3, setLoading3] = useState(true);
+    // const [loading2, setLoading2] = useState(true);
+    // const [loading3, setLoading3] = useState(true);
     const [menuToggled, setMenuToggled] = useState(false);
     const [sortMode, setSortMode] = useState("createdAt");
     const [sortOrder, setSortOrder] = useState("desc");
@@ -247,14 +247,12 @@ export default function Home({ navigation }) {
             </View>
 
             <View style={styles.buttonWrapper}>
-                <TouchableHighlight
+                <Ripple
                     style={[
                         styles.button,
-                        { opacity: 0.9, backgroundColor: Colors.accentColor },
+                        { backgroundColor: Colors.accentColor },
                     ]}
                     onPress={() => navigation.navigate("Add New Task")}
-                    activeOpacity={0.6}
-                    underlayColor="#085f63"
                 >
                     <MaterialCommunityIcons
                         name="plus"
@@ -262,7 +260,7 @@ export default function Home({ navigation }) {
                         size={32}
                         style={styles.icon}
                     />
-                </TouchableHighlight>
+                </Ripple>
             </View>
         </View>
     );

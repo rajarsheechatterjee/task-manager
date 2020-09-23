@@ -9,9 +9,14 @@ import taskListStack from "./taskListStackNavigator";
 
 const Tab = createBottomTabNavigator();
 
-function tabNavigator() {
+function tabNavigator({ navigation }) {
     return (
-        <Tab.Navigator tabBarOptions={{ activeTintColor: Colors.accentColor }}>
+        <Tab.Navigator
+            tabBarOptions={{
+                activeTintColor: Colors.accentColor,
+                keyboardHidesTabBar: true,
+            }}
+        >
             <Tab.Screen
                 name="Your Tasks"
                 component={taskListStack}

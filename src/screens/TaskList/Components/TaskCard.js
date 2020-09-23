@@ -8,6 +8,7 @@ import { priorityColor } from "../../utils/priority";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ripple from "react-native-material-ripple";
 
 export default function TaskCard({ taskItem, navigation }) {
     return (
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 7,
         borderRadius: 15,
         paddingVertical: 9,
-        elevation: 2,
+        elevation: 3,
     },
     taskItemTitle: {
         paddingTop: 10,

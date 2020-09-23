@@ -2,17 +2,15 @@ import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import Colors from "../theming/colors";
 
+import Ripple from "react-native-material-ripple";
+
 export default function Button({ onPress, title }) {
     return (
-        <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.button}
-            onPress={() => onPress()}
-        >
+        <Ripple style={styles.button} onPress={() => onPress()}>
             <Text numberOfLines={1} style={styles.buttonTitle}>
                 {title}
             </Text>
-        </TouchableOpacity>
+        </Ripple>
     );
 }
 
