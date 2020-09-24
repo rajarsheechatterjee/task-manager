@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, ToastAndroid } from "react-native";
 import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
 import { logout } from "../utils/firebase";
 import Colors from "../../../theming/colors";
+import Ripple from "react-native-material-ripple";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Header = ({ navigation, handleSlider }) => {
@@ -27,24 +28,32 @@ const Header = ({ navigation, handleSlider }) => {
     return (
         <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Your Tasks</Text>
-            <View style={{ flexDirection: "row" }}>
+            <Ripple
+                onPress={handleSlider}
+                style={styles.filterContainer}
+                rippleContainerBorderRadius={50}
+                rippleCentered={true}
+            >
                 <MaterialCommunityIcons
                     name="filter-variant"
                     color="white"
-                    size={25}
-                    style={{ marginRight: 21 }}
-                    onPress={handleSlider}
+                    size={28}
                 />
+            </Ripple>
+            <Ripple
+                onPress={showMenu}
+                rippleContainerBorderRadius={50}
+                style={styles.menuContainer}
+                rippleCentered={true}
+            >
                 <Menu
                     ref={setMenuRef}
                     button={
-                        <Text onPress={showMenu}>
-                            <MaterialCommunityIcons
-                                name="dots-vertical"
-                                color="white"
-                                size={25}
-                            />
-                        </Text>
+                        <MaterialCommunityIcons
+                            name="dots-vertical"
+                            color="white"
+                            size={28}
+                        />
                     }
                 >
                     <MenuItem
@@ -57,7 +66,7 @@ const Header = ({ navigation, handleSlider }) => {
                         Logout
                     </MenuItem>
                 </Menu>
-            </View>
+            </Ripple>
         </View>
     );
 };
@@ -74,6 +83,18 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 20,
         fontWeight: "bold",
+    },
+    filterContainer: {
+        position: "absolute",
+        right: 58,
+        top: 10,
+        padding: 5,
+    },
+    menuContainer: {
+        position: "absolute",
+        right: 10,
+        top: 10,
+        padding: 5,
     },
 });
 

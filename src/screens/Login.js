@@ -5,7 +5,7 @@ import {
     View,
     TextInput,
     TouchableHighlight,
-    ToastAndroid,
+    ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -16,28 +16,18 @@ import { checkIfLoggedIn, loginUser } from "../utils/firebase";
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         checkIfLoggedIn(navigation);
     }, [checkIfLoggedIn]);
 
     const handleLogin = () => {
-        const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (!re.test(email)) {
-            ToastAndroid.showWithGravity(
-                "Enter a valid email",
-                ToastAndroid.SHORT,
-                ToastAndroid.CENTER
-            );
-        } else if (password.length < 6) {
-            ToastAndroid.showWithGravity(
-                "Password should be of atleast 6 characters",
-                ToastAndroid.SHORT,
-                ToastAndroid.CENTER
-            );
-        } else {
-            loginUser(email, password);
-        }
+        loginUser(email, password);
+        setLoading(true);
+        setTimeout(function () {
+            setLoading(false);
+        }, 3000);
     };
 
     return (
@@ -77,6 +67,21 @@ export default function LoginScreen({ navigation }) {
                     >
                         Dont have an account? Create one
                     </Text>
+                    <View
+                        style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "space-around",
+                            padding: 10,
+                            marginTop: 20,
+                        }}
+                    >
+                        <ActivityIndicator
+                            size="large"
+                            color="white"
+                            animating={loading}
+                        />
+                    </View>
                 </ScrollView>
                 <View style={styles.buttonWrapper}>
                     <TouchableHighlight

@@ -1,5 +1,6 @@
 import firebase from "../../firebaseConfig";
 import "firebase/firestore";
+import { Alert } from "react-native";
 
 export const checkIfLoggedIn = (navigation) => {
     firebase.auth().onAuthStateChanged(function (user) {
@@ -11,7 +12,12 @@ export const checkIfLoggedIn = (navigation) => {
 
 export const loginUser = async (email, password) => {
     try {
-        await firebase.auth().signInWithEmailAndPassword(email, password);
+        await firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .catch((error) => {
+                Alert.alert(error.message);
+            });
     } catch (error) {
         console.log(error.toString());
     }
@@ -29,6 +35,9 @@ export const signupUser = async (email, password) => {
                     userUid: userUid,
                     userEmail: email,
                 });
+            })
+            .catch((error) => {
+                Alert.alert(error.message);
             });
     } catch (error) {
         console.log(error.toString());
