@@ -8,18 +8,20 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
-import Button from "../components/Button";
+import Colors from "../theming/colors";
 
+// Firebase functions
 import { updateTask } from "../utils/firebase";
 
-import firebase from "../../firebaseConfig";
-import "firebase/firestore";
+//Custom components
+import Button from "../components/Button";
 
 import moment from "moment";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function EditTask({ route, navigation }) {
     const taskItem = route.params;
+
     const [newTaskTitle, setNewTaskTitle] = useState(taskItem.taskTitle);
     const [newTaskContent, setNewTaskContent] = useState(taskItem.taskContent);
     const [isChecked, setIsChecked] = useState(taskItem.isCompleted);
@@ -29,21 +31,9 @@ export default function EditTask({ route, navigation }) {
 
     const [priorityIs, setPriorityIs] = useState(taskItem.priorityIs);
 
-    function updateIsCompleted(isChecked, taskId) {
-        const dbRef = firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks");
-
-        if (isChecked) {
-            dbRef.doc(taskId).update({ isCompleted: false });
-            setIsChecked(false);
-        } else {
-            dbRef.doc(taskId).update({ isCompleted: true });
-            setIsChecked(true);
-        }
-    }
+    const handleIsCompleted = (isChecked) => {
+        setIsChecked(!isChecked);
+    };
 
     const handlePicker = (datetime) => {
         setChosenDate(moment(datetime).format("YYYY-MM-DD HH:mm"));
@@ -180,7 +170,7 @@ export default function EditTask({ route, navigation }) {
                     checkedIcon="dot-circle-o"
                     uncheckedIcon="circle-o"
                     checked={isChecked}
-                    onPress={() => updateIsCompleted(isChecked, taskItem.id)}
+                    onPress={() => handleIsCompleted(isChecked)}
                     containerStyle={styles.checkBox}
                 />
             </View>
@@ -254,7 +244,7 @@ const styles = StyleSheet.create({
     datePicker: {
         width: "40%",
         elevation: 8,
-        backgroundColor: "#118086",
+        backgroundColor: Colors.accentColor,
         borderRadius: 10,
         paddingVertical: 12,
         paddingHorizontal: 13,
@@ -262,7 +252,7 @@ const styles = StyleSheet.create({
     },
     addTaskButton: {
         elevation: 8,
-        backgroundColor: "#118086",
+        backgroundColor: Colors.accentColor,
         borderRadius: 10,
         paddingVertical: 12,
         paddingHorizontal: 13,

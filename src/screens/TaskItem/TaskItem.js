@@ -2,7 +2,9 @@ import React from "react";
 import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 import Colors from "../theming/colors";
 
-import { deleteTask } from "../utils/firebase";
+// Custom components
+import DeleteButton from "./Components/DeleteTaskButton";
+import EditButton from "./Components/EditTaskButton";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -40,38 +42,8 @@ export default function TaskItem({ route, navigation }) {
                     <Text style={styles.taskContent}>{taskContent}</Text>
                 </View>
             </View>
-            <View style={styles.editTaskButton}>
-                <TouchableHighlight
-                    style={[{ opacity: 1 }, styles.button]}
-                    onPress={() =>
-                        navigation.navigate("EditTask", route.params)
-                    }
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
-                >
-                    <MaterialCommunityIcons
-                        name="pencil"
-                        color={Colors.accentColor}
-                        size={28}
-                        style={styles.icon}
-                    />
-                </TouchableHighlight>
-            </View>
-            <View style={styles.deleteButtonWrapper}>
-                <TouchableHighlight
-                    style={[{ opacity: 1 }, styles.button]}
-                    onPress={() => deleteTask(navigation, id)}
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
-                >
-                    <MaterialCommunityIcons
-                        name="trash-can-outline"
-                        color="#E53935"
-                        size={28}
-                        style={styles.icon}
-                    />
-                </TouchableHighlight>
-            </View>
+            <EditButton navigation={navigation} taskItem={route.params} />
+            <DeleteButton navigation={navigation} taskId={id} />
         </View>
     );
 }
@@ -87,7 +59,12 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         color: Colors.textColor,
     },
-    taskTitle: { fontWeight: "700", fontSize: 36, paddingVertical: 5 },
+    taskTitle: {
+        fontWeight: "700",
+        fontSize: 36,
+        paddingTop: 5,
+        paddingBottom: 10,
+    },
     taskDate: {
         paddingVertical: 10,
         fontSize: 14,
@@ -96,27 +73,5 @@ const styles = StyleSheet.create({
     taskContent: {
         fontSize: 18,
         lineHeight: 29,
-    },
-    editTaskButton: {
-        position: "absolute",
-        bottom: 20,
-        right: 20,
-    },
-    deleteButtonWrapper: {
-        position: "absolute",
-        bottom: 20,
-        left: 20,
-    },
-    button: {
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 50,
-        width: 60,
-        height: 60,
-        backgroundColor: "white",
-    },
-    icon: {
-        marginRight: -2,
-        marginTop: -2,
     },
 });

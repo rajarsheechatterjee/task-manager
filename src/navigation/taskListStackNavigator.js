@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Colors from "../theming/colors";
 
 import TaskList from "../screens/TaskList/Tasks";
-import TaskItem from "../screens/TaskItem";
+import TaskItem from "../screens/TaskItem/TaskItem";
 import EditTask from "../screens/EditTask";
 
 const Stack = createStackNavigator();

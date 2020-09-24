@@ -1,8 +1,9 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import Colors from "../../../theming/colors";
+
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Colors from "../../../theming/colors";
 import Ripple from "react-native-material-ripple";
 
 const SlideUpPanel = ({
