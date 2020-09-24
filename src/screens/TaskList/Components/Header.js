@@ -1,8 +1,11 @@
 import React from "react";
 import { StyleSheet, View, Text, ToastAndroid } from "react-native";
-import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
-import { logout } from "../utils/firebase";
 import Colors from "../../../theming/colors";
+
+// Firebase functions
+import { logout } from "../utils/firebase";
+
+import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
 import Ripple from "react-native-material-ripple";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
