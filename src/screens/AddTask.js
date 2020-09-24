@@ -4,8 +4,6 @@ import {
     Text,
     View,
     TextInput,
-    TouchableHighlight,
-    TouchableOpacity,
     ToastAndroid,
     Alert,
 } from "react-native";
@@ -15,10 +13,9 @@ import Colors from "../theming/colors";
 
 import * as SMS from "expo-sms";
 
-import { logout, addTask, getTasks } from "../utils/firebase";
+import { addTask } from "../utils/firebase";
 
 import moment from "moment";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Ripple from "react-native-material-ripple";
 
@@ -82,15 +79,17 @@ export default function Home({ navigation }) {
         <View style={styles.mainContainer}>
             <Text style={styles.screenHeader}>Add a New Task</Text>
 
+            {/* Task title input */}
             <View>
                 <TextInput
-                    // defaultValue={newTaskTitle}
                     style={[styles.txtinpt, styles.txtInputTitle]}
                     onChangeText={(text) => setNewTaskTitle(text)}
                     placeholder="Task Title"
                     defaultValue={newTaskTitle}
                 />
             </View>
+
+            {/* Task reminder time picker */}
             <View style={{ flexDirection: "row" }}>
                 <TextInput
                     style={[{ width: "59%", marginRight: 5 }, styles.txtinpt]}
@@ -111,16 +110,19 @@ export default function Home({ navigation }) {
                     is24Hour={false}
                 />
             </View>
+
+            {/* Task content input */}
             <View>
                 <TextInput
                     multiline={true}
-                    // minHeight={60}
                     style={styles.txtinpt}
                     onChangeText={(text) => setNewTaskContent(text)}
                     placeholder="Content"
                     defaultValue={newTaskContent}
                 />
             </View>
+
+            {/* Set priority checkboxes */}
             <View>
                 <View>
                     <Text style={styles.taskStatus}>Task Priority</Text>
@@ -167,27 +169,7 @@ export default function Home({ navigation }) {
                     />
                 </View>
             </View>
-
             <Button onPress={handleAddTask} title="Add Task" />
-
-            {/* <View style={styles.buttonWrapper}>
-                <TouchableHighlight
-                    style={[{ opacity: 0.8 }, styles.button]}
-                    onPress={() => {
-                        logout(navigation);
-                        handleToast();
-                    }}
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
-                >
-                    <MaterialCommunityIcons
-                        name="logout-variant"
-                        color={Colors.accentColor}
-                        size={28}
-                        style={styles.icon}
-                    />
-                </TouchableHighlight>
-            </View> */}
         </View>
     );
 }

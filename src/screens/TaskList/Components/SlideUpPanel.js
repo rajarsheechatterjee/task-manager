@@ -30,7 +30,7 @@ const SlideUpPanel = ({
                     onPress={handleSortByCreatedAt}
                 >
                     <View style={{ flexDirection: "row" }}>
-                        <Text style={{ fontSize: 14 }}>Sort By Created At</Text>
+                        <Text style={styles.sortText}>Sort By Created At</Text>
                         {sortMode === "createdAt" && (
                             <MaterialCommunityIcons
                                 name="arrow-down"
@@ -54,7 +54,7 @@ const SlideUpPanel = ({
                     onPress={handleSortByPriority}
                 >
                     <View style={{ flexDirection: "row" }}>
-                        <Text style={{ fontSize: 14 }}>Sort By Priority</Text>
+                        <Text style={styles.sortText}>Sort By Priority</Text>
                         {sortMode === "priorityIs" && (
                             <MaterialCommunityIcons
                                 name="arrow-down"
@@ -78,7 +78,7 @@ const SlideUpPanel = ({
                     onPress={handleSortByDueAt}
                 >
                     <View style={{ flexDirection: "row" }}>
-                        <Text style={{ fontSize: 14 }}>Sort By Due At</Text>
+                        <Text style={styles.sortText}>Sort By Due At</Text>
                         {sortMode === "taskTime" && (
                             <MaterialCommunityIcons
                                 name="arrow-up"
@@ -103,5 +103,8 @@ const styles = StyleSheet.create({
         height: 190,
         backgroundColor: "white",
         flexDirection: "column",
+    },
+    sortText: {
+        fontSize: 14,
     },
 });

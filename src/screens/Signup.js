@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
-import colors from "../theming/colors";
 import Colors from "../theming/colors";
 
 import { checkIfLoggedIn, signupUser } from "../utils/firebase";
