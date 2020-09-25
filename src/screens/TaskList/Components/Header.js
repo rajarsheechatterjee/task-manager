@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ToastAndroid } from "react-native";
 import Colors from "../../../theming/colors";
 
 // Firebase functions
-import { logout } from "../utils/firebase";
+import { logout } from "../../../utils/firebase";
 import { Appbar } from "react-native-paper";
 const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
 import { Button, Menu, Divider, Provider } from "react-native-paper";

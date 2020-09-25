@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
 import { CheckBox } from "react-native-elements";
 import Colors from "../../../theming/colors";
 
-import { updateIsCompleted } from "../../utils/firebase";
-import { priorityColor } from "../../utils/priority";
+import { updateIsCompleted } from "../../../utils/firebase";
+import { priorityColor } from "../../../utils/priority";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";

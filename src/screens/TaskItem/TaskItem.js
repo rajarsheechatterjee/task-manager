@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
-import Colors from "../theming/colors";
+import Colors from "../../theming/colors";
 import { FAB, Portal, Provider } from "react-native-paper";
 
 // Custom components
 import DeleteButton from "./Components/DeleteTaskButton";
 import EditButton from "./Components/EditTaskButton";
-import { deleteTask } from "../utils/firebase";
+import { deleteTask } from "../../utils/firebase";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";

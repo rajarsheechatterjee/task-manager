@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableHighlight } from "react-native";
 import Colors from "../../../theming/colors";
 
 // Firebase functions
-import { deleteTask } from "../utils/firebase";
+import { deleteTask } from "../../../utils/firebase";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ripple from "react-native-material-ripple";

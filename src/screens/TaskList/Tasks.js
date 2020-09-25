@@ -149,13 +149,6 @@ export default function Home({ navigation }) {
                         )}
                     />
                 )}
-
-                {/* <SyncButton
-                    handleSync={handleSyncButton}
-                    menuToggled={menuToggled}
-                />
-                <AddTaskButton navigation={navigation} /> */}
-
                 <Portal>
                     <FAB.Group
                         open={open}

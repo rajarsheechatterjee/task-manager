@@ -6,10 +6,12 @@ import * as Linking from "expo-linking";
 export default function About() {
     return (
         <List.Section style={{ marginTop: 0 }}>
-            <TouchableRipple onPress={() => console.log("XDD")}>
+            <TouchableRipple>
                 <List.Item title="Version" description="Stable 0.2.1" />
             </TouchableRipple>
-            <List.Item title="Build Time" description="25/09/20 8:00 PM" />
+            <TouchableRipple>
+                <List.Item title="Build Time" description="25/09/20 8:00 PM" />
+            </TouchableRipple>
             <Divider />
             <TouchableRipple
                 onPress={() =>
