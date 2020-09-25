@@ -11,7 +11,7 @@ import { Button, Menu, Divider, Provider } from "react-native-paper";
 import Ripple from "react-native-material-ripple";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const Header = ({ navigation, handleSlider }) => {
+const Header = ({ navigation, handleSlider, handleSync }) => {
     const [visible, setVisible] = React.useState(false);
 
     const openMenu = () => setVisible(true);
@@ -32,6 +32,7 @@ const Header = ({ navigation, handleSlider }) => {
                 icon="filter-variant"
                 onPress={() => handleSlider()}
             />
+            <Appbar.Action icon="cached" onPress={() => handleSync()} />
 
             <Menu
                 visible={visible}

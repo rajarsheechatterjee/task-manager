@@ -61,6 +61,11 @@ export default function TaskItem({ route, navigation }) {
                         icon={open ? "dots-vertical" : "dots-horizontal"}
                         actions={[
                             {
+                                icon: "share-variant",
+                                color: Colors.accentColor,
+                                label: "Share",
+                            },
+                            {
                                 icon: "trash-can-outline",
                                 color: "#E53935",
                                 label: "Delete",

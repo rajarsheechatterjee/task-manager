@@ -58,13 +58,13 @@ export default function TaskCard({ taskItem, navigation }) {
                     />
                 </View>
                 <View style={styles.buttonWrapper3}>
-                    <TouchableHighlight
-                        style={[{ opacity: 1 }, styles.button2]}
+                    <Ripple
+                        style={styles.button2}
+                        rippleContainerBorderRadius={50}
+                        rippleCentered={true}
                         onPress={() =>
                             navigation.navigate("TaskItem", taskItem)
                         }
-                        activeOpacity={0.6}
-                        underlayColor="#DDDDDD"
                     >
                         <MaterialCommunityIcons
                             name="chevron-right"
@@ -72,7 +72,7 @@ export default function TaskCard({ taskItem, navigation }) {
                             size={30}
                             style={styles.icon}
                         />
-                    </TouchableHighlight>
+                    </Ripple>
                 </View>
             </View>
         </View>

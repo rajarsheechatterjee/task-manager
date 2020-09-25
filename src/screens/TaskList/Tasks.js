@@ -119,6 +119,7 @@ export default function Home({ navigation }) {
             <CustomHeader
                 navigation={navigation}
                 handleSlider={() => _panel.show()}
+                handleSync={handleSyncButton}
             />
             <View style={styles.flatListContainer}>
                 {!loading && sortMode === "createdAt" && (
@@ -170,12 +171,18 @@ export default function Home({ navigation }) {
                             },
                             {
                                 icon: "plus",
+                                color: Colors.accentColor,
                                 label: "Add Task",
                                 onPress: () =>
                                     navigation.navigate("Add New Task"),
                             },
                         ]}
                         onStateChange={onStateChange}
+                        onPress={() => {
+                            if (!open) {
+                                handleSyncButton();
+                            }
+                        }}
                     />
                 </Portal>
 

@@ -20,6 +20,7 @@ export default function More({ navigation }) {
                     rippleColor="rgba(0, 0, 0, 0.2)"
                 >
                     <List.Item
+                        style={{ paddingVertical: 5 }}
                         title="Settings"
                         left={() => (
                             <List.Icon
@@ -34,6 +35,7 @@ export default function More({ navigation }) {
                     rippleColor="rgba(0, 0, 0, 0.2)"
                 >
                     <List.Item
+                        style={{ paddingVertical: 5 }}
                         title="About"
                         left={() => (
                             <List.Icon
