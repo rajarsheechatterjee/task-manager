@@ -6,7 +6,7 @@ import Colors from "../theming/colors";
 
 import addTaskStack from "./addTaskNavigator";
 import taskListStack from "./taskListStackNavigator";
-import More from "../screens/More";
+import More from "./moreStackNavigator";
 
 const Tab = createMaterialBottomTabNavigator();
 

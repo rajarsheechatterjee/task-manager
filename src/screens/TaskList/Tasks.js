@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, ToastAndroid, FlatList } from "react-native";
-
+import { Provider, Portal, FAB } from "react-native-paper";
 // Firebase
 import firebase from "../../../firebaseConfig";
 import "firebase/firestore";
@@ -11,6 +11,7 @@ import TaskCard from "./Components/TaskCard";
 import SlideUpPanel from "./Components/SlideUpPanel";
 import SyncButton from "./Components/SyncButton";
 import AddTaskButton from "./Components/AddTaskButton";
+import Colors from "../../theming/colors";
 
 export default function Home({ navigation }) {
     // List of tasks
@@ -29,6 +30,12 @@ export default function Home({ navigation }) {
     // Set sort mode and order
     const [sortMode, setSortMode] = useState("createdAt");
     const [sortOrder, setSortOrder] = useState("desc");
+
+    const [state, setState] = useState({ open: false });
+
+    const onStateChange = ({ open }) => setState({ open });
+
+    const { open } = state;
 
     /**
      * TODO render single flatlist for all sort methods
@@ -108,7 +115,7 @@ export default function Home({ navigation }) {
 
     const handleRef = (c) => (_panel = c);
     return (
-        <>
+        <Provider>
             <CustomHeader
                 navigation={navigation}
                 handleSlider={() => _panel.show()}
@@ -142,11 +149,35 @@ export default function Home({ navigation }) {
                     />
                 )}
 
-                <SyncButton
+                {/* <SyncButton
                     handleSync={handleSyncButton}
                     menuToggled={menuToggled}
                 />
-                <AddTaskButton navigation={navigation} />
+                <AddTaskButton navigation={navigation} /> */}
+
+                <Portal>
+                    <FAB.Group
+                        open={open}
+                        color="white"
+                        fabStyle={{ backgroundColor: Colors.accentColor }}
+                        icon={open ? "sync" : "plus"}
+                        actions={[
+                            {
+                                icon: "sync",
+                                color: Colors.accentColor,
+                                label: "Sync Tasks",
+                                onPress: () => handleSyncButton(),
+                            },
+                            {
+                                icon: "plus",
+                                label: "Add Task",
+                                onPress: () =>
+                                    navigation.navigate("Add New Task"),
+                            },
+                        ]}
+                        onStateChange={onStateChange}
+                    />
+                </Portal>
 
                 <SlideUpPanel
                     handleSortByCreatedAt={handleSortByCreatedAt}
@@ -156,7 +187,7 @@ export default function Home({ navigation }) {
                     handleRef={handleRef}
                 />
             </View>
-        </>
+        </Provider>
     );
 }
 

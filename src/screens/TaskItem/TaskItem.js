@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 import Colors from "../theming/colors";
+import { FAB, Portal, Provider } from "react-native-paper";
 
 // Custom components
 import DeleteButton from "./Components/DeleteTaskButton";
 import EditButton from "./Components/EditTaskButton";
+import { deleteTask } from "../utils/firebase";
 
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -12,39 +14,73 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 export default function TaskItem({ route, navigation }) {
     const { id, taskTitle, taskContent, taskTime, isCompleted } = route.params;
 
+    const [state, setState] = useState({ open: false });
+
+    const onStateChange = ({ open }) => setState({ open });
+
+    const { open } = state;
+
     return (
-        <View style={{ flex: 1 }}>
-            <View style={styles.mainContainer}>
-                <View
-                    style={{
-                        borderBottomWidth: 1,
-                        borderBottomColor: "#E8E8E8",
-                    }}
-                >
-                    <Text style={styles.taskTitle}>
-                        {taskTitle}{" "}
-                        {isCompleted && (
-                            <MaterialCommunityIcons
-                                name="check-all"
-                                color="green"
-                                size={25}
-                                style={{ paddingTop: 15 }}
-                            />
-                        )}
-                    </Text>
+        <Provider>
+            <View style={{ flex: 1 }}>
+                <View style={styles.mainContainer}>
+                    <View
+                        style={{
+                            borderBottomWidth: 1,
+                            borderBottomColor: "#E8E8E8",
+                        }}
+                    >
+                        <Text style={styles.taskTitle}>
+                            {taskTitle}{" "}
+                            {isCompleted && (
+                                <MaterialCommunityIcons
+                                    name="check-all"
+                                    color="green"
+                                    size={25}
+                                    style={{ paddingTop: 15 }}
+                                />
+                            )}
+                        </Text>
+                    </View>
+                    <View>
+                        <Text style={styles.taskDate}>
+                            Due {moment(taskTime).calendar()}
+                        </Text>
+                    </View>
+                    <View>
+                        <Text style={styles.taskContent}>{taskContent}</Text>
+                    </View>
                 </View>
-                <View>
-                    <Text style={styles.taskDate}>
-                        Due {moment(taskTime).calendar()}
-                    </Text>
-                </View>
-                <View>
-                    <Text style={styles.taskContent}>{taskContent}</Text>
-                </View>
+                {/* <EditButton navigation={navigation} taskItem={route.params} />
+                <DeleteButton navigation={navigation} taskId={id} /> */}
+                <Portal>
+                    <FAB.Group
+                        open={open}
+                        color="white"
+                        fabStyle={{ backgroundColor: Colors.accentColor }}
+                        icon={open ? "dots-vertical" : "dots-horizontal"}
+                        actions={[
+                            {
+                                icon: "trash-can-outline",
+                                color: "#E53935",
+                                label: "Delete",
+                                onPress: () => deleteTask(navigation, id),
+                            },
+                            {
+                                icon: "pencil",
+                                label: "Edit",
+                                onPress: () =>
+                                    navigation.navigate(
+                                        "EditTask",
+                                        route.params
+                                    ),
+                            },
+                        ]}
+                        onStateChange={onStateChange}
+                    />
+                </Portal>
             </View>
-            <EditButton navigation={navigation} taskItem={route.params} />
-            <DeleteButton navigation={navigation} taskId={id} />
-        </View>
+        </Provider>
     );
 }
 

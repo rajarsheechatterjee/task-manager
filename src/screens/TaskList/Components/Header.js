@@ -4,73 +4,58 @@ import Colors from "../../../theming/colors";
 
 // Firebase functions
 import { logout } from "../utils/firebase";
+import { Appbar } from "react-native-paper";
+const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
+import { Button, Menu, Divider, Provider } from "react-native-paper";
 
-import Menu, { MenuItem, MenuDivider } from "react-native-material-menu";
 import Ripple from "react-native-material-ripple";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Header = ({ navigation, handleSlider }) => {
-    _menu = null;
+    const [visible, setVisible] = React.useState(false);
 
-    setMenuRef = (ref) => {
-        _menu = ref;
-    };
+    const openMenu = () => setVisible(true);
 
-    hideMenu = () => {
-        _menu.hide();
-    };
-
-    showMenu = () => {
-        _menu.show();
-    };
+    const closeMenu = () => setVisible(false);
 
     const handleToast = () => {
         ToastAndroid.show("Succesfully logged out", ToastAndroid.SHORT);
     };
 
     return (
-        <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Your Tasks</Text>
-            <Ripple
-                onPress={handleSlider}
-                style={styles.filterContainer}
-                rippleContainerBorderRadius={50}
-                rippleCentered={true}
+        <Appbar.Header
+            statusBarHeight={0}
+            style={{ backgroundColor: Colors.accentColor }}
+        >
+            <Appbar.Content title="Your Tasks" />
+            <Appbar.Action
+                icon="filter-variant"
+                onPress={() => handleSlider()}
+            />
+
+            <Menu
+                visible={visible}
+                onDismiss={closeMenu}
+                anchor={
+                    <Appbar.Action
+                        icon={MORE_ICON}
+                        onPress={openMenu}
+                        color="white"
+                    />
+                }
             >
-                <MaterialCommunityIcons
-                    name="filter-variant"
-                    color="white"
-                    size={28}
+                <Menu.Item
+                    onPress={() => {
+                        closeMenu();
+                        logout(navigation);
+                        handleToast();
+                    }}
+                    title="Logout"
                 />
-            </Ripple>
-            <Ripple
-                onPress={showMenu}
-                rippleContainerBorderRadius={50}
-                style={styles.menuContainer}
-                rippleCentered={true}
-            >
-                <Menu
-                    ref={setMenuRef}
-                    button={
-                        <MaterialCommunityIcons
-                            name="dots-vertical"
-                            color="white"
-                            size={28}
-                        />
-                    }
-                >
-                    <MenuItem
-                        onPress={() => {
-                            hideMenu();
-                            logout(navigation);
-                            handleToast();
-                        }}
-                    >
-                        Logout
-                    </MenuItem>
-                </Menu>
-            </Ripple>
-        </View>
+                <Menu.Item onPress={() => {}} title="Item 2" />
+                <Menu.Item onPress={() => {}} title="Item 3" />
+            </Menu>
+        </Appbar.Header>
     );
 };
 
