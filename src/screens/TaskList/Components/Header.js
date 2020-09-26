@@ -32,7 +32,7 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
                 icon="filter-variant"
                 onPress={() => handleSlider()}
             />
-            <Appbar.Action icon="cached" onPress={() => handleSync()} />
+            <Appbar.Action icon="sync" onPress={() => handleSync()} />
 
             <Menu
                 visible={visible}
@@ -53,8 +53,8 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
                     }}
                     title="Logout"
                 />
-                <Menu.Item onPress={() => {}} title="Item 2" />
-                <Menu.Item onPress={() => {}} title="Item 3" />
+                {/* <Menu.Item onPress={() => {}} title="Item 2" />
+                <Menu.Item onPress={() => {}} title="Item 3" /> */}
             </Menu>
         </Appbar.Header>
     );

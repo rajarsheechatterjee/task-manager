@@ -149,36 +149,35 @@ export default function Home({ navigation }) {
                         )}
                     />
                 )}
-                <Portal>
-                    <FAB.Group
-                        open={open}
-                        color="white"
-                        fabStyle={{ backgroundColor: Colors.accentColor }}
-                        icon={open ? "sync" : "plus"}
-                        actions={[
-                            {
-                                icon: "sync",
-                                color: Colors.accentColor,
-                                label: "Sync Tasks",
-                                onPress: () => handleSyncButton(),
-                            },
-                            {
-                                icon: "plus",
-                                color: Colors.accentColor,
-                                label: "Add Task",
-                                onPress: () =>
-                                    navigation.navigate("Add New Task"),
-                            },
-                        ]}
-                        onStateChange={onStateChange}
-                        onPress={() => {
-                            if (!open) {
-                                handleSyncButton();
-                            }
-                        }}
-                    />
-                </Portal>
 
+                <FAB.Group
+                    open={open}
+                    color="white"
+                    fabStyle={{ backgroundColor: Colors.accentColor }}
+                    icon={open ? "sync" : "plus"}
+                    actions={[
+                        {
+                            icon: "sync",
+                            color: Colors.accentColor,
+                            label: "Sync Tasks",
+                            onPress: () => handleSyncButton(),
+                        },
+                        {
+                            icon: "plus",
+                            color: Colors.accentColor,
+                            label: "Add Task",
+                            onPress: () => navigation.navigate("Add New Task"),
+                        },
+                    ]}
+                    onStateChange={onStateChange}
+                    // onPress={() => {
+                    //     if (!open) {
+                    //         handleSyncButton();
+                    //     }
+                    // }}
+                />
+            </View>
+            <Portal>
                 <SlideUpPanel
                     handleSortByCreatedAt={handleSortByCreatedAt}
                     handleSortByDueAt={handleSortByDueAt}
@@ -186,7 +185,7 @@ export default function Home({ navigation }) {
                     sortMode={sortMode}
                     handleRef={handleRef}
                 />
-            </View>
+            </Portal>
         </Provider>
     );
 }

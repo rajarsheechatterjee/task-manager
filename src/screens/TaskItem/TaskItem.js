@@ -74,6 +74,7 @@ export default function TaskItem({ route, navigation }) {
                             {
                                 icon: "pencil",
                                 label: "Edit",
+                                color: Colors.accentColor,
                                 onPress: () =>
                                     navigation.navigate(
                                         "EditTask",
