@@ -27,7 +27,7 @@ export default function LoginScreen({ navigation }) {
         setLoading(true);
         setTimeout(function () {
             setLoading(false);
-        }, 3000);
+        }, 2000);
     };
 
     return (

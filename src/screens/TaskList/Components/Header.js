@@ -23,10 +23,7 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
     };
 
     return (
-        <Appbar.Header
-            statusBarHeight={0}
-            style={{ backgroundColor: Colors.accentColor }}
-        >
+        <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
             <Appbar.Content title="Your Tasks" />
             <Appbar.Action
                 icon="filter-variant"

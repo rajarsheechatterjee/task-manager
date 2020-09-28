@@ -45,6 +45,7 @@ export default function TaskCard({ taskItem, navigation }) {
                             textDecorationLine: "line-through",
                         },
                     ]}
+                    numberOfLines={1}
                 >
                     {taskItem.isUpdated && "Updated on "}
                     {moment(taskItem.createdAt.toDate()).calendar()}

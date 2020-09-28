@@ -8,10 +8,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function More({ navigation }) {
     return (
         <>
-            <Appbar.Header
-                statusBarHeight={0}
-                style={{ backgroundColor: Colors.accentColor }}
-            >
+            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
                 <Appbar.Content title="More" />
             </Appbar.Header>
             <List.Section>

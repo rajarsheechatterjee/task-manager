@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
+import { Text, View, StyleSheet, Clipboard, ToastAndroid } from "react-native";
 import Colors from "../../theming/colors";
 import { FAB, Portal, Provider } from "react-native-paper";
 
@@ -19,6 +19,13 @@ export default function TaskItem({ route, navigation }) {
     const onStateChange = ({ open }) => setState({ open });
 
     const { open } = state;
+
+    const handleCopy = () => {
+        Clipboard.setString(
+            `Title: ${taskTitle}, Content: ${taskContent}, Due At: ${taskTime}`
+        );
+        ToastAndroid.show("Copied task to clipboard", ToastAndroid.SHORT);
+    };
 
     return (
         <Provider>
@@ -64,6 +71,7 @@ export default function TaskItem({ route, navigation }) {
                                 icon: "share-variant",
                                 color: Colors.accentColor,
                                 label: "Share",
+                                onPress: () => handleCopy(),
                             },
                             {
                                 icon: "trash-can-outline",

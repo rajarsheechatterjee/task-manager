@@ -6,6 +6,7 @@ import { List, TouchableRipple } from "react-native-paper";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ripple from "react-native-material-ripple";
+import { auth } from "firebase";
 
 const SlideUpPanel = ({
     handleSortByCreatedAt,
@@ -22,48 +23,69 @@ const SlideUpPanel = ({
             <View style={styles.sliderContainer}>
                 <List.Section>
                     <TouchableRipple
+                        style={{ height: 60, paddingTop: 5 }}
                         rippleColor="rgba(0, 0, 0, 0.2)"
-                        onPress={handleSortByCreatedAt}
+                        onPress={() => handleSortByCreatedAt()}
                     >
                         <List.Item
+                            titleStyle={{ fontSize: 15 }}
                             title="Sort By Created At"
                             right={() =>
                                 sortMode === "createdAt" && (
-                                    <List.Icon
+                                    <MaterialCommunityIcons
                                         color={Colors.accentColor}
-                                        icon="arrow-down"
+                                        name="arrow-down"
+                                        size={25}
+                                        style={{
+                                            paddingTop: 3,
+                                            paddingRight: 5,
+                                        }}
                                     />
                                 )
                             }
                         />
                     </TouchableRipple>
                     <TouchableRipple
+                        style={{ height: 60, paddingTop: 5 }}
                         rippleColor="rgba(0, 0, 0, 0.2)"
-                        onPress={handleSortByPriority}
+                        onPress={() => handleSortByPriority()}
                     >
                         <List.Item
+                            titleStyle={{ fontSize: 15 }}
                             title="Sort By Priority Is"
                             right={() =>
                                 sortMode === "priorityIs" && (
-                                    <List.Icon
+                                    <MaterialCommunityIcons
                                         color={Colors.accentColor}
-                                        icon="arrow-down"
+                                        name="arrow-down"
+                                        size={25}
+                                        style={{
+                                            paddingTop: 3,
+                                            paddingRight: 5,
+                                        }}
                                     />
                                 )
                             }
                         />
                     </TouchableRipple>
                     <TouchableRipple
+                        style={{ height: 60, paddingTop: 5 }}
                         rippleColor="rgba(0, 0, 0, 0.2)"
-                        onPress={handleSortByDueAt}
+                        onPress={() => handleSortByDueAt()}
                     >
                         <List.Item
+                            titleStyle={{ fontSize: 15 }}
                             title="Sort By Due At"
                             right={() =>
                                 sortMode === "taskTime" && (
-                                    <List.Icon
+                                    <MaterialCommunityIcons
                                         color={Colors.accentColor}
-                                        icon="arrow-up"
+                                        name="arrow-up"
+                                        size={25}
+                                        style={{
+                                            paddingTop: 3,
+                                            paddingRight: 5,
+                                        }}
                                     />
                                 )
                             }

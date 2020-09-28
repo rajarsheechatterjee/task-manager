@@ -48,7 +48,7 @@ export default function Home({ navigation }) {
             .collection("tasks");
 
         await dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
-            const list = [];
+            let list = [];
             querySnapshot.forEach((doc) => {
                 const {
                     taskTitle,
