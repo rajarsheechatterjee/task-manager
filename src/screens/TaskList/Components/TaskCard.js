@@ -35,6 +35,7 @@ export default function TaskCard({ taskItem, navigation }) {
                             textDecorationLine: "line-through",
                         },
                     ]}
+                    numberOfLines={1}
                 >
                     {taskItem.taskTitle}
                 </Text>

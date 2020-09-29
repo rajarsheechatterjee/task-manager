@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         paddingTop: 40,
-        backgroundColor: "#f4f4f4",
+        backgroundColor: "#FAFAFA",
     },
     screenHeader: {
         fontSize: 28,
@@ -214,11 +214,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
-    },
-    taskListView: {
-        flex: 1,
-        backgroundColor: "#f4f4f4",
-        paddingVertical: 10,
     },
     taskList: {
         // margin: 10,
@@ -273,5 +268,7 @@ const styles = StyleSheet.create({
     },
     checkBox: {
         borderRadius: 10,
+        borderWidth: 0,
+        elevation: 3,
     },
 });

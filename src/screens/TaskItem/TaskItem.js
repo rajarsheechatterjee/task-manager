@@ -29,7 +29,7 @@ export default function TaskItem({ route, navigation }) {
 
     return (
         <Provider>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: "#FAFAFA" }}>
                 <View style={styles.mainContainer}>
                     <View
                         style={{
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         margin: 10,
         padding: 20,
-        elevation: 1,
+        elevation: 2,
         paddingTop: 15,
         borderRadius: 15,
         backgroundColor: "white",

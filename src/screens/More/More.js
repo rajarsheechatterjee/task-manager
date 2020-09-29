@@ -11,7 +11,14 @@ export default function More({ navigation }) {
             <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
                 <Appbar.Content title="More" />
             </Appbar.Header>
-            <List.Section>
+            <List.Section
+                style={{
+                    flex: 1,
+                    backgroundColor: "#FAFAFA",
+                    marginTop: 0,
+                    marginBottom: 0,
+                }}
+            >
                 <TouchableRipple
                     onPress={() => navigation.navigate("Settings")}
                     rippleColor="rgba(0, 0, 0, 0.2)"

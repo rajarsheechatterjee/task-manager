@@ -143,6 +143,7 @@ export default function Home({ navigation }) {
                 {!loading3 && sortMode === "taskTime" && (
                     <FlatList
                         data={tasksList3}
+                        extraData={tasksList3}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
                             <TaskCard navigation={navigation} taskItem={item} />
@@ -191,5 +192,9 @@ export default function Home({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    flatListContainer: { flex: 1, paddingVertical: 5 },
+    flatListContainer: {
+        flex: 1,
+        paddingVertical: 5,
+        backgroundColor: "#FAFAFA",
+    },
 });

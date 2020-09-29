@@ -133,3 +133,29 @@ export const updateIsCompleted = async (isCompleted, taskId) => {
 
     dbRef.doc(taskId).update({ isCompleted: !isCompleted });
 };
+
+export const deleteUser = async (navigation) => {
+    const user = firebase.auth().currentUser;
+
+    await firebase
+        .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .delete();
+
+    user.delete()
+        .then(function () {
+            logout(navigation);
+        })
+        .catch(function (error) {
+            Alert.alert(error.message);
+        });
+};
+
+// export const deleteAllTasks = async () => {
+//     await firebase
+//         .firestore()
+//         .collection("users")
+//         .doc(firebase.auth().currentUser.uid)
+//         .collection("tasks")
+// };

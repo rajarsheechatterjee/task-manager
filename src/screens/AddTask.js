@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         paddingTop: 60,
-        backgroundColor: "#f4f4f4",
+        backgroundColor: "#FAFAFA",
         color: Colors.textColor,
     },
     screenHeader: {
@@ -260,6 +260,8 @@ const styles = StyleSheet.create({
     },
     checkBox: {
         borderRadius: 10,
+        elevation: 3,
+        borderWidth: 0,
         // flex: 1 / 3,
         // paddingHorizontal: 10,
     },

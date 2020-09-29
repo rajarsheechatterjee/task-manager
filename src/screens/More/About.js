@@ -5,7 +5,14 @@ import * as Linking from "expo-linking";
 
 export default function About() {
     return (
-        <List.Section style={{ marginTop: 0 }}>
+        <List.Section
+            style={{
+                flex: 1,
+                marginTop: 0,
+                backgroundColor: "#FAFAFA",
+                marginBottom: 0,
+            }}
+        >
             <TouchableRipple
                 onPress={() => {
                     Clipboard.setString("Version: Stable 0.2.3");
