@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, ToastAndroid, FlatList } from "react-native";
 import { Provider, Portal, FAB } from "react-native-paper";
+import { useFocusEffect } from "@react-navigation/native";
+
 // Firebase
 import firebase from "../../../firebaseConfig";
 import "firebase/firestore";
@@ -14,6 +16,12 @@ import AddTaskButton from "./Components/AddTaskButton";
 import Colors from "../../theming/colors";
 
 export default function Home({ navigation }) {
+    useEffect(() => {
+        navigation.addListener("beforeRemove", (e) => {
+            e.preventDefault();
+        });
+    });
+
     // List of tasks
     const [tasksList, setTasksList] = useState([]);
     const [tasksList2, setTasksList2] = useState([]);
@@ -32,6 +40,12 @@ export default function Home({ navigation }) {
     const [sortOrder, setSortOrder] = useState("desc");
 
     const [state, setState] = useState({ open: false });
+
+    useFocusEffect(
+        useCallback(() => {
+            getTasks(sortMode, sortOrder);
+        }, [])
+    );
 
     const onStateChange = ({ open }) => setState({ open });
 

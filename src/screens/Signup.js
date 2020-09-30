@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import {
     StyleSheet,
     Text,
@@ -8,6 +8,8 @@ import {
     ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { useFocusEffect } from "@react-navigation/native";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 import Colors from "../theming/colors";
 
@@ -18,6 +20,16 @@ export default function SignupScreen({ navigation }) {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
+    useFocusEffect(
+        useCallback(() => {
+            checkIfLoggedIn(navigation);
+            setLoading(true);
+            setTimeout(function () {
+                setLoading(false);
+            }, 1000);
+        }, [])
+    );
+
     const handleSignup = () => {
         signupUser(email, password);
         setLoading(true);
@@ -25,10 +37,6 @@ export default function SignupScreen({ navigation }) {
             setLoading(false);
         }, 3000);
     };
-
-    useEffect(() => {
-        checkIfLoggedIn(navigation);
-    }, [checkIfLoggedIn]);
 
     return (
         <View style={styles.wrapper} behavior="padding">

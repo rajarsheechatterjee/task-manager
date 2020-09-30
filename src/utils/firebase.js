@@ -124,6 +124,13 @@ export const deleteTask = async (navigation, id) => {
     navigation.navigate("Your Tasks");
 };
 
+/**
+ * Sets is completed or not
+ *
+ * @param {Boolean} isCompleted
+ * @param {String} taskId
+ */
+
 export const updateIsCompleted = async (isCompleted, taskId) => {
     const dbRef = firebase
         .firestore()

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
     StyleSheet,
     Text,
@@ -18,9 +19,15 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        checkIfLoggedIn(navigation);
-    }, [checkIfLoggedIn]);
+    useFocusEffect(
+        useCallback(() => {
+            checkIfLoggedIn(navigation);
+            setLoading(true);
+            setTimeout(function () {
+                setLoading(false);
+            }, 1000);
+        }, [])
+    );
 
     const handleLogin = () => {
         loginUser(email, password);
