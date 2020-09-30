@@ -35,7 +35,7 @@ function tabNavigator({ navigation }) {
                 }}
             />
             <Tab.Screen
-                name="Add New Task"
+                name="Add Task"
                 component={addTaskStack}
                 options={{
                     tabBarIcon: ({ color, size }) => (

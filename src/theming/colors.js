@@ -7,6 +7,7 @@ const colors = {
     priorityHigh: "red",
     priorityMid: "orange",
     priorityLow: "dodgerblue",
+    backgroundLight: "#FAFAFA",
 };
 
 export default colors;

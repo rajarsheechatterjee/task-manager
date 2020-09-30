@@ -13,7 +13,7 @@ export default function StackNavigator({ navigation }) {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Add New Task"
+                name="Add Task"
                 component={AddTasks}
                 options={{
                     headerStyle: {

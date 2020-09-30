@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
+import Loading from "../screens/Loading";
 
 import tabNavigator from "./tabNavigator";
 
@@ -14,6 +15,11 @@ function StackNavigator() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
+                <Stack.Screen
+                    name="Loading"
+                    component={Loading}
+                    options={{ headerShown: false }}
+                />
                 <Stack.Screen
                     name="Signup"
                     component={Signup}

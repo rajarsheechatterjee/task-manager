@@ -1,39 +1,43 @@
-// import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Button,
+    ActivityIndicator,
+} from "react-native";
+import Colors from "../theming/colors";
+import { useFocusEffect } from "@react-navigation/native";
+import { loadUser } from "../utils/firebase";
 
-// import {
-//     StyleSheet,
-//     Text,
-//     View,
-//     TextInput,
-//     Button,
-//     ActivityIndicator,
-// } from "react-native";
+export default function Loading({ navigation }) {
+    const [loading, setLoading] = useState(true);
 
-// import firebase from "firebase";
+    useFocusEffect(
+        useCallback(() => {
+            loadUser(navigation);
+        }, [])
+    );
 
-// export default Loading = () => {
-//     const [loggedIn, setLoggenIn] = useState(false);
+    return (
+        <View style={styles.container}>
+            <Text style={styles.titleText}>Checking if logged in</Text>
+            <ActivityIndicator size="large" color="white" animating={loading} />
+        </View>
+    );
+}
 
-//     const checkIfLoggenIn = () => {
-//         firebase.auth().onAuthStateChanged(function (user) {
-//             if (user) {
-//                 setLoggenIn(true);
-//             }
-//         });
-//     };
-
-//     return (
-//         <View style={styles.container}>
-//             <ActivityIndicator size="large" />
-//         </View>
-//     );
-// };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: "#fff",
-//         alignItems: "center",
-//         justifyContent: "center",
-//     },
-// });
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Colors.accentColor,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    titleText: {
+        color: "white",
+        fontSize: 18,
+        marginBottom: 20,
+    },
+});

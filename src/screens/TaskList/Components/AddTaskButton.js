@@ -12,7 +12,7 @@ const AddTaskButton = ({ navigation }) => {
                 style={[styles.button, { backgroundColor: Colors.accentColor }]}
                 rippleContainerBorderRadius={50}
                 rippleDuration={300}
-                onPress={() => navigation.navigate("Add New Task")}
+                onPress={() => navigation.navigate("Add Task")}
             >
                 <MaterialCommunityIcons
                     name="plus"

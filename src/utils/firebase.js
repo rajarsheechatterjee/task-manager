@@ -10,6 +10,24 @@ export const checkIfLoggedIn = (navigation) => {
     });
 };
 
+export const loadUser = (navigation) => {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            navigation.navigate("Task Monitor");
+        } else {
+            navigation.navigate("Login");
+        }
+    });
+};
+
+export const unloadUser = (navigation) => {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+            navigation.navigate("Login");
+        }
+    });
+};
+
 export const loginUser = async (email, password) => {
     try {
         await firebase

@@ -6,6 +6,7 @@ import { useFocusEffect } from "@react-navigation/native";
 // Firebase
 import firebase from "../../../firebaseConfig";
 import "firebase/firestore";
+import { unloadUser } from "../../utils/firebase";
 
 // Custom Components
 import CustomHeader from "./Components/Header";
@@ -16,12 +17,6 @@ import AddTaskButton from "./Components/AddTaskButton";
 import Colors from "../../theming/colors";
 
 export default function Home({ navigation }) {
-    useEffect(() => {
-        navigation.addListener("beforeRemove", (e) => {
-            e.preventDefault();
-        });
-    });
-
     // List of tasks
     const [tasksList, setTasksList] = useState([]);
     const [tasksList2, setTasksList2] = useState([]);
@@ -43,6 +38,9 @@ export default function Home({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
+            navigation.addListener("beforeRemove", (e) => {
+                e.preventDefault();
+            });
             getTasks(sortMode, sortOrder);
         }, [])
     );
@@ -181,15 +179,10 @@ export default function Home({ navigation }) {
                             icon: "plus",
                             color: Colors.accentColor,
                             label: "Add Task",
-                            onPress: () => navigation.navigate("Add New Task"),
+                            onPress: () => navigation.navigate("Add Task"),
                         },
                     ]}
                     onStateChange={onStateChange}
-                    // onPress={() => {
-                    //     if (!open) {
-                    //         handleSyncButton();
-                    //     }
-                    // }}
                 />
             </View>
             <Portal>
