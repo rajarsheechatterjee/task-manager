@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Clipboard, ToastAndroid } from "react-native";
-import Colors from "../../theming/colors";
 import { FAB, Portal, Provider } from "react-native-paper";
 
-// Custom components
+// Custom
+import Colors from "../../theming/colors";
 import DeleteButton from "./Components/DeleteTaskButton";
 import EditButton from "./Components/EditTaskButton";
 import { deleteTask } from "../../utils/firebase";
@@ -29,7 +29,7 @@ export default function TaskItem({ route, navigation }) {
 
     return (
         <Provider>
-            <View style={{ flex: 1, backgroundColor: "#FAFAFA" }}>
+            <View style={{ flex: 1, backgroundColor: Colors.backgroundLight }}>
                 <View style={styles.mainContainer}>
                     <View
                         style={{

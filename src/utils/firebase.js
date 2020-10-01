@@ -28,6 +28,11 @@ export const unloadUser = (navigation) => {
     });
 };
 
+/**
+ *
+ * @param {String} email
+ * @param {String} password
+ */
 export const loginUser = async (email, password) => {
     try {
         await firebase
@@ -41,6 +46,11 @@ export const loginUser = async (email, password) => {
     }
 };
 
+/**
+ *
+ * @param {String} email
+ * @param {String} password
+ */
 export const signupUser = async (email, password) => {
     try {
         await firebase
@@ -98,6 +108,30 @@ export const addTask = async (
     navigation.navigate("Your Tasks");
 };
 
+export const addDummyData = async (navigation) => {
+    const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
+    const dummyData = {
+        userId: firebase.auth().currentUser.uid,
+        taskTitle: "Task Title 1",
+        taskTime: "2020-10-02 09:05",
+        taskContent: "Task Content",
+        createdAt: timeStamp,
+        priorityIs: 2,
+        isCompleted: false,
+        isUpdated: false,
+    };
+
+    await firebase
+        .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("tasks")
+        .add(dummyData)
+        .catch((error) => console.log(error));
+
+    navigation.navigate("Your Tasks");
+};
+
 export const updateTask = async (
     navigation,
     id,
@@ -148,7 +182,6 @@ export const deleteTask = async (navigation, id) => {
  * @param {Boolean} isCompleted
  * @param {String} taskId
  */
-
 export const updateIsCompleted = async (isCompleted, taskId) => {
     const dbRef = firebase
         .firestore()
@@ -176,11 +209,3 @@ export const deleteUser = async (navigation) => {
             Alert.alert(error.message);
         });
 };
-
-// export const deleteAllTasks = async () => {
-//     await firebase
-//         .firestore()
-//         .collection("users")
-//         .doc(firebase.auth().currentUser.uid)
-//         .collection("tasks")
-// };

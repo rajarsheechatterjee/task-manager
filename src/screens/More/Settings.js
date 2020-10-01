@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Clipboard, ToastAndroid, Alert } from "react-native";
 import { List, TouchableRipple, Divider } from "react-native-paper";
 import Colors from "../../theming/colors";
-import { deleteUser } from "../../utils/firebase";
+import { deleteUser, addDummyData } from "../../utils/firebase";
 
 export default function About({ navigation }) {
     const handleDeleteUser = async () => {
@@ -40,7 +40,7 @@ export default function About({ navigation }) {
                     )}
                 />
             </TouchableRipple>
-            <TouchableRipple onPress={() => console.log("XDd")}>
+            <TouchableRipple onPress={() => addDummyData(navigation)}>
                 <List.Item
                     title="Add dummy data"
                     description="Test using dummy data"

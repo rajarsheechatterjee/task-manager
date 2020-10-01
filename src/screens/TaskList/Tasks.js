@@ -49,6 +49,8 @@ export default function Home({ navigation }) {
 
     const { open } = state;
 
+    const handleRef = (c) => (_panel = c);
+
     /**
      * TODO render single flatlist for all sort methods
      */
@@ -125,7 +127,6 @@ export default function Home({ navigation }) {
         getTasks(sortMode, sortOrder);
     };
 
-    const handleRef = (c) => (_panel = c);
     return (
         <Provider>
             <CustomHeader
@@ -202,6 +203,6 @@ const styles = StyleSheet.create({
     flatListContainer: {
         flex: 1,
         paddingVertical: 5,
-        backgroundColor: "#FAFAFA",
+        backgroundColor: Colors.backgroundLight,
     },
 });
