@@ -13,7 +13,7 @@
 
 ## Screeshots
 
-![Home-screen](./assets/screenshots/Screenshot.png)
+![Home-screen](./assets/screenshots/SS2.png)
 
 ## Todo (In Progress)
 
