@@ -26,6 +26,9 @@ export default function LoginScreen({ navigation }) {
             setTimeout(function () {
                 setLoading(false);
             }, 1000);
+            navigation.addListener("beforeRemove", (e) => {
+                e.preventDefault();
+            });
         }, [])
     );
 
