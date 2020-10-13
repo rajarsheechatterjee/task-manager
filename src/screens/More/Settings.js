@@ -31,10 +31,10 @@ export default function About({ navigation }) {
                 backgroundColor: "#FAFAFA",
             }}
         >
-            <TouchableRipple onPress={() => console.log("XDd")}>
+            <TouchableRipple>
                 <List.Item
                     title="Delete all tasks"
-                    description="Clear all tasks from cloud storage"
+                    description="Not added yet"
                     left={() => (
                         <List.Icon color="#E53935" icon="trash-can-outline" />
                     )}
@@ -42,8 +42,7 @@ export default function About({ navigation }) {
             </TouchableRipple>
             <TouchableRipple onPress={() => addDummyData(navigation)}>
                 <List.Item
-                    title="Add dummy data"
-                    description="Test using dummy data"
+                    title="Add sample data"
                     left={() => (
                         <List.Icon
                             color={Colors.accentColor}

@@ -92,7 +92,7 @@ export default function Home({ navigation }) {
             {/* Task reminder time picker */}
             <View style={{ flexDirection: "row" }}>
                 <TextInput
-                    style={[{ width: "59%", marginRight: 5 }, styles.txtinpt]}
+                    style={[{ flex: 2 / 3, marginRight: 5 }, styles.txtinpt]}
                     placeholder="Date & Time"
                     defaultValue={chosenDate}
                     editable={false}
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
         marginTop: -2,
     },
     datePicker: {
-        width: "40%",
+        flex: 1 / 3,
         elevation: 8,
         backgroundColor: Colors.accentColor,
         borderRadius: 10,
@@ -262,6 +262,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         elevation: 3,
         borderWidth: 0,
+        backgroundColor: "white",
         // flex: 1 / 3,
         // paddingHorizontal: 10,
     },

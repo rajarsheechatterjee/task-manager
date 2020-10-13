@@ -21,6 +21,16 @@ const SlideUpPanel = ({
             draggableRange={{ top: 200, bottom: 0 }}
         >
             <View style={styles.sliderContainer}>
+                <View
+                    style={{
+                        backgroundColor: "#333",
+                        height: 6,
+                        width: 50,
+                        borderRadius: 4,
+                        alignSelf: "center",
+                        marginTop: 10,
+                    }}
+                />
                 <List.Section>
                     <TouchableRipple
                         style={{ height: 60, paddingTop: 5 }}
@@ -104,6 +114,9 @@ const styles = StyleSheet.create({
         height: 200,
         backgroundColor: "white",
         flexDirection: "column",
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        elevation: 16,
     },
     sortText: {
         fontSize: 14,
