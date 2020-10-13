@@ -1,26 +1,16 @@
-import React from "react";
-import { StyleSheet, View, Text, ToastAndroid } from "react-native";
-import Colors from "../../../theming/colors";
+import React, { useState } from "react";
+import { StyleSheet, ToastAndroid } from "react-native";
 
-// Firebase functions
 import { logout } from "../../../utils/firebase";
-import { Appbar } from "react-native-paper";
-const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
-import { Button, Menu, Divider, Provider } from "react-native-paper";
 
-import Ripple from "react-native-material-ripple";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Colors from "../../../theming/colors";
+import { Appbar, Menu } from "react-native-paper";
 
 const Header = ({ navigation, handleSlider, handleSync }) => {
-    const [visible, setVisible] = React.useState(false);
-
+    // Menu
+    const [visible, setVisible] = useState(false);
     const openMenu = () => setVisible(true);
-
     const closeMenu = () => setVisible(false);
-
-    const handleToast = () => {
-        ToastAndroid.show("Succesfully logged out", ToastAndroid.SHORT);
-    };
 
     return (
         <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
@@ -36,9 +26,9 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
                 onDismiss={closeMenu}
                 anchor={
                     <Appbar.Action
-                        icon={MORE_ICON}
+                        icon="dots-vertical"
                         onPress={openMenu}
-                        color="white"
+                        color={Colors.iconColor}
                     />
                 }
             >
@@ -46,42 +36,17 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
                     onPress={() => {
                         closeMenu();
                         logout(navigation);
-                        handleToast();
+                        ToastAndroid.show(
+                            "Succesfully logged out",
+                            ToastAndroid.SHORT
+                        );
                     }}
                     title="Logout"
                 />
-                {/* <Menu.Item onPress={() => {}} title="Item 2" />
-                <Menu.Item onPress={() => {}} title="Item 3" /> */}
+                {/* <Menu.Item onPress={() => {}} title="Item 2" /> */}
             </Menu>
         </Appbar.Header>
     );
 };
-
-const styles = StyleSheet.create({
-    headerContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        height: 56,
-        backgroundColor: Colors.accentColor,
-        padding: 15,
-    },
-    headerText: {
-        color: "white",
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    filterContainer: {
-        position: "absolute",
-        right: 58,
-        top: 10,
-        padding: 5,
-    },
-    menuContainer: {
-        position: "absolute",
-        right: 10,
-        top: 10,
-        padding: 5,
-    },
-});
 
 export default Header;

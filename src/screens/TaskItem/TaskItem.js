@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Clipboard, ToastAndroid } from "react-native";
 import { FAB, Portal, Provider } from "react-native-paper";
-
-// Custom
-import Colors from "../../theming/colors";
-import DeleteButton from "./Components/DeleteTaskButton";
-import EditButton from "./Components/EditTaskButton";
-import { deleteTask } from "../../utils/firebase";
-
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
+import { deleteTask } from "../../utils/firebase";
+import Colors from "../../theming/colors";
 
 export default function TaskItem({ route, navigation }) {
     const { id, taskTitle, taskContent, taskTime, isCompleted } = route.params;
@@ -29,7 +25,7 @@ export default function TaskItem({ route, navigation }) {
 
     return (
         <Provider>
-            <View style={{ flex: 1, backgroundColor: Colors.backgroundLight }}>
+            <View style={{ flex: 1, backgroundColor: Colors.background }}>
                 <View style={styles.mainContainer}>
                     <View
                         style={{
@@ -106,7 +102,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         paddingTop: 15,
         borderRadius: 15,
-        backgroundColor: "white",
+        backgroundColor: Colors.background,
         color: Colors.textColor,
     },
     taskTitle: {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
 import { CheckBox } from "react-native-elements";
 import Colors from "../../../theming/colors";
@@ -11,6 +11,11 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import Ripple from "react-native-material-ripple";
 
 export default function TaskCard({ taskItem, navigation }) {
+    const [checked, setChecked] = useState(taskItem.isCompleted);
+    const handleCompleted = () => {
+        setChecked(!checked);
+        updateIsCompleted(taskItem.isCompleted, taskItem.id);
+    };
     return (
         <View style={styles.mainContainer}>
             <View style={styles.taskListView}>
@@ -21,17 +26,17 @@ export default function TaskCard({ taskItem, navigation }) {
                         uncheckedColor={Colors.accentColor}
                         checkedIcon="dot-circle-o"
                         uncheckedIcon="circle-o"
-                        checked={taskItem.isCompleted}
-                        onPress={() =>
-                            updateIsCompleted(taskItem.isCompleted, taskItem.id)
-                        }
+                        checked={checked}
+                        onPress={() => {
+                            handleCompleted();
+                        }}
                         containerStyle={styles.checkBoxStyle}
                     />
                 </View>
                 <Text
                     style={[
                         styles.taskItemTitle,
-                        taskItem.isCompleted && {
+                        checked && {
                             textDecorationLine: "line-through",
                         },
                     ]}
@@ -42,7 +47,7 @@ export default function TaskCard({ taskItem, navigation }) {
                 <Text
                     style={[
                         styles.taskItemDate,
-                        taskItem.isCompleted && {
+                        checked && {
                             textDecorationLine: "line-through",
                         },
                     ]}
@@ -82,15 +87,16 @@ export default function TaskCard({ taskItem, navigation }) {
 }
 
 const styles = StyleSheet.create({
-    mainContainer: {},
+    mainContainer: {
+        marginVertical: 5,
+        marginHorizontal: 7,
+    },
     taskListView: {
         flex: 1,
-        marginVertical: 5,
         backgroundColor: "#fff",
-        marginHorizontal: 7,
         borderRadius: 15,
-        paddingVertical: 9,
         elevation: 2,
+        paddingVertical: 9,
     },
     taskItemTitle: {
         paddingTop: 10,

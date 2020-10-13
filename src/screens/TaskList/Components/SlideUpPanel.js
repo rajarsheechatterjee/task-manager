@@ -1,12 +1,10 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import Colors from "../../../theming/colors";
-import { List, TouchableRipple } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
 
+import Colors from "../../../theming/colors";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Ripple from "react-native-material-ripple";
-import { auth } from "firebase";
+import { List, TouchableRipple } from "react-native-paper";
 
 const SlideUpPanel = ({
     handleSortByCreatedAt,

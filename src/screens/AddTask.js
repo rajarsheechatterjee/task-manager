@@ -1,23 +1,14 @@
-import React, { useState, useEffect } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    ToastAndroid,
-    Alert,
-} from "react-native";
-import Button from "../components/Button";
-import { CheckBox } from "react-native-elements";
-import Colors from "../theming/colors";
-
-import * as SMS from "expo-sms";
-
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TextInput, ToastAndroid } from "react-native";
 import { addTask } from "../utils/firebase";
+
+import Colors from "../theming/colors";
+import { CheckBox } from "react-native-elements";
+import Button from "../components/Button";
+import Ripple from "react-native-material-ripple";
 
 import moment from "moment";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import Ripple from "react-native-material-ripple";
 
 export default function Home({ navigation }) {
     const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -51,6 +42,7 @@ export default function Home({ navigation }) {
         }
     };
 
+    // Date & time picker
     const handlePicker = (datetime) => {
         setChosenDate(moment(datetime).format("YYYY-MM-DD HH:mm"));
         setIsVisible(false);
@@ -64,16 +56,6 @@ export default function Home({ navigation }) {
     const hidePicker = () => {
         setIsVisible(false);
     };
-
-    // const handleSMS = async () => {
-    //     const isAvailable = await SMS.isAvailableAsync();
-    //     if (isAvailable) {
-    //         const { result } = await SMS.sendSMSAsync(
-    //             ["7982548300", "9654294131"],
-    //             "You have been added as a collaborator"
-    //         );
-    //     }
-    // };
 
     return (
         <View style={styles.mainContainer}>
@@ -179,7 +161,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         paddingTop: 60,
-        backgroundColor: "#FAFAFA",
+        backgroundColor: Colors.background,
         color: Colors.textColor,
     },
     screenHeader: {

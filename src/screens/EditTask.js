@@ -8,12 +8,9 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
+
 import Colors from "../theming/colors";
-
-// Firebase functions
 import { updateTask } from "../utils/firebase";
-
-//Custom components
 import Button from "../components/Button";
 
 import moment from "moment";
@@ -215,27 +212,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2.22,
         elevation: 3,
     },
-    taskList: {
-        // margin: 10,
-        padding: 10,
-    },
-    buttonWrapper: {
-        position: "absolute",
-        bottom: 20,
-        right: 20,
-    },
-    button: {
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 50,
-        width: 60,
-        height: 60,
-        backgroundColor: "white",
-    },
-    icon: {
-        marginRight: -2,
-        marginTop: -2,
-    },
     datePicker: {
         width: "40%",
         elevation: 8,
@@ -244,14 +220,6 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 13,
         marginVertical: 5,
-    },
-    addTaskButton: {
-        elevation: 8,
-        backgroundColor: Colors.accentColor,
-        borderRadius: 10,
-        paddingVertical: 12,
-        paddingHorizontal: 13,
-        marginVertical: 10,
     },
     datePickerText: {
         fontSize: 16,
