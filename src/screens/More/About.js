@@ -17,12 +17,12 @@ export default function About() {
                 onPress={() => {
                     Clipboard.setString("Version: Stable 0.2.9");
                     ToastAndroid.show(
-                        "Copied to clipboard: Version: Stable 0.2.3",
+                        "Copied to clipboard: Version: Stable 0.2.9",
                         ToastAndroid.SHORT
                     );
                 }}
             >
-                <List.Item title="Version" description="Stable 0.2.3" />
+                <List.Item title="Version" description="Stable 0.2.9" />
             </TouchableRipple>
             <TouchableRipple>
                 <List.Item title="Build Time" description="13/10/20 12:00 PM" />

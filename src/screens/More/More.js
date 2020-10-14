@@ -1,9 +1,7 @@
 import React from "react";
-import { View, Text } from "react-native";
 import { List, TouchableRipple } from "react-native-paper";
 import { Appbar } from "react-native-paper";
 import Colors from "../../theming/colors";
-import { MaterialIcons } from "@expo/vector-icons";
 
 export default function More({ navigation }) {
     return (

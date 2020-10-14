@@ -8,7 +8,15 @@ import { deleteTask } from "../../utils/firebase";
 import Colors from "../../theming/colors";
 
 export default function TaskItem({ route, navigation }) {
-    const { id, taskTitle, taskContent, taskTime, isCompleted } = route.params;
+    const {
+        id,
+        taskTitle,
+        taskContent,
+        createdAt,
+        taskTime,
+        isCompleted,
+        isUpdated,
+    } = route.params;
 
     const [state, setState] = useState({ open: false });
 
@@ -40,7 +48,6 @@ export default function TaskItem({ route, navigation }) {
                                     name="check-all"
                                     color="green"
                                     size={25}
-                                    style={{ paddingTop: 15 }}
                                 />
                             )}
                         </Text>
@@ -53,9 +60,13 @@ export default function TaskItem({ route, navigation }) {
                     <View>
                         <Text style={styles.taskContent}>{taskContent}</Text>
                     </View>
+                    {/* <View>
+                        <Text style={styles.createdDate}>
+                            {isUpdated ? "Updated on " : "Created on"}
+                            {moment(createdAt.toDate()).calendar()}
+                        </Text>
+                    </View> */}
                 </View>
-                {/* <EditButton navigation={navigation} taskItem={route.params} />
-                <DeleteButton navigation={navigation} taskId={id} /> */}
                 <Portal>
                     <FAB.Group
                         open={open}
@@ -113,6 +124,11 @@ const styles = StyleSheet.create({
     },
     taskDate: {
         paddingVertical: 10,
+        fontSize: 14,
+        color: Colors.subTextColor,
+    },
+    createdDate: {
+        marginTop: 5,
         fontSize: 14,
         color: Colors.subTextColor,
     },

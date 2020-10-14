@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { CheckBox } from "react-native-elements";
 import Colors from "../../../theming/colors";
 
@@ -64,9 +64,9 @@ export default function TaskCard({ taskItem, navigation }) {
                         ]}
                     />
                 </View>
-                <View style={styles.buttonWrapper3}>
+                <View style={styles.rightChevronContainer}>
                     <Ripple
-                        style={styles.button2}
+                        style={styles.rightChevron}
                         rippleContainerBorderRadius={50}
                         rippleCentered={true}
                         onPress={() =>
@@ -117,12 +117,12 @@ const styles = StyleSheet.create({
         top: 17,
     },
 
-    buttonWrapper3: {
+    rightChevronContainer: {
         position: "absolute",
         right: 25,
         top: 10,
     },
-    button2: {
+    rightChevron: {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,

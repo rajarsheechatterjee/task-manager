@@ -40,7 +40,8 @@
     "react-native-web": "~0.13.7",
     "react-native-windows": "^1.0.0",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
-    "rn-sliding-up-panel": "^2.4.3"
+    "rn-sliding-up-panel": "^2.4.3",
+    "react-native-appearance": "~0.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

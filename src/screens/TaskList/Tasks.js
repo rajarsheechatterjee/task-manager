@@ -32,9 +32,6 @@ export default function Home({ navigation }) {
     }, [sortMode]);
 
     // Bottom Slider Sheet
-    const [state, setState] = useState({ open: false });
-    const onStateChange = ({ open }) => setState({ open });
-    const { open } = state;
     const handleRef = (c) => (_panel = c);
 
     /**
@@ -75,17 +72,14 @@ export default function Home({ navigation }) {
 
     const handleSortByPriority = () => {
         setSortType({ sortMode: "priorityIs", sortOrder: "asc" });
-        getTasks(sortMode, sortOrder);
     };
 
     const handleSortByDueAt = () => {
         setSortType({ sortMode: "taskTime", sortOrder: "asc" });
-        getTasks(sortMode, sortOrder);
     };
 
     const handleSortByCreatedAt = () => {
         setSortType({ sortMode: "createdAt", sortOrder: "desc" });
-        getTasks(sortMode, sortOrder);
     };
 
     return (
@@ -139,26 +133,11 @@ export default function Home({ navigation }) {
                     )}
                 </View>
             )}
-            <FAB.Group
-                open={open}
+            <FAB
+                style={styles.fab}
+                icon="plus"
                 color="white"
-                fabStyle={{ backgroundColor: Colors.accentColor }}
-                icon={open ? "sync" : "plus"}
-                actions={[
-                    {
-                        icon: "sync",
-                        color: Colors.accentColor,
-                        label: "Sync Tasks",
-                        onPress: () => handleSyncButton(),
-                    },
-                    {
-                        icon: "plus",
-                        color: Colors.accentColor,
-                        label: "Add Task",
-                        onPress: () => navigation.navigate("Add Task"),
-                    },
-                ]}
-                onStateChange={onStateChange}
+                onPress={() => navigation.navigate("Add Task")}
             />
             <Portal>
                 <SlideUpPanel
@@ -178,5 +157,12 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 5,
         backgroundColor: Colors.background,
+    },
+    fab: {
+        position: "absolute",
+        margin: 16,
+        right: 0,
+        bottom: 0,
+        backgroundColor: Colors.accentColor,
     },
 });
