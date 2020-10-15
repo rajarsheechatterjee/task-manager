@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { View, Text, Clipboard, ToastAndroid, Alert } from "react-native";
+import React from "react";
+import { Alert } from "react-native";
 import { List, TouchableRipple, Divider } from "react-native-paper";
+
 import Colors from "../../theming/colors";
 import { deleteUser, addDummyData } from "../../utils/firebase";
 
@@ -28,7 +29,7 @@ export default function About({ navigation }) {
             style={{
                 flex: 1,
                 marginVertical: 0,
-                backgroundColor: "#FAFAFA",
+                backgroundColor: Colors.background,
             }}
         >
             <TouchableRipple>
@@ -36,7 +37,10 @@ export default function About({ navigation }) {
                     title="Delete all tasks"
                     description="Not added yet"
                     left={() => (
-                        <List.Icon color="#E53935" icon="trash-can-outline" />
+                        <List.Icon
+                            color={Colors.deleteColor}
+                            icon="trash-can-outline"
+                        />
                     )}
                 />
             </TouchableRipple>
@@ -63,7 +67,10 @@ export default function About({ navigation }) {
                     title="Delete your account"
                     description="Permanently remove your account"
                     left={() => (
-                        <List.Icon color="#E53935" icon="account-remove" />
+                        <List.Icon
+                            color={Colors.deleteColor}
+                            icon="account-remove"
+                        />
                     )}
                 />
             </TouchableRipple>

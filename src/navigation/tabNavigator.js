@@ -10,7 +10,7 @@ import More from "./moreStackNavigator";
 
 const Tab = createMaterialBottomTabNavigator();
 
-function tabNavigator({ navigation }) {
+const tabNavigator = () => {
     return (
         <Tab.Navigator
             activeColor={Colors.accentColor}
@@ -18,14 +18,13 @@ function tabNavigator({ navigation }) {
                 activeTintColor: Colors.accentColor,
                 keyboardHidesTabBar: true,
             }}
-            barStyle={{ backgroundColor: "white" }}
-            // shifting={true}
+            barStyle={{ backgroundColor: Colors.tabNavigator }}
         >
             <Tab.Screen
                 name="Your Tasks"
                 component={taskListStack}
                 options={{
-                    tabBarIcon: ({ color, size }) => (
+                    tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons
                             name="format-list-bulleted"
                             color={color}
@@ -38,7 +37,7 @@ function tabNavigator({ navigation }) {
                 name="Add Task"
                 component={addTaskStack}
                 options={{
-                    tabBarIcon: ({ color, size }) => (
+                    tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons
                             name="pencil-plus"
                             color={color}
@@ -51,7 +50,7 @@ function tabNavigator({ navigation }) {
                 name="More"
                 component={More}
                 options={{
-                    tabBarIcon: ({ color, size }) => (
+                    tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons
                             name="dots-horizontal"
                             color={color}
@@ -62,6 +61,6 @@ function tabNavigator({ navigation }) {
             />
         </Tab.Navigator>
     );
-}
+};
 
 export default tabNavigator;

@@ -15,17 +15,17 @@ export default function About() {
         >
             <TouchableRipple
                 onPress={() => {
-                    Clipboard.setString("Version: Stable 0.2.9");
+                    Clipboard.setString("Version: Stable 0.3.0");
                     ToastAndroid.show(
-                        "Copied to clipboard: Version: Stable 0.2.9",
+                        "Copied to clipboard: Version: Stable 0.3.0",
                         ToastAndroid.SHORT
                     );
                 }}
             >
-                <List.Item title="Version" description="Stable 0.2.9" />
+                <List.Item title="Version" description="Stable 0.3.0" />
             </TouchableRipple>
             <TouchableRipple>
-                <List.Item title="Build Time" description="13/10/20 12:00 PM" />
+                <List.Item title="Build Time" description="15/10/20 9:00 PM" />
             </TouchableRipple>
             <Divider />
             <TouchableRipple

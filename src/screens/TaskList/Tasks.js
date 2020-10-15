@@ -136,7 +136,7 @@ export default function Home({ navigation }) {
             <FAB
                 style={styles.fab}
                 icon="plus"
-                color="white"
+                color={Colors.iconColor}
                 onPress={() => navigation.navigate("Add Task")}
             />
             <Portal>

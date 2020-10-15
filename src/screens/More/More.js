@@ -1,6 +1,5 @@
 import React from "react";
-import { List, TouchableRipple } from "react-native-paper";
-import { Appbar } from "react-native-paper";
+import { Appbar, List, TouchableRipple } from "react-native-paper";
 import Colors from "../../theming/colors";
 
 export default function More({ navigation }) {
@@ -12,7 +11,7 @@ export default function More({ navigation }) {
             <List.Section
                 style={{
                     flex: 1,
-                    backgroundColor: "#FAFAFA",
+                    backgroundColor: Colors.background,
                     marginTop: 0,
                     marginBottom: 0,
                 }}
