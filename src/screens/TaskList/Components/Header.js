@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, ToastAndroid } from "react-native";
+import { ToastAndroid } from "react-native";
 
 import { logout } from "../../../utils/firebase";
 
@@ -15,12 +15,11 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
     return (
         <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
             <Appbar.Content title="Your Tasks" />
+            <Appbar.Action icon="sync" onPress={() => handleSync()} />
             <Appbar.Action
                 icon="filter-variant"
                 onPress={() => handleSlider()}
             />
-            <Appbar.Action icon="sync" onPress={() => handleSync()} />
-
             <Menu
                 visible={visible}
                 onDismiss={closeMenu}

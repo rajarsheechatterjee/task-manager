@@ -28,11 +28,6 @@ export const unloadUser = (navigation) => {
     });
 };
 
-/**
- *
- * @param {String} email
- * @param {String} password
- */
 export const loginUser = async (email, password) => {
     try {
         await firebase
@@ -46,11 +41,6 @@ export const loginUser = async (email, password) => {
     }
 };
 
-/**
- *
- * @param {String} email
- * @param {String} password
- */
 export const signupUser = async (email, password) => {
     try {
         await firebase
@@ -176,12 +166,6 @@ export const deleteTask = async (navigation, id) => {
     navigation.navigate("Your Tasks");
 };
 
-/**
- * Sets is completed or not
- *
- * @param {Boolean} isCompleted
- * @param {String} taskId
- */
 export const updateIsCompleted = async (isCompleted, taskId) => {
     const dbRef = firebase
         .firestore()
@@ -209,3 +193,31 @@ export const deleteUser = async (navigation) => {
             Alert.alert(error.message);
         });
 };
+
+// const getTasks = async (sortBy, sortOrder) => {
+//     const dbRef = firebase
+//         .firestore()
+//         .collection("users")
+//         .doc(firebase.auth().currentUser.uid)
+//         .collection("tasks");
+
+//     let list = [];
+
+//     // dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
+//     //     querySnapshot.forEach((doc) => {
+//     //         list.push({
+//     //             id: doc.id,
+//     //             ...doc.data(),
+//     //         });
+//     //     });
+//     // });
+
+//     const snapshot = await dbRef.orderBy(sortBy, sortOrder).get();
+//     snapshot.forEach((doc) => {
+//         list.push({
+//             id: doc.id,
+//             ...doc.data(),
+//         });
+//     });
+//     return list;
+// };
