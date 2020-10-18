@@ -5,13 +5,17 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { StyleSheet, View, Text } from "react-native";
 import Colors from "../theming/colors";
 
-import AddTasks from "../screens/AddTask";
+import AddTasks from "../screens/AddTask/AddTask";
 
 const Stack = createStackNavigator();
 
 export default function StackNavigator({ navigation }) {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
             <Stack.Screen
                 name="Add Task"
                 component={AddTasks}
