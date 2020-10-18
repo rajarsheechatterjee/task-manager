@@ -3,16 +3,22 @@ import { Alert } from "react-native";
 import { List, TouchableRipple, Divider } from "react-native-paper";
 
 import Colors from "../../theming/colors";
-import { deleteUser, addDummyData } from "../../utils/firebase";
+import {
+    deleteUser,
+    addSampleData,
+    currentUserEmail,
+} from "../../utils/firebase";
 
 export default function About({ navigation }) {
-    const handleDeleteUser = async () => {
+    const email = currentUserEmail();
+
+    const handleDeleteUser = () => {
         deleteUser(navigation);
     };
 
-    const createTwoButtonAlert = () =>
+    const deleteAccountAlert = () =>
         Alert.alert(
-            "Delete your account",
+            "Warning",
             "Are you sure you want to permanently delete your account",
             [
                 {
@@ -35,7 +41,7 @@ export default function About({ navigation }) {
             <TouchableRipple>
                 <List.Item
                     title="Delete all tasks"
-                    description="Not added yet"
+                    description="(Not added yet)"
                     left={() => (
                         <List.Icon
                             color={Colors.deleteColor}
@@ -44,9 +50,9 @@ export default function About({ navigation }) {
                     )}
                 />
             </TouchableRipple>
-            <TouchableRipple onPress={() => addDummyData(navigation)}>
+            <TouchableRipple onPress={() => addSampleData(navigation)}>
                 <List.Item
-                    title="Add sample data"
+                    title="Add sample task"
                     left={() => (
                         <List.Icon
                             color={Colors.accentColor}
@@ -61,11 +67,18 @@ export default function About({ navigation }) {
             >
                 Account Settings
             </List.Subheader>
-            <TouchableRipple onPress={createTwoButtonAlert}>
+            <TouchableRipple>
                 <List.Item
-                    style={{ paddingVertical: 5 }}
+                    title={email}
+                    left={() => (
+                        <List.Icon color={Colors.accentColor} icon="email" />
+                    )}
+                />
+            </TouchableRipple>
+            <TouchableRipple onPress={deleteAccountAlert} disabled>
+                <List.Item
                     title="Delete your account"
-                    description="Permanently remove your account"
+                    description="(Not added yet)"
                     left={() => (
                         <List.Icon
                             color={Colors.deleteColor}

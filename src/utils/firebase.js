@@ -98,7 +98,7 @@ export const addTask = async (
     navigation.navigate("Your Tasks");
 };
 
-export const addDummyData = async (navigation) => {
+export const addSampleData = async (navigation) => {
     const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
     const dummyData = {
         userId: firebase.auth().currentUser.uid,
@@ -192,6 +192,10 @@ export const deleteUser = async (navigation) => {
         .catch(function (error) {
             Alert.alert(error.message);
         });
+};
+
+export const currentUserEmail = () => {
+    return firebase.auth().currentUser.email;
 };
 
 // const getTasks = async (sortBy, sortOrder) => {

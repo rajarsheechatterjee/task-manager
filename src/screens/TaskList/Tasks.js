@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { StyleSheet, View, ToastAndroid, FlatList } from "react-native";
 import { Provider, Portal, FAB, ActivityIndicator } from "react-native-paper";
 
@@ -24,7 +24,7 @@ export default function Home({ navigation }) {
     });
     const { sortMode, sortOrder } = sortType;
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         navigation.addListener("beforeRemove", (e) => {
             e.preventDefault();
         });

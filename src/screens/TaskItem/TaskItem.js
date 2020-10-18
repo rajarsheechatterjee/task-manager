@@ -41,15 +41,15 @@ export default function TaskItem({ route, navigation }) {
                             borderBottomColor: "#E8E8E8",
                         }}
                     >
-                        <Text style={styles.taskTitle}>
-                            {taskTitle}{" "}
-                            {isCompleted && (
-                                <MaterialCommunityIcons
-                                    name="check-all"
-                                    color="green"
-                                    size={25}
-                                />
-                            )}
+                        <Text
+                            style={[
+                                styles.taskTitle,
+                                isCompleted && {
+                                    textDecorationLine: "line-through",
+                                },
+                            ]}
+                        >
+                            {taskTitle}
                         </Text>
                     </View>
                     {taskTime !== "" && (

@@ -14,7 +14,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 export default function Home({ navigation }) {
     const [newTaskTitle, setNewTaskTitle] = useState("");
     const [newTaskContent, setNewTaskContent] = useState("");
-    const [priorityIs, setPriorityIs] = useState(2);
+    const [priority, setPriority] = useState(2);
 
     const [isVisible, setIsVisible] = useState(false);
     const [chosenDate, setChosenDate] = useState("");
@@ -32,7 +32,7 @@ export default function Home({ navigation }) {
                 newTaskTitle,
                 chosenDate,
                 newTaskContent,
-                priorityIs
+                priority
             );
 
             ToastAndroid.show("Task Added", ToastAndroid.SHORT);
@@ -47,13 +47,13 @@ export default function Home({ navigation }) {
     };
 
     // Date & time picker
-    const handlePicker = (datetime) => {
-        setChosenDate(moment(datetime).format("YYYY-MM-DD HH:mm"));
+    const handlePicker = (date) => {
+        setChosenDate(moment(date).calendar());
         setIsVisible(false);
     };
 
     const showPicker = () => {
-        setChosenDate("");
+        // setChosenDate("");
         setIsVisible(true);
     };
 
@@ -105,6 +105,7 @@ export default function Home({ navigation }) {
                         placeholder="Content"
                         defaultValue={newTaskContent}
                         multiline={true}
+                        autoFocus
                     />
                 </View>
                 <DateTimePickerModal
@@ -115,40 +116,55 @@ export default function Home({ navigation }) {
                     is24Hour={false}
                 />
             </View>
-            <View style={styles.prioritContainer}>
-                <CheckBox
-                    center
-                    title="High"
-                    checkedColor={Colors.priorityHigh}
-                    uncheckedColor={Colors.priorityHigh}
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    checked={priorityIs === 1 ? true : false}
-                    onPress={() => setPriorityIs(1)}
-                    containerStyle={styles.checkBox}
-                />
-                <CheckBox
-                    center
-                    title="Medium"
-                    checkedColor={Colors.priorityMid}
-                    uncheckedColor={Colors.priorityMid}
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    checked={priorityIs === 2 ? true : false}
-                    onPress={() => setPriorityIs(2)}
-                    containerStyle={styles.checkBox}
-                />
-                <CheckBox
-                    center
-                    title="Low"
-                    checkedColor="blue"
-                    uncheckedColor="blue"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    checked={priorityIs === 3 ? true : false}
-                    onPress={() => setPriorityIs(3)}
-                    containerStyle={styles.checkBox}
-                />
+            <View>
+                <Text
+                    style={{
+                        fontSize: 17,
+                        color: Colors.subTextColor,
+                        backgroundColor: Colors.background,
+                        paddingHorizontal: 10,
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        paddingBottom: 10,
+                    }}
+                >
+                    Set Priority
+                </Text>
+                <View style={styles.priorityContainer}>
+                    <CheckBox
+                        center
+                        title="High"
+                        checkedColor={Colors.priorityHigh}
+                        uncheckedColor={Colors.priorityHigh}
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checked={priority === 1 ? true : false}
+                        onPress={() => setPriority(1)}
+                        containerStyle={styles.checkBox}
+                    />
+                    <CheckBox
+                        center
+                        title="Medium"
+                        checkedColor={Colors.priorityMid}
+                        uncheckedColor={Colors.priorityMid}
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checked={priority === 2 ? true : false}
+                        onPress={() => setPriority(2)}
+                        containerStyle={styles.checkBox}
+                    />
+                    <CheckBox
+                        center
+                        title="Low"
+                        checkedColor="blue"
+                        uncheckedColor="blue"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                        checked={priority === 3 ? true : false}
+                        onPress={() => setPriority(3)}
+                        containerStyle={styles.checkBox}
+                    />
+                </View>
             </View>
         </>
     );
@@ -174,12 +190,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         fontSize: 17,
     },
-    prioritContainer: {
+    priorityContainer: {
         flexDirection: "row",
         justifyContent: "center",
         backgroundColor: Colors.background,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
+        paddingBottom: 10,
+        paddingHorizontal: 5,
     },
     checkBox: {
         borderRadius: 10,
