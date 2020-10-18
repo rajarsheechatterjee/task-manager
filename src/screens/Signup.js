@@ -13,7 +13,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Colors from "../theming/colors";
 
-import { checkIfLoggedIn, signupUser } from "../utils/firebase";
+import { isLoggedIn, signupUser } from "../utils/firebase";
 
 export default function SignupScreen({ navigation }) {
     const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ export default function SignupScreen({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-            checkIfLoggedIn(navigation);
+            isLoggedIn(navigation);
             setLoading(true);
             setTimeout(function () {
                 setLoading(false);

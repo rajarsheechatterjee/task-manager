@@ -1,4 +1,3 @@
-import { colors } from "react-native-elements";
 import Colors from "../theming/colors";
 
 /**

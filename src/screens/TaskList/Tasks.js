@@ -25,9 +25,6 @@ export default function Home({ navigation }) {
     const { sortMode, sortOrder } = sortType;
 
     useEffect(() => {
-        navigation.addListener("beforeRemove", (e) => {
-            e.preventDefault();
-        });
         getTasks(sortMode, sortOrder);
     }, [sortMode]);
 

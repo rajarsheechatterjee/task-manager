@@ -12,7 +12,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Colors from "../theming/colors";
 
-import { checkIfLoggedIn, loginUser } from "../utils/firebase";
+import { isLoggedIn, loginUser } from "../utils/firebase";
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState("");
@@ -21,11 +21,7 @@ export default function LoginScreen({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-            checkIfLoggedIn(navigation);
-            setLoading(true);
-            setTimeout(function () {
-                setLoading(false);
-            }, 1000);
+            isLoggedIn(navigation);
         }, [])
     );
 

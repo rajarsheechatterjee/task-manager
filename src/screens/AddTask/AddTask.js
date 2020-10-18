@@ -5,6 +5,7 @@ import { Appbar } from "react-native-paper";
 
 import Colors from "../../theming/colors";
 import { CheckBox } from "react-native-elements";
+import { priorityIconColor } from "../../utils/priority";
 import Button from "../../components/Button";
 import Ripple from "react-native-material-ripple";
 
@@ -22,10 +23,6 @@ export default function Home({ navigation }) {
     const handleAddTask = async () => {
         if (newTaskTitle === "") {
             ToastAndroid.show("Task title is empty", ToastAndroid.SHORT);
-            // } else if (newTaskContent === "") {
-            //     ToastAndroid.show("Task content is empty", ToastAndroid.SHORT);
-            // } else if (chosenDate === "") {
-            //     ToastAndroid.show("Reminder time is empty", ToastAndroid.SHORT);
         } else {
             await addTask(
                 navigation,
@@ -63,7 +60,7 @@ export default function Home({ navigation }) {
 
     /**
      * TODO
-     * Redesign this screen
+     * Add Bottom sheet for add task settings
      *
      */
 
@@ -78,7 +75,10 @@ export default function Home({ navigation }) {
                 />
                 <Appbar.Content title="Add Task" />
                 <Appbar.Action icon="alarm" onPress={showPicker} />
-                <Appbar.Action icon="pin" disabled={true} />
+                <Appbar.Action
+                    icon="priority-high"
+                    color={priority !== 0 && "#FFC107"}
+                />
                 <Appbar.Action
                     icon="check"
                     onPress={handleAddTask}
@@ -88,16 +88,17 @@ export default function Home({ navigation }) {
             <View style={styles.mainContainer}>
                 <View>
                     <TextInput
-                        style={styles.dateInput}
-                        defaultValue={chosenDate}
-                        editable={false}
-                        placeholder="Date & Time"
-                    />
-                    <TextInput
+                        multiline={true}
                         style={styles.titleInput}
                         placeholder="Title"
                         onChangeText={(text) => setNewTaskTitle(text)}
                         defaultValue={newTaskTitle}
+                    />
+                    <TextInput
+                        style={styles.dateInput}
+                        defaultValue={chosenDate}
+                        editable={false}
+                        placeholder="Reminder Time"
                     />
                     <TextInput
                         style={styles.contentInput}
@@ -176,17 +177,17 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.background,
         padding: 10,
     },
-    dateInput: { marginHorizontal: 10, paddingTop: 5, paddingBottom: 2 },
+    dateInput: { marginHorizontal: 10, paddingTop: 5 },
     titleInput: {
         fontSize: 30,
         fontWeight: "bold",
-        paddingBottom: 15,
+        paddingVertical: 15,
         marginHorizontal: 10,
         borderBottomWidth: 1.2,
-        borderBottomColor: "#C7C7CD",
+        borderBottomColor: "#E8E8E8",
     },
     contentInput: {
-        paddingTop: 15,
+        paddingTop: 10,
         marginHorizontal: 10,
         fontSize: 17,
     },

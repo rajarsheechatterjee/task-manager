@@ -2,7 +2,7 @@ import firebase from "../../firebaseConfig";
 import "firebase/firestore";
 import { Alert } from "react-native";
 
-export const checkIfLoggedIn = (navigation) => {
+export const isLoggedIn = (navigation) => {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             navigation.navigate("Task Monitor");
@@ -20,13 +20,13 @@ export const loadUser = (navigation) => {
     });
 };
 
-export const unloadUser = (navigation) => {
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (!user) {
-            navigation.navigate("Login");
-        }
-    });
-};
+// export const unloadUser = (navigation) => {
+//     firebase.auth().onAuthStateChanged(function (user) {
+//         if (!user) {
+//             navigation.navigate("Login");
+//         }
+//     });
+// };
 
 export const loginUser = async (email, password) => {
     try {
@@ -62,9 +62,11 @@ export const signupUser = async (email, password) => {
     }
 };
 
-export const logout = async (navigation) => {
-    await firebase.auth().signOut();
-    navigation.navigate("Login");
+export const logout = (navigation) => {
+    firebase
+        .auth()
+        .signOut()
+        .then(() => navigation.navigate("Login"));
 };
 
 export const addTask = async (

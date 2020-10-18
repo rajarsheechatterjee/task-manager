@@ -12,8 +12,6 @@ import { useFocusEffect } from "@react-navigation/native";
 import { loadUser } from "../utils/firebase";
 
 export default function Loading({ navigation }) {
-    const [loading, setLoading] = useState(true);
-
     useFocusEffect(
         useCallback(() => {
             loadUser(navigation);
@@ -23,7 +21,7 @@ export default function Loading({ navigation }) {
     return (
         <View style={styles.container}>
             <Text style={styles.titleText}>Checking if logged in</Text>
-            <ActivityIndicator size="large" color="white" animating={loading} />
+            <ActivityIndicator size="large" color="white" animating={true} />
         </View>
     );
 }
