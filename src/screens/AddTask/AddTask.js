@@ -22,10 +22,10 @@ export default function Home({ navigation }) {
     const handleAddTask = async () => {
         if (newTaskTitle === "") {
             ToastAndroid.show("Task title is empty", ToastAndroid.SHORT);
-        } else if (newTaskContent === "") {
-            ToastAndroid.show("Task content is empty", ToastAndroid.SHORT);
-        } else if (chosenDate === "") {
-            ToastAndroid.show("Task time is empty", ToastAndroid.SHORT);
+            // } else if (newTaskContent === "") {
+            //     ToastAndroid.show("Task content is empty", ToastAndroid.SHORT);
+            // } else if (chosenDate === "") {
+            //     ToastAndroid.show("Reminder time is empty", ToastAndroid.SHORT);
         } else {
             await addTask(
                 navigation,
@@ -36,11 +36,14 @@ export default function Home({ navigation }) {
             );
 
             ToastAndroid.show("Task Added", ToastAndroid.SHORT);
-
-            setNewTaskTitle("");
-            setNewTaskContent("");
-            setChosenDate("");
+            clearFields();
         }
+    };
+
+    const clearFields = () => {
+        setNewTaskTitle("");
+        setNewTaskContent("");
+        setChosenDate("");
     };
 
     // Date & time picker
@@ -66,13 +69,16 @@ export default function Home({ navigation }) {
 
     return (
         <>
-            <Appbar.Header>
+            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
                 <Appbar.BackAction
-                    onPress={() => navigation.navigate("Your Tasks")}
+                    onPress={() => {
+                        navigation.navigate("Your Tasks");
+                        clearFields();
+                    }}
                 />
                 <Appbar.Content title="Add Task" />
                 <Appbar.Action icon="alarm" onPress={showPicker} />
-                <Appbar.Action icon="pin" />
+                <Appbar.Action icon="pin" disabled={true} />
                 <Appbar.Action
                     icon="check"
                     onPress={handleAddTask}
@@ -80,105 +86,69 @@ export default function Home({ navigation }) {
                 />
             </Appbar.Header>
             <View style={styles.mainContainer}>
-                <Text style={styles.screenHeader}>Add a New Task</Text>
-
-                {/* Task title input */}
                 <View>
                     <TextInput
-                        style={[styles.txtinpt, styles.txtInputTitle]}
-                        onChangeText={(text) => setNewTaskTitle(text)}
-                        placeholder="Task Title"
-                        defaultValue={newTaskTitle}
-                    />
-                </View>
-
-                {/* Task reminder time picker */}
-                <View style={{ flexDirection: "row" }}>
-                    <TextInput
-                        style={[
-                            { flex: 2 / 3, marginRight: 5 },
-                            styles.txtinpt,
-                        ]}
-                        placeholder="Date & Time"
+                        style={styles.dateInput}
                         defaultValue={chosenDate}
                         editable={false}
+                        placeholder="Date & Time"
                     />
-                    <Ripple
-                        style={styles.datePicker}
-                        onPress={() => showPicker()}
-                    >
-                        <Text numberOfLines={1} style={styles.datePickerText}>
-                            Pick Date & Time
-                        </Text>
-                    </Ripple>
-                    <DateTimePickerModal
-                        isVisible={isVisible}
-                        onConfirm={handlePicker}
-                        onCancel={hidePicker}
-                        mode="datetime"
-                        is24Hour={false}
-                    />
-                </View>
-
-                {/* Task content input */}
-                <View>
                     <TextInput
-                        multiline={true}
-                        style={styles.txtinpt}
+                        style={styles.titleInput}
+                        placeholder="Title"
+                        onChangeText={(text) => setNewTaskTitle(text)}
+                        defaultValue={newTaskTitle}
+                    />
+                    <TextInput
+                        style={styles.contentInput}
                         onChangeText={(text) => setNewTaskContent(text)}
                         placeholder="Content"
                         defaultValue={newTaskContent}
+                        multiline={true}
                     />
                 </View>
-
-                {/* Set priority checkboxes */}
-                <View>
-                    <View>
-                        <Text style={styles.taskStatus}>Task Priority</Text>
-                    </View>
-
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <CheckBox
-                            center
-                            title="High"
-                            checkedColor={Colors.priorityHigh}
-                            uncheckedColor={Colors.priorityHigh}
-                            checkedIcon="dot-circle-o"
-                            uncheckedIcon="circle-o"
-                            checked={priorityIs === 1 ? true : false}
-                            onPress={() => setPriorityIs(1)}
-                            containerStyle={styles.checkBox}
-                        />
-                        <CheckBox
-                            center
-                            title="Medium"
-                            checkedColor={Colors.priorityMid}
-                            uncheckedColor={Colors.priorityMid}
-                            checkedIcon="dot-circle-o"
-                            uncheckedIcon="circle-o"
-                            checked={priorityIs === 2 ? true : false}
-                            onPress={() => setPriorityIs(2)}
-                            containerStyle={styles.checkBox}
-                        />
-                        <CheckBox
-                            center
-                            title="Low"
-                            checkedColor="blue"
-                            uncheckedColor="blue"
-                            checkedIcon="dot-circle-o"
-                            uncheckedIcon="circle-o"
-                            checked={priorityIs === 3 ? true : false}
-                            onPress={() => setPriorityIs(3)}
-                            containerStyle={styles.checkBox}
-                        />
-                    </View>
-                </View>
-                <Button onPress={handleAddTask} title="Add Task" />
+                <DateTimePickerModal
+                    isVisible={isVisible}
+                    onConfirm={handlePicker}
+                    onCancel={hidePicker}
+                    mode="datetime"
+                    is24Hour={false}
+                />
+            </View>
+            <View style={styles.prioritContainer}>
+                <CheckBox
+                    center
+                    title="High"
+                    checkedColor={Colors.priorityHigh}
+                    uncheckedColor={Colors.priorityHigh}
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    checked={priorityIs === 1 ? true : false}
+                    onPress={() => setPriorityIs(1)}
+                    containerStyle={styles.checkBox}
+                />
+                <CheckBox
+                    center
+                    title="Medium"
+                    checkedColor={Colors.priorityMid}
+                    uncheckedColor={Colors.priorityMid}
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    checked={priorityIs === 2 ? true : false}
+                    onPress={() => setPriorityIs(2)}
+                    containerStyle={styles.checkBox}
+                />
+                <CheckBox
+                    center
+                    title="Low"
+                    checkedColor="blue"
+                    uncheckedColor="blue"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    checked={priorityIs === 3 ? true : false}
+                    onPress={() => setPriorityIs(3)}
+                    containerStyle={styles.checkBox}
+                />
             </View>
         </>
     );
@@ -187,93 +157,34 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        padding: 10,
-        paddingTop: 60,
         backgroundColor: Colors.background,
-        color: Colors.textColor,
-    },
-    screenHeader: {
-        fontSize: 28,
-        fontWeight: "700",
-        marginBottom: 10,
-        textAlign: "center",
-    },
-    inputLabel: {
-        fontWeight: "700",
-        marginBottom: 10,
-        fontSize: 18,
-    },
-    txtInputTitle: {
-        fontWeight: "700",
-    },
-    txtinpt: {
-        borderRadius: 10,
-        backgroundColor: "white",
-        marginVertical: 5,
         padding: 10,
-        fontSize: 16,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
     },
-    buttonWrapper: {
-        position: "absolute",
-        bottom: 20,
-        right: 20,
-    },
-    button: {
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 50,
-        width: 60,
-        height: 60,
-        backgroundColor: "white",
-    },
-    icon: {
-        marginRight: -2,
-        marginTop: -2,
-    },
-    datePicker: {
-        flex: 1 / 3,
-        elevation: 8,
-        backgroundColor: Colors.accentColor,
-        borderRadius: 10,
-        paddingVertical: 12,
-        paddingHorizontal: 13,
-        marginVertical: 5,
-    },
-    addTaskButton: {
-        elevation: 8,
-        backgroundColor: Colors.accentColor,
-        borderRadius: 10,
-        paddingVertical: 12,
-        paddingHorizontal: 13,
-        marginVertical: 10,
-    },
-    datePickerText: {
-        fontSize: 16,
-        color: "#fff",
+    dateInput: { marginHorizontal: 10, paddingTop: 5, paddingBottom: 2 },
+    titleInput: {
+        fontSize: 30,
         fontWeight: "bold",
-        alignSelf: "center",
-        textTransform: "uppercase",
+        paddingBottom: 15,
+        marginHorizontal: 10,
+        borderBottomWidth: 1.2,
+        borderBottomColor: "#C7C7CD",
     },
-    taskStatus: {
-        fontWeight: "700",
-        fontSize: 18,
-        textAlign: "center",
-        marginVertical: 10,
+    contentInput: {
+        paddingTop: 15,
+        marginHorizontal: 10,
+        fontSize: 17,
+    },
+    prioritContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        backgroundColor: Colors.background,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
     },
     checkBox: {
         borderRadius: 10,
-        elevation: 3,
+        elevation: 1,
         borderWidth: 0,
         backgroundColor: "white",
-        // flex: 1 / 3,
-        // paddingHorizontal: 10,
     },
 });

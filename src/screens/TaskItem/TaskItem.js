@@ -52,11 +52,13 @@ export default function TaskItem({ route, navigation }) {
                             )}
                         </Text>
                     </View>
-                    <View>
-                        <Text style={styles.taskDate}>
-                            Due {moment(taskTime).calendar()}
-                        </Text>
-                    </View>
+                    {taskTime !== "" && (
+                        <View>
+                            <Text style={styles.taskDate}>
+                                Due {moment(taskTime).calendar()}
+                            </Text>
+                        </View>
+                    )}
                     <View>
                         <Text style={styles.taskContent}>{taskContent}</Text>
                     </View>
