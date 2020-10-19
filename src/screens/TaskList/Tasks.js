@@ -28,11 +28,10 @@ export default function Home({ navigation }) {
         getTasks(sortMode, sortOrder);
     }, [sortMode]);
 
-    // Bottom Slider Sheet
-    const handleRef = (c) => (_panel = c);
-
     /**
-     * TODO render single flatlist for all sort methods
+     *
+     * TODO render single flatlist for all sort modes
+     *
      */
 
     const getTasks = async (sortBy, sortOrder) => {
@@ -79,6 +78,10 @@ export default function Home({ navigation }) {
         setSortType({ sortMode: "createdAt", sortOrder: "desc" });
     };
 
+    const renderTaskCard = ({ item }) => (
+        <TaskCard navigation={navigation} taskItem={item} />
+    );
+
     return (
         <Provider>
             <CustomHeader
@@ -94,38 +97,26 @@ export default function Home({ navigation }) {
                 <View style={styles.flatListContainer}>
                     {sortMode === "createdAt" && (
                         <FlatList
+                            removeClippedSubviews={true}
                             data={tasksList}
                             keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => (
-                                <TaskCard
-                                    navigation={navigation}
-                                    taskItem={item}
-                                />
-                            )}
+                            renderItem={renderTaskCard}
                         />
                     )}
                     {sortMode === "priorityIs" && (
                         <FlatList
+                            removeClippedSubviews={true}
                             data={tasksList2}
                             keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => (
-                                <TaskCard
-                                    navigation={navigation}
-                                    taskItem={item}
-                                />
-                            )}
+                            renderItem={renderTaskCard}
                         />
                     )}
                     {sortMode === "taskTime" && (
                         <FlatList
+                            removeClippedSubviews={true}
                             data={tasksList3}
                             keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => (
-                                <TaskCard
-                                    navigation={navigation}
-                                    taskItem={item}
-                                />
-                            )}
+                            renderItem={renderTaskCard}
                         />
                     )}
                 </View>
@@ -142,7 +133,7 @@ export default function Home({ navigation }) {
                     handleSortByDueAt={handleSortByDueAt}
                     handleSortByPriority={handleSortByPriority}
                     sortMode={sortMode}
-                    handleRef={handleRef}
+                    handleRef={(c) => (_panel = c)}
                 />
             </Portal>
         </Provider>

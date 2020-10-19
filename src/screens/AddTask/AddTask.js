@@ -1,15 +1,12 @@
-import React, { useState, useCallback, useMemo, useRef } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, ToastAndroid } from "react-native";
+
 import { addTask } from "../../utils/firebase";
-import { Appbar, List, TouchableRipple } from "react-native-paper";
-// import BottomSheet from "@gorhom/bottom-sheet";
-import BottomSheet from "rn-sliding-up-panel";
-
 import Colors from "../../theming/colors";
-import { CheckBox } from "react-native-elements";
-import { priorityIconColor } from "../../utils/priority";
-import Button from "../../components/Button";
 
+import { Appbar, TouchableRipple } from "react-native-paper";
+import { CheckBox } from "react-native-elements";
+import BottomSheet from "rn-sliding-up-panel";
 import moment from "moment";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -124,25 +121,14 @@ export default function Home({ navigation }) {
                 snappingPoints={[50, 210]}
             >
                 <View style={styles.bottomSheetContainer}>
-                    <View
-                        style={{
-                            position: "absolute",
-                            justifyContent: "center",
-                            alignSelf: "center",
-                            width: 35,
-                            height: 5,
-                            backgroundColor: "rgba(0,0,0,0.75)",
-                            borderRadius: 25,
-                            top: 7,
-                        }}
-                    />
+                    <View style={styles.indicator} />
                     <Text style={styles.priorityHeading}>Priority</Text>
                     <TouchableRipple
                         style={styles.setPriority}
                         onPress={() => setPriority(1)}
                     >
                         <>
-                            <Text>High</Text>
+                            <Text style={{ fontSize: 15 }}>High</Text>
                             <CheckBox
                                 checkedColor={Colors.priorityHigh}
                                 uncheckedColor={Colors.priorityHigh}
@@ -159,7 +145,7 @@ export default function Home({ navigation }) {
                         onPress={() => setPriority(2)}
                     >
                         <>
-                            <Text>Medium</Text>
+                            <Text style={{ fontSize: 15 }}>Medium</Text>
                             <CheckBox
                                 checkedColor={Colors.priorityMid}
                                 uncheckedColor={Colors.priorityMid}
@@ -176,7 +162,7 @@ export default function Home({ navigation }) {
                         onPress={() => setPriority(3)}
                     >
                         <>
-                            <Text>Low</Text>
+                            <Text style={{ fontSize: 15 }}>Low</Text>
                             <CheckBox
                                 checkedColor={Colors.priorityLow}
                                 uncheckedColor={Colors.priorityLow}
@@ -246,5 +232,15 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 16,
+    },
+    indicator: {
+        position: "absolute",
+        justifyContent: "center",
+        alignSelf: "center",
+        width: 40,
+        height: 5,
+        backgroundColor: "rgba(0,0,0,0.75)",
+        borderRadius: 25,
+        top: 7,
     },
 });

@@ -7,6 +7,7 @@ import {
     deleteUser,
     addSampleData,
     currentUserEmail,
+    logout,
 } from "../../utils/firebase";
 
 export default function About({ navigation }) {
@@ -75,6 +76,14 @@ export default function About({ navigation }) {
                     )}
                 />
             </TouchableRipple>
+            {/* <TouchableRipple onPress={() => logout(navigation)}>
+                <List.Item
+                    title="Logout"
+                    left={() => (
+                        <List.Icon color={Colors.accentColor} icon="logout" />
+                    )}
+                />
+            </TouchableRipple> */}
             <TouchableRipple onPress={deleteAccountAlert} disabled>
                 <List.Item
                     title="Delete your account"

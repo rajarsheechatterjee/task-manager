@@ -12,10 +12,12 @@ import Ripple from "react-native-material-ripple";
 
 export default function TaskCard({ taskItem, navigation }) {
     const [checked, setChecked] = useState(taskItem.isCompleted);
+
     const handleCompleted = () => {
         setChecked(!checked);
-        updateIsCompleted(taskItem.isCompleted, taskItem.id);
+        updateIsCompleted(checked, taskItem.id);
     };
+
     return (
         <View style={styles.mainContainer}>
             <View style={styles.taskListView}>
@@ -70,7 +72,7 @@ export default function TaskCard({ taskItem, navigation }) {
                         rippleContainerBorderRadius={50}
                         rippleCentered={true}
                         onPress={() =>
-                            navigation.navigate("TaskItem", taskItem)
+                            navigation.navigate("Task Item", taskItem)
                         }
                     >
                         <MaterialCommunityIcons

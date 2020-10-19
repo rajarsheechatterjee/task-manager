@@ -15,23 +15,13 @@ function StackNavigator({ navigation }) {
             <Stack.Screen
                 name="Your Tasks"
                 component={TaskList}
-                options={{
-                    headerStyle: {
-                        backgroundColor: Colors.accentColor,
-                    },
-                    headerTintColor: "white",
-                    headerLeft: false,
-                    headerShown: false,
-                }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="TaskItem"
+                name="Task Item"
                 component={TaskItem}
                 options={{
-                    headerTitle: "Task Item",
-                    headerStyle: {
-                        backgroundColor: Colors.accentColor,
-                    },
+                    headerStyle: { backgroundColor: Colors.accentColor },
                     headerTintColor: "white",
                 }}
             />
@@ -39,11 +29,7 @@ function StackNavigator({ navigation }) {
                 name="EditTask"
                 component={EditTask}
                 options={{
-                    headerTitle: "Edit Task Details",
-                    headerStyle: {
-                        backgroundColor: Colors.accentColor,
-                    },
-                    headerTintColor: "white",
+                    headerShown: false,
                 }}
             />
         </Stack.Navigator>
