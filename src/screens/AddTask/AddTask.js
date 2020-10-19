@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
 import { StyleSheet, Text, View, TextInput, ToastAndroid } from "react-native";
 import { addTask } from "../../utils/firebase";
-import { Appbar } from "react-native-paper";
+import { Appbar, List, TouchableRipple } from "react-native-paper";
+// import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet from "rn-sliding-up-panel";
 
 import Colors from "../../theming/colors";
 import { CheckBox } from "react-native-elements";
 import { priorityIconColor } from "../../utils/priority";
 import Button from "../../components/Button";
-import Ripple from "react-native-material-ripple";
 
 import moment from "moment";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -77,7 +78,7 @@ export default function Home({ navigation }) {
                 <Appbar.Action icon="alarm" onPress={showPicker} />
                 <Appbar.Action
                     icon="priority-high"
-                    color={priority !== 0 && "#FFC107"}
+                    onPress={() => _panel.show()}
                 />
                 <Appbar.Action
                     icon="check"
@@ -117,56 +118,78 @@ export default function Home({ navigation }) {
                     is24Hour={false}
                 />
             </View>
-            <View>
-                <Text
-                    style={{
-                        fontSize: 17,
-                        color: Colors.subTextColor,
-                        backgroundColor: Colors.background,
-                        paddingHorizontal: 10,
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        paddingBottom: 10,
-                    }}
-                >
-                    Set Priority
-                </Text>
-                <View style={styles.priorityContainer}>
-                    <CheckBox
-                        center
-                        title="High"
-                        checkedColor={Colors.priorityHigh}
-                        uncheckedColor={Colors.priorityHigh}
-                        checkedIcon="dot-circle-o"
-                        uncheckedIcon="circle-o"
-                        checked={priority === 1 ? true : false}
+            <BottomSheet
+                ref={(c) => (_panel = c)}
+                draggableRange={{ top: 210, bottom: 50 }}
+                snappingPoints={[50, 210]}
+            >
+                <View style={styles.bottomSheetContainer}>
+                    <View
+                        style={{
+                            position: "absolute",
+                            justifyContent: "center",
+                            alignSelf: "center",
+                            width: 35,
+                            height: 5,
+                            backgroundColor: "rgba(0,0,0,0.75)",
+                            borderRadius: 25,
+                            top: 7,
+                        }}
+                    />
+                    <Text style={styles.priorityHeading}>Priority</Text>
+                    <TouchableRipple
+                        style={styles.setPriority}
                         onPress={() => setPriority(1)}
-                        containerStyle={styles.checkBox}
-                    />
-                    <CheckBox
-                        center
-                        title="Medium"
-                        checkedColor={Colors.priorityMid}
-                        uncheckedColor={Colors.priorityMid}
-                        checkedIcon="dot-circle-o"
-                        uncheckedIcon="circle-o"
-                        checked={priority === 2 ? true : false}
+                    >
+                        <>
+                            <Text>High</Text>
+                            <CheckBox
+                                checkedColor={Colors.priorityHigh}
+                                uncheckedColor={Colors.priorityHigh}
+                                checkedIcon="dot-circle-o"
+                                uncheckedIcon="circle-o"
+                                checked={priority === 1 ? true : false}
+                                containerStyle={styles.checkBox}
+                                onPress={() => setPriority(1)}
+                            />
+                        </>
+                    </TouchableRipple>
+                    <TouchableRipple
+                        style={styles.setPriority}
                         onPress={() => setPriority(2)}
-                        containerStyle={styles.checkBox}
-                    />
-                    <CheckBox
-                        center
-                        title="Low"
-                        checkedColor="blue"
-                        uncheckedColor="blue"
-                        checkedIcon="dot-circle-o"
-                        uncheckedIcon="circle-o"
-                        checked={priority === 3 ? true : false}
+                    >
+                        <>
+                            <Text>Medium</Text>
+                            <CheckBox
+                                checkedColor={Colors.priorityMid}
+                                uncheckedColor={Colors.priorityMid}
+                                checkedIcon="dot-circle-o"
+                                uncheckedIcon="circle-o"
+                                checked={priority === 2 ? true : false}
+                                containerStyle={styles.checkBox}
+                                onPress={() => setPriority(2)}
+                            />
+                        </>
+                    </TouchableRipple>
+                    <TouchableRipple
+                        style={styles.setPriority}
                         onPress={() => setPriority(3)}
-                        containerStyle={styles.checkBox}
-                    />
+                    >
+                        <>
+                            <Text>Low</Text>
+                            <CheckBox
+                                checkedColor={Colors.priorityLow}
+                                uncheckedColor={Colors.priorityLow}
+                                checkedIcon="dot-circle-o"
+                                uncheckedIcon="circle-o"
+                                checked={priority === 3 ? true : false}
+                                containerStyle={styles.checkBox}
+                                onPress={() => setPriority(3)}
+                            />
+                        </>
+                    </TouchableRipple>
                 </View>
-            </View>
+            </BottomSheet>
         </>
     );
 }
@@ -200,8 +223,28 @@ const styles = StyleSheet.create({
     },
     checkBox: {
         borderRadius: 10,
-        elevation: 1,
         borderWidth: 0,
+    },
+    bottomSheetContainer: {
+        flex: 1,
         backgroundColor: "white",
+        paddingTop: 17,
+        paddingBottom: 8,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        elevation: 10,
+    },
+    priorityHeading: {
+        fontWeight: "bold",
+        fontSize: 15,
+        color: Colors.accentColor,
+        paddingHorizontal: 16,
+        paddingBottom: 5,
+    },
+    setPriority: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: 16,
     },
 });
