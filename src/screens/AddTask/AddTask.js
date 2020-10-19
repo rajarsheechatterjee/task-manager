@@ -46,21 +46,8 @@ export default function Home({ navigation }) {
         setChosenDate(moment(date).calendar());
         setIsVisible(false);
     };
-
-    const showPicker = () => {
-        // setChosenDate("");
-        setIsVisible(true);
-    };
-
-    const hidePicker = () => {
-        setIsVisible(false);
-    };
-
-    /**
-     * TODO
-     * Add Bottom sheet for add task settings
-     *
-     */
+    const showPicker = () => setIsVisible(true);
+    const hidePicker = () => setIsVisible(false);
 
     return (
         <>
@@ -119,6 +106,7 @@ export default function Home({ navigation }) {
                 ref={(c) => (_panel = c)}
                 draggableRange={{ top: 210, bottom: 50 }}
                 snappingPoints={[50, 210]}
+                showBackdrop={false}
             >
                 <View style={styles.bottomSheetContainer}>
                     <View style={styles.indicator} />
@@ -199,13 +187,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         marginHorizontal: 10,
         fontSize: 17,
-    },
-    priorityContainer: {
-        flexDirection: "row",
-        justifyContent: "center",
-        backgroundColor: Colors.background,
-        paddingBottom: 10,
-        paddingHorizontal: 5,
     },
     checkBox: {
         borderRadius: 10,

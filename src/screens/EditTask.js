@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, ToastAndroid } from "react-native";
 import { CheckBox } from "react-native-elements";
-import { Appbar, TouchableRipple } from "react-native-paper";
+import { Appbar, TouchableRipple, Switch } from "react-native-paper";
 import BottomSheet from "rn-sliding-up-panel";
 
 import Colors from "../theming/colors";
@@ -29,28 +29,18 @@ export default function EditTask({ route, navigation }) {
 
     const [priority, setPriority] = useState(priorityIs);
 
-    const handleIsCompleted = (isChecked) => {
-        setIsChecked(!isChecked);
-    };
+    const handleIsCompleted = (isChecked) => setIsChecked(!isChecked);
 
     const handlePicker = (date) => {
         setChosenDate(moment(date).calendar());
         setIsVisible(false);
     };
-    const showPicker = () => {
-        setIsVisible(true);
-    };
-    const hidePicker = () => {
-        setIsVisible(false);
-    };
+    const showPicker = () => setIsVisible(true);
+    const hidePicker = () => setIsVisible(false);
 
     const handleEditTask = async () => {
         if (newTaskTitle === "") {
             ToastAndroid.show("Task title is empty", ToastAndroid.SHORT);
-        } else if (newTaskContent === "") {
-            ToastAndroid.show("Task content is empty", ToastAndroid.SHORT);
-        } else if (chosenDate === "") {
-            ToastAndroid.show("Task time is empty", ToastAndroid.SHORT);
         } else {
             await updateTask(
                 navigation,
@@ -61,7 +51,6 @@ export default function EditTask({ route, navigation }) {
                 priority,
                 isChecked
             );
-
             ToastAndroid.show("Task Updated", ToastAndroid.SHORT);
         }
     };
@@ -74,7 +63,7 @@ export default function EditTask({ route, navigation }) {
                         navigation.goBack();
                     }}
                 />
-                <Appbar.Content title="Add Task" />
+                <Appbar.Content title="Edit Task" />
                 <Appbar.Action icon="alarm" onPress={showPicker} />
                 <Appbar.Action
                     icon="priority-high"
@@ -120,8 +109,9 @@ export default function EditTask({ route, navigation }) {
             </View>
             <BottomSheet
                 ref={(c) => (_panel = c)}
-                draggableRange={{ top: 210, bottom: 50 }}
-                snappingPoints={[50, 210]}
+                draggableRange={{ top: 290, bottom: 50 }}
+                snappingPoints={[50, 290]}
+                showBackdrop={false}
             >
                 <View style={styles.bottomSheetContainer}>
                     <View style={styles.indicator} />
@@ -177,6 +167,22 @@ export default function EditTask({ route, navigation }) {
                             />
                         </>
                     </TouchableRipple>
+                    <Text style={styles.priorityHeading}>Completed</Text>
+                    <TouchableRipple
+                        style={styles.setCompleted}
+                        onPress={() => handleIsCompleted(isChecked)}
+                    >
+                        <>
+                            <Text style={{ fontSize: 15 }}>Set completed</Text>
+                            <Switch
+                                value={isChecked}
+                                onValueChange={() =>
+                                    handleIsCompleted(isChecked)
+                                }
+                                color={Colors.accentColor}
+                            />
+                        </>
+                    </TouchableRipple>
                 </View>
             </BottomSheet>
         </>
@@ -203,13 +209,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         fontSize: 17,
     },
-    priorityContainer: {
-        flexDirection: "row",
-        justifyContent: "center",
-        backgroundColor: Colors.background,
-        paddingBottom: 10,
-        paddingHorizontal: 5,
-    },
     checkBox: {
         borderRadius: 10,
         borderWidth: 0,
@@ -228,7 +227,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: Colors.accentColor,
         paddingHorizontal: 16,
-        paddingBottom: 5,
+        paddingVertical: 5,
     },
     setPriority: {
         flexDirection: "row",
@@ -245,5 +244,12 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0.75)",
         borderRadius: 25,
         top: 7,
+    },
+    setCompleted: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: 16,
+        paddingVertical: 10,
     },
 });
