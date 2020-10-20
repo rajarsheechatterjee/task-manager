@@ -7,6 +7,7 @@ import {
     TextInput,
     TouchableHighlight,
     ActivityIndicator,
+    BackHandler,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -21,6 +22,9 @@ export default function LoginScreen({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
+            BackHandler.addEventListener("hardwareBackPress", () =>
+                BackHandler.exitApp()
+            );
             isLoggedIn(navigation);
         }, [])
     );

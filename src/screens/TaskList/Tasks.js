@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, ToastAndroid, FlatList } from "react-native";
+import React, { useState, useCallback } from "react";
+import {
+    StyleSheet,
+    View,
+    ToastAndroid,
+    FlatList,
+    BackHandler,
+} from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import { Provider, Portal, FAB, ActivityIndicator } from "react-native-paper";
 
 import firebase from "../../../firebaseConfig";
@@ -24,9 +31,14 @@ export default function Home({ navigation }) {
     });
     const { sortMode, sortOrder } = sortType;
 
-    useEffect(() => {
-        getTasks(sortMode, sortOrder);
-    }, [sortMode]);
+    useFocusEffect(
+        useCallback(() => {
+            BackHandler.addEventListener("hardwareBackPress", () =>
+                BackHandler.exitApp()
+            );
+            getTasks(sortMode, sortOrder);
+        }, [sortMode])
+    );
 
     /**
      *
@@ -127,15 +139,13 @@ export default function Home({ navigation }) {
                 color={Colors.iconColor}
                 onPress={() => navigation.navigate("Add Task")}
             />
-            <Portal>
-                <SlideUpPanel
-                    handleSortByCreatedAt={handleSortByCreatedAt}
-                    handleSortByDueAt={handleSortByDueAt}
-                    handleSortByPriority={handleSortByPriority}
-                    sortMode={sortMode}
-                    handleRef={(c) => (_panel = c)}
-                />
-            </Portal>
+            <SlideUpPanel
+                handleSortByCreatedAt={handleSortByCreatedAt}
+                handleSortByDueAt={handleSortByDueAt}
+                handleSortByPriority={handleSortByPriority}
+                sortMode={sortMode}
+                handleRef={(c) => (_panel = c)}
+            />
         </Provider>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TextInput, ToastAndroid } from "react-native";
 
 import { addTask } from "../../utils/firebase";
@@ -91,7 +91,7 @@ export default function Home({ navigation }) {
                         placeholder="Content"
                         defaultValue={newTaskContent}
                         multiline={true}
-                        autoFocus
+                        // autoFocus
                     />
                 </View>
                 <DateTimePickerModal

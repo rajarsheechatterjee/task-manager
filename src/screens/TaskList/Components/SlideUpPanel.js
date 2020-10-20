@@ -2,9 +2,10 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import Colors from "../../../theming/colors";
+
+import { TouchableRipple } from "react-native-paper";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { List, TouchableRipple } from "react-native-paper";
 
 const SlideUpPanel = ({
     handleSortByCreatedAt,
@@ -17,7 +18,7 @@ const SlideUpPanel = ({
         <SlidingUpPanel
             ref={handleRef}
             draggableRange={{ top: 200, bottom: 0 }}
-            snappingPoints={[0, 200]}
+            snappingPoints={[0, 50, 200]}
             showBackdrop={false}
         >
             <View style={styles.sliderContainer}>

@@ -23,10 +23,6 @@ export default function SignupScreen({ navigation }) {
     useFocusEffect(
         useCallback(() => {
             isLoggedIn(navigation);
-            setLoading(true);
-            setTimeout(function () {
-                setLoading(false);
-            }, 1000);
         }, [])
     );
 
