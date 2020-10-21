@@ -207,7 +207,8 @@ const styles = StyleSheet.create({
     contentInput: {
         paddingTop: 10,
         marginHorizontal: 10,
-        fontSize: 17,
+        fontSize: 18,
+        lineHeight: 29,
     },
     checkBox: {
         borderRadius: 10,

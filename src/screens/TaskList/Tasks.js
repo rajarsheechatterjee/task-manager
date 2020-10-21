@@ -3,9 +3,6 @@ import { StyleSheet, View, ToastAndroid, FlatList } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { Provider, FAB, ActivityIndicator } from "react-native-paper";
 
-// import firebase from "../../../firebaseConfig";
-// import "firebase/firestore";
-
 import { getAllTasks } from "../../utils/firebase";
 
 import CustomHeader from "./Components/Header";
@@ -14,13 +11,8 @@ import SlideUpPanel from "./Components/SlideUpPanel";
 import Colors from "../../theming/colors";
 
 export default function Home({ navigation }) {
-    // Tasks list
-    const [tasksList, setTasksList] = useState([]);
-    const [tasksList2, setTasksList2] = useState([]);
-    const [tasksList3, setTasksList3] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    // Set sort mode and order
+    const [tasksList, setTasksList] = useState([]);
     const [sortType, setSortType] = useState({
         sortMode: "createdAt",
         sortOrder: "desc",

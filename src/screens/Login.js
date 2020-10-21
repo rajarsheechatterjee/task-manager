@@ -22,9 +22,6 @@ export default function LoginScreen({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-            BackHandler.addEventListener("hardwareBackPress", () =>
-                BackHandler.exitApp()
-            );
             isLoggedIn(navigation);
         }, [])
     );

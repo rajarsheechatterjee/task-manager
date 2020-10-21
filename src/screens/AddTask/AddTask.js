@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, ToastAndroid } from "react-native";
 
 import { addTask } from "../../utils/firebase";
@@ -91,7 +91,6 @@ export default function Home({ navigation }) {
                         placeholder="Content"
                         defaultValue={newTaskContent}
                         multiline={true}
-                        // autoFocus
                     />
                 </View>
                 <DateTimePickerModal
@@ -186,7 +185,8 @@ const styles = StyleSheet.create({
     contentInput: {
         paddingTop: 10,
         marginHorizontal: 10,
-        fontSize: 17,
+        fontSize: 18,
+        lineHeight: 29,
     },
     checkBox: {
         borderRadius: 10,

@@ -1,11 +1,16 @@
 import firebase from "../../firebaseConfig";
 import "firebase/firestore";
 import { Alert } from "react-native";
+import moment from "moment";
 
 export const isLoggedIn = (navigation) => {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             navigation.navigate("Task Monitor");
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "Task Monitor" }],
+            });
         }
     });
 };
@@ -14,8 +19,16 @@ export const loadUser = (navigation) => {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             navigation.navigate("Task Monitor");
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "Task Monitor" }],
+            });
         } else {
             navigation.navigate("Login");
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "Login" }],
+            });
         }
     });
 };
@@ -97,7 +110,7 @@ export const addSampleData = async (navigation) => {
     const dummyData = {
         userId: firebase.auth().currentUser.uid,
         taskTitle: "Task Title 1",
-        taskTime: "2020-10-02 09:05",
+        taskTime: moment(new Date()).calendar(),
         taskContent: "Task Content",
         createdAt: timeStamp,
         priorityIs: 2,
@@ -210,22 +223,3 @@ export const getAllTasks = async (sortBy, sortOrder) => {
     });
     return list;
 };
-
-// export const getAllTasks = (sortBy, sortOrder) => {
-//     const dbRef = firebase
-//         .firestore()
-//         .collection("users")
-//         .doc(firebase.auth().currentUser.uid)
-//         .collection("tasks");
-
-//     dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
-//         let list = [];
-//         querySnapshot.forEach((doc) => {
-//             list.push({
-//                 id: doc.id,
-//                 ...doc.data(),
-//             });
-//         });
-//         return list;
-//     });
-// };
