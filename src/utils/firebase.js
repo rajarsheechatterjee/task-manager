@@ -20,14 +20,6 @@ export const loadUser = (navigation) => {
     });
 };
 
-// export const unloadUser = (navigation) => {
-//     firebase.auth().onAuthStateChanged(function (user) {
-//         if (!user) {
-//             navigation.navigate("Login");
-//         }
-//     });
-// };
-
 export const loginUser = async (email, password) => {
     try {
         await firebase
@@ -200,30 +192,40 @@ export const currentUserEmail = () => {
     return firebase.auth().currentUser.email;
 };
 
-// const getTasks = async (sortBy, sortOrder) => {
+export const getAllTasks = async (sortBy, sortOrder) => {
+    const dbRef = firebase
+        .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("tasks");
+
+    let list = [];
+
+    const snapshot = await dbRef.orderBy(sortBy, sortOrder).get();
+    snapshot.forEach((doc) => {
+        list.push({
+            id: doc.id,
+            ...doc.data(),
+        });
+    });
+    return list;
+};
+
+// export const getAllTasks = (sortBy, sortOrder) => {
 //     const dbRef = firebase
 //         .firestore()
 //         .collection("users")
 //         .doc(firebase.auth().currentUser.uid)
 //         .collection("tasks");
 
-//     let list = [];
-
-//     // dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
-//     //     querySnapshot.forEach((doc) => {
-//     //         list.push({
-//     //             id: doc.id,
-//     //             ...doc.data(),
-//     //         });
-//     //     });
-//     // });
-
-//     const snapshot = await dbRef.orderBy(sortBy, sortOrder).get();
-//     snapshot.forEach((doc) => {
-//         list.push({
-//             id: doc.id,
-//             ...doc.data(),
+//     dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
+//         let list = [];
+//         querySnapshot.forEach((doc) => {
+//             list.push({
+//                 id: doc.id,
+//                 ...doc.data(),
+//             });
 //         });
+//         return list;
 //     });
-//     return list;
 // };

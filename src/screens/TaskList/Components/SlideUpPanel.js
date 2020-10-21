@@ -12,6 +12,7 @@ const SlideUpPanel = ({
     handleSortByDueAt,
     handleSortByPriority,
     sortMode,
+    sortOrder,
     handleRef,
 }) => {
     return (
@@ -33,7 +34,11 @@ const SlideUpPanel = ({
                         {sortMode === "createdAt" && (
                             <MaterialCommunityIcons
                                 color={Colors.accentColor}
-                                name="arrow-down"
+                                name={
+                                    sortOrder === "asc"
+                                        ? "arrow-up"
+                                        : "arrow-down"
+                                }
                                 size={25}
                                 style={styles.sortArrow}
                             />
@@ -49,7 +54,11 @@ const SlideUpPanel = ({
                         {sortMode === "priorityIs" && (
                             <MaterialCommunityIcons
                                 color={Colors.accentColor}
-                                name="arrow-down"
+                                name={
+                                    sortOrder === "asc"
+                                        ? "arrow-up"
+                                        : "arrow-down"
+                                }
                                 size={25}
                                 style={styles.sortArrow}
                             />
@@ -67,7 +76,11 @@ const SlideUpPanel = ({
                         {sortMode === "taskTime" && (
                             <MaterialCommunityIcons
                                 color={Colors.accentColor}
-                                name="arrow-up"
+                                name={
+                                    sortOrder === "asc"
+                                        ? "arrow-up"
+                                        : "arrow-down"
+                                }
                                 size={25}
                                 style={styles.sortArrow}
                             />

@@ -1,16 +1,12 @@
 import React, { useState, useCallback } from "react";
-import {
-    StyleSheet,
-    View,
-    ToastAndroid,
-    FlatList,
-    BackHandler,
-} from "react-native";
+import { StyleSheet, View, ToastAndroid, FlatList } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { Provider, Portal, FAB, ActivityIndicator } from "react-native-paper";
+import { Provider, FAB, ActivityIndicator } from "react-native-paper";
 
-import firebase from "../../../firebaseConfig";
-import "firebase/firestore";
+// import firebase from "../../../firebaseConfig";
+// import "firebase/firestore";
+
+import { getAllTasks } from "../../utils/firebase";
 
 import CustomHeader from "./Components/Header";
 import TaskCard from "./Components/TaskCard";
@@ -33,44 +29,14 @@ export default function Home({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-            BackHandler.addEventListener("hardwareBackPress", () =>
-                BackHandler.exitApp()
-            );
             getTasks(sortMode, sortOrder);
-        }, [sortMode])
+        }, [sortMode, sortOrder])
     );
 
-    /**
-     *
-     * TODO render single flatlist for all sort modes
-     *
-     */
-
-    const getTasks = async (sortBy, sortOrder) => {
-        const dbRef = firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("tasks");
-
-        dbRef.orderBy(sortBy, sortOrder).onSnapshot((querySnapshot) => {
-            let list = [];
-            querySnapshot.forEach((doc) => {
-                list.push({
-                    id: doc.id,
-                    ...doc.data(),
-                });
-            });
-
-            if (sortMode === "createdAt") {
-                setTasksList(list);
-            } else if (sortMode === "priorityIs") {
-                setTasksList2(list);
-            } else if (sortMode === "taskTime") {
-                setTasksList3(list);
-            }
-            setLoading(false);
-        });
+    const getTasks = async () => {
+        const list = await getAllTasks(sortMode, sortOrder);
+        setTasksList(list);
+        setLoading(false);
     };
 
     const handleSyncButton = async () => {
@@ -79,15 +45,27 @@ export default function Home({ navigation }) {
     };
 
     const handleSortByPriority = () => {
-        setSortType({ sortMode: "priorityIs", sortOrder: "asc" });
+        setLoading(true);
+        setSortType({
+            sortMode: "priorityIs",
+            sortOrder: sortOrder === "asc" ? "desc" : "asc",
+        });
     };
 
     const handleSortByDueAt = () => {
-        setSortType({ sortMode: "taskTime", sortOrder: "asc" });
+        setLoading(true);
+        setSortType({
+            sortMode: "taskTime",
+            sortOrder: sortOrder === "asc" ? "desc" : "asc",
+        });
     };
 
     const handleSortByCreatedAt = () => {
-        setSortType({ sortMode: "createdAt", sortOrder: "desc" });
+        setLoading(true);
+        setSortType({
+            sortMode: "createdAt",
+            sortOrder: sortOrder === "asc" ? "desc" : "asc",
+        });
     };
 
     const renderTaskCard = ({ item }) => (
@@ -107,30 +85,13 @@ export default function Home({ navigation }) {
                 </View>
             ) : (
                 <View style={styles.flatListContainer}>
-                    {sortMode === "createdAt" && (
-                        <FlatList
-                            removeClippedSubviews={true}
-                            data={tasksList}
-                            keyExtractor={(item) => item.id}
-                            renderItem={renderTaskCard}
-                        />
-                    )}
-                    {sortMode === "priorityIs" && (
-                        <FlatList
-                            removeClippedSubviews={true}
-                            data={tasksList2}
-                            keyExtractor={(item) => item.id}
-                            renderItem={renderTaskCard}
-                        />
-                    )}
-                    {sortMode === "taskTime" && (
-                        <FlatList
-                            removeClippedSubviews={true}
-                            data={tasksList3}
-                            keyExtractor={(item) => item.id}
-                            renderItem={renderTaskCard}
-                        />
-                    )}
+                    <FlatList
+                        removeClippedSubviews={true}
+                        data={tasksList}
+                        extraData={sortMode}
+                        keyExtractor={(item) => item.id}
+                        renderItem={renderTaskCard}
+                    />
                 </View>
             )}
             <FAB
@@ -144,6 +105,7 @@ export default function Home({ navigation }) {
                 handleSortByDueAt={handleSortByDueAt}
                 handleSortByPriority={handleSortByPriority}
                 sortMode={sortMode}
+                sortOrder={sortOrder}
                 handleRef={(c) => (_panel = c)}
             />
         </Provider>
