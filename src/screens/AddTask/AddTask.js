@@ -107,7 +107,7 @@ export default function Home({ navigation }) {
                 />
             </View>
             <BottomSheet
-                animatedValue={new Animated.Value(0)}
+                animatedValue={new Animated.Value(210)}
                 ref={(c) => (_panel = c)}
                 draggableRange={{ top: 210, bottom: 50 }}
                 snappingPoints={[50, 210]}

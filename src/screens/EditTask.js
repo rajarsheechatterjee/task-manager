@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, ToastAndroid } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    ToastAndroid,
+    Animated,
+} from "react-native";
 import { CheckBox } from "react-native-elements";
 import { Appbar, TouchableRipple, Switch } from "react-native-paper";
 import BottomSheet from "rn-sliding-up-panel";
@@ -108,7 +115,7 @@ export default function EditTask({ route, navigation }) {
                 />
             </View>
             <BottomSheet
-                animatedValue={new Animated.Value(0)}
+                animatedValue={new Animated.Value(290)}
                 ref={(c) => (_panel = c)}
                 draggableRange={{ top: 290, bottom: 50 }}
                 snappingPoints={[50, 290]}

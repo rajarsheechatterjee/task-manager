@@ -1,6 +1,6 @@
 import React from "react";
 import "react-native-gesture-handler";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../theming/colors";
 
@@ -8,17 +8,18 @@ import addTaskStack from "./addTaskNavigator";
 import taskListStack from "./taskListStackNavigator";
 import More from "./moreStackNavigator";
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = AnimatedTabBarNavigator();
 
 const tabNavigator = () => {
     return (
         <Tab.Navigator
             activeColor={Colors.accentColor}
             tabBarOptions={{
-                activeTintColor: Colors.accentColor,
+                activeTintColor: "#fff",
                 keyboardHidesTabBar: true,
+                activeBackgroundColor: Colors.accentColor,
             }}
-            barStyle={{ backgroundColor: Colors.tabNavigator }}
+            appearence={{ dotSize: "small" }}
         >
             <Tab.Screen
                 name="Your Tasks"
