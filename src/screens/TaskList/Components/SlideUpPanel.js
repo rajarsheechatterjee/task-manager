@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 
 import Colors from "../../../theming/colors";
 
-import { TouchableRipple } from "react-native-paper";
+import { TouchableRipple, Checkbox } from "react-native-paper";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -11,15 +11,17 @@ const SlideUpPanel = ({
     handleSortByCreatedAt,
     handleSortByDueAt,
     handleSortByPriority,
+    handleFilter,
     sortMode,
     sortOrder,
+    filter,
     handleRef,
 }) => {
     return (
         <SlidingUpPanel
             ref={handleRef}
-            draggableRange={{ top: 200, bottom: 0 }}
-            snappingPoints={[0, 50, 200]}
+            draggableRange={{ top: 280, bottom: 0 }}
+            snappingPoints={[0, 50, 280]}
             showBackdrop={false}
         >
             <View style={styles.sliderContainer}>
@@ -87,6 +89,24 @@ const SlideUpPanel = ({
                         )}
                     </>
                 </TouchableRipple>
+                <Text style={[styles.priorityHeading, { paddingTop: 5 }]}>
+                    Filter
+                </Text>
+                <TouchableRipple
+                    style={styles.setCompleted}
+                    onPress={() => handleFilter()}
+                >
+                    <>
+                        <Checkbox
+                            status={filter ? "checked" : "unchecked"}
+                            onValueChange={() => handleFilter()}
+                            color={Colors.accentColor}
+                        />
+                        <Text style={{ fontSize: 15, marginLeft: 10 }}>
+                            Completed
+                        </Text>
+                    </>
+                </TouchableRipple>
             </View>
         </SlidingUpPanel>
     );
@@ -130,5 +150,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 16,
         height: 50,
+    },
+    setCompleted: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 16,
+        paddingVertical: 10,
     },
 });

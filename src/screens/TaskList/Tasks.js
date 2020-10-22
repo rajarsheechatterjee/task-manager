@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, View, ToastAndroid, FlatList } from "react-native";
+import { StyleSheet, View, ToastAndroid, FlatList, Button } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { Provider, FAB, ActivityIndicator } from "react-native-paper";
 
@@ -18,16 +18,19 @@ export default function Home({ navigation }) {
         sortOrder: "desc",
     });
     const { sortMode, sortOrder } = sortType;
+    const [filter, setFilter] = useState(false);
 
     useFocusEffect(
         useCallback(() => {
             getTasks(sortMode, sortOrder);
-        }, [sortMode, sortOrder])
+        }, [sortMode, sortOrder, filter])
     );
 
     const getTasks = async () => {
         const list = await getAllTasks(sortMode, sortOrder);
-        setTasksList(list);
+        setTasksList(
+            !filter ? list : list.filter((item) => item.isCompleted === true)
+        );
         setLoading(false);
     };
 
@@ -58,6 +61,11 @@ export default function Home({ navigation }) {
             sortMode: "createdAt",
             sortOrder: sortOrder === "asc" ? "desc" : "asc",
         });
+    };
+
+    const handleFilter = () => {
+        setLoading(true);
+        setFilter(!filter);
     };
 
     const renderTaskCard = ({ item }) => (
@@ -96,8 +104,10 @@ export default function Home({ navigation }) {
                 handleSortByCreatedAt={handleSortByCreatedAt}
                 handleSortByDueAt={handleSortByDueAt}
                 handleSortByPriority={handleSortByPriority}
+                handleFilter={handleFilter}
                 sortMode={sortMode}
                 sortOrder={sortOrder}
+                filter={filter}
                 handleRef={(c) => (_panel = c)}
             />
         </Provider>
