@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, ToastAndroid } from "react-native";
-
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    ToastAndroid,
+    Animated,
+} from "react-native";
 import { addTask } from "../../utils/firebase";
 import Colors from "../../theming/colors";
-
 import { Appbar, TouchableRipple } from "react-native-paper";
 import { CheckBox } from "react-native-elements";
 import BottomSheet from "rn-sliding-up-panel";
@@ -102,6 +107,7 @@ export default function Home({ navigation }) {
                 />
             </View>
             <BottomSheet
+                animatedValue={new Animated.Value(0)}
                 ref={(c) => (_panel = c)}
                 draggableRange={{ top: 210, bottom: 50 }}
                 snappingPoints={[50, 210]}
@@ -195,7 +201,7 @@ const styles = StyleSheet.create({
     bottomSheetContainer: {
         flex: 1,
         backgroundColor: "white",
-        paddingTop: 17,
+        paddingTop: 20,
         paddingBottom: 8,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
@@ -205,14 +211,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 15,
         color: Colors.accentColor,
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
         paddingBottom: 5,
     },
     setPriority: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
     },
     indicator: {
         position: "absolute",

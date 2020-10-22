@@ -108,6 +108,7 @@ export default function EditTask({ route, navigation }) {
                 />
             </View>
             <BottomSheet
+                animatedValue={new Animated.Value(0)}
                 ref={(c) => (_panel = c)}
                 draggableRange={{ top: 290, bottom: 50 }}
                 snappingPoints={[50, 290]}
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
     bottomSheetContainer: {
         flex: 1,
         backgroundColor: "white",
-        paddingTop: 17,
+        paddingTop: 20,
         paddingBottom: 8,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
@@ -227,14 +228,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 15,
         color: Colors.accentColor,
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
         paddingVertical: 5,
     },
     setPriority: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
     },
     indicator: {
         position: "absolute",
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
         paddingVertical: 10,
     },
 });

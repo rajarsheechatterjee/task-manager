@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Animated } from "react-native";
 
 import Colors from "../../../theming/colors";
 
@@ -19,6 +19,7 @@ const SlideUpPanel = ({
 }) => {
     return (
         <SlidingUpPanel
+            animatedValue={new Animated.Value(0)}
             ref={handleRef}
             draggableRange={{ top: 280, bottom: 0 }}
             snappingPoints={[0, 50, 280]}
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     sliderContainer: {
         flex: 1,
         backgroundColor: "white",
-        paddingTop: 17,
+        paddingTop: 20,
         paddingBottom: 8,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 15,
         color: Colors.accentColor,
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
         paddingBottom: 5,
     },
     indicator: {
@@ -148,13 +149,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
         height: 50,
     },
     setCompleted: {
         flexDirection: "row",
         alignItems: "center",
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
         paddingVertical: 10,
     },
 });
