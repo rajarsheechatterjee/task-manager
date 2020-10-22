@@ -1,6 +1,14 @@
 # Shigoto
 
-> A free and open source task manager application for Android/IOS built with React Native (Expo CLI)
+A cross-platform task manager application built with React Native (Expo CLI)
+
+## Download
+
+Get the app from our [releases page](https://github.com/rajarsheechatterjee/shigoto/releases/tag/v0.3.2).
+
+## Screeshots
+
+![Home-screen](./assets/screenshots/SS2.png)
 
 ## Features
 
@@ -10,10 +18,6 @@
 -   [x] Sort tasks as per your need
 -   [x] Works on both IOS and Android devices
 -   [x] All data is stored on cloud storage
-
-## Screeshots
-
-![Home-screen](./assets/screenshots/SS2.png)
 
 ## Todo (In Progress)
 
