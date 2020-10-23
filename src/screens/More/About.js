@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, Clipboard, ToastAndroid } from "react-native";
-import { List, TouchableRipple, Divider } from "react-native-paper";
+import { Clipboard, ToastAndroid } from "react-native";
+import { List, Divider } from "react-native-paper";
 import * as Linking from "expo-linking";
 import * as Updates from "expo-updates";
 
@@ -11,7 +11,7 @@ export default function About() {
         if (update.isAvailable) {
             Alert.alert(
                 "New Version Available",
-                "### New",
+                "A new version is available for download",
                 [
                     {
                         text: "Cancel",
@@ -32,6 +32,14 @@ export default function About() {
             ToastAndroid.show("No new updates available", ToastAndroid.SHORT);
         }
     };
+    const handleCopyVersion = () => {
+        Clipboard.setString("Version: Stable 0.3.5");
+        ToastAndroid.show(
+            "Copied to clipboard: Version: Stable 0.3.5",
+            ToastAndroid.SHORT
+        );
+    };
+
     return (
         <List.Section
             style={{
@@ -41,36 +49,32 @@ export default function About() {
                 marginBottom: 0,
             }}
         >
-            <TouchableRipple
-                onPress={() => {
-                    Clipboard.setString("Version: Stable 0.3.4");
-                    ToastAndroid.show(
-                        "Copied to clipboard: Version: Stable 0.3.4",
-                        ToastAndroid.SHORT
-                    );
-                }}
-            >
-                <List.Item title="Version" description="Stable 0.3.4" />
-            </TouchableRipple>
-            <TouchableRipple>
-                <List.Item title="Build Time" description="23/10/20  8:00 AM" />
-            </TouchableRipple>
-            <TouchableRipple onPress={checkForUpdates}>
-                <List.Item title="Check for updates" />
-            </TouchableRipple>
+            <List.Item
+                title="Version"
+                description="Stable 0.3.5"
+                onPress={handleCopyVersion}
+            />
+            <List.Item title="Build Time" description="23/10/20  3:00 PM" />
+            <List.Item title="Check for updates" onPress={checkForUpdates} />
+            <List.Item
+                title="What's new"
+                onPress={() =>
+                    Linking.openURL(
+                        "https://github.com/rajarsheechatterjee/shigoto/commits/master"
+                    )
+                }
+            />
             <Divider />
-            <TouchableRipple
+
+            <List.Item
+                title="Github"
+                description="https://github.com/rajarsheechatterjee/shigoto"
                 onPress={() =>
                     Linking.openURL(
                         "https://github.com/rajarsheechatterjee/shigoto"
                     )
                 }
-            >
-                <List.Item
-                    title="Github"
-                    description="https://github.com/rajarsheechatterjee/shigoto"
-                />
-            </TouchableRipple>
+            />
         </List.Section>
     );
 }

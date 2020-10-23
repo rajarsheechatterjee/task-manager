@@ -103,7 +103,6 @@ export default function EditTask({ route, navigation }) {
                         placeholder="Content"
                         defaultValue={newTaskContent}
                         multiline={true}
-                        // autoFocus
                     />
                 </View>
                 <DateTimePickerModal

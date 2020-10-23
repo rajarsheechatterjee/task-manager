@@ -21,30 +21,26 @@ const MoreScreen = ({ navigation }) => {
                     marginBottom: 0,
                 }}
             >
-                <TouchableRipple
+                <List.Item
+                    title="Settings"
+                    left={() => (
+                        <List.Icon
+                            color={Colors.accentColor}
+                            icon="settings-outline"
+                        />
+                    )}
                     onPress={() => navigation.navigate("Settings")}
-                >
-                    <List.Item
-                        title="Settings"
-                        left={() => (
-                            <List.Icon
-                                color={Colors.accentColor}
-                                icon="settings-outline"
-                            />
-                        )}
-                    />
-                </TouchableRipple>
-                <TouchableRipple onPress={() => navigation.navigate("About")}>
-                    <List.Item
-                        title="About"
-                        left={() => (
-                            <List.Icon
-                                color={Colors.accentColor}
-                                icon="information-outline"
-                            />
-                        )}
-                    />
-                </TouchableRipple>
+                />
+                <List.Item
+                    title="About"
+                    left={() => (
+                        <List.Icon
+                            color={Colors.accentColor}
+                            icon="information-outline"
+                        />
+                    )}
+                    onPress={() => navigation.navigate("About")}
+                />
             </List.Section>
         </>
     );

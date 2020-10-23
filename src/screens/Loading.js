@@ -1,15 +1,9 @@
-import React, { useState, useCallback } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    Button,
-    ActivityIndicator,
-} from "react-native";
-import Colors from "../theming/colors";
+import React, { useCallback } from "react";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+
 import { loadUser } from "../utils/firebase";
+import Colors from "../theming/colors";
 
 export default function Loading({ navigation }) {
     useFocusEffect(

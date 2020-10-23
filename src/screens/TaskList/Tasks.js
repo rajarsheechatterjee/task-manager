@@ -76,7 +76,7 @@ export default function Home({ navigation }) {
         <Provider>
             <CustomHeader
                 navigation={navigation}
-                handleSlider={() => _panel.show({ velocity: -1.5 })}
+                handleSlider={() => _panel.show()}
                 handleSync={handleSyncButton}
             />
             {loading ? (

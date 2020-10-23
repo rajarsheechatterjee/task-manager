@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Clipboard, ToastAndroid } from "react-native";
 import { FAB, Portal, Provider } from "react-native-paper";
-import moment from "moment";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { deleteTask } from "../../utils/firebase";
 import Colors from "../../theming/colors";
@@ -19,10 +17,14 @@ export default function TaskItem({ route, navigation }) {
     } = route.params;
 
     const [state, setState] = useState({ open: false });
-
     const onStateChange = ({ open }) => setState({ open });
-
     const { open } = state;
+
+    const handleDivider = () => {
+        if (taskTime !== "" || taskContent !== "") {
+            return { borderBottomWidth: 1, borderBottomColor: "#E8E8E8" };
+        }
+    };
 
     const handleCopy = () => {
         Clipboard.setString(
@@ -34,13 +36,13 @@ export default function TaskItem({ route, navigation }) {
     return (
         <Provider>
             <View style={{ flex: 1, backgroundColor: Colors.background }}>
-                <View style={styles.mainContainer}>
-                    <View
-                        style={{
-                            borderBottomWidth: 1,
-                            borderBottomColor: "#E8E8E8",
-                        }}
-                    >
+                <View
+                    style={[
+                        styles.mainContainer,
+                        taskContent === "" && { paddingBottom: 15 },
+                    ]}
+                >
+                    <View style={handleDivider()}>
                         <Text
                             style={[
                                 styles.taskTitle,
@@ -57,16 +59,18 @@ export default function TaskItem({ route, navigation }) {
                             <Text style={styles.taskDate}>Due {taskTime}</Text>
                         </View>
                     )}
-                    <View>
-                        <Text
-                            style={[
-                                styles.taskContent,
-                                taskTime === "" && { paddingTop: 10 },
-                            ]}
-                        >
-                            {taskContent}
-                        </Text>
-                    </View>
+                    {taskContent !== "" && (
+                        <View>
+                            <Text
+                                style={[
+                                    styles.taskContent,
+                                    taskTime === "" && { paddingTop: 10 },
+                                ]}
+                            >
+                                {taskContent}
+                            </Text>
+                        </View>
+                    )}
                     {/* <View>
                         <Text style={styles.createdDate}>
                             {isUpdated ? "Updated on " : "Created on"}
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         marginTop: 20,
         margin: 10,
-        padding: 20,
+        paddingHorizontal: 20,
         elevation: 2,
         paddingTop: 15,
         borderRadius: 15,
@@ -142,5 +146,6 @@ const styles = StyleSheet.create({
     taskContent: {
         fontSize: 18,
         lineHeight: 29,
+        paddingBottom: 20,
     },
 });
