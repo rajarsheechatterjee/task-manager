@@ -20,7 +20,11 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
                 icon="filter-variant"
                 onPress={() => handleSlider()}
             />
-            <Menu
+            <Appbar.Action
+                icon="settings-outline"
+                onPress={() => navigation.navigate("More")}
+            />
+            {/* <Menu
                 visible={visible}
                 onDismiss={closeMenu}
                 anchor={
@@ -42,8 +46,7 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
                     }}
                     title="Logout"
                 />
-                {/* <Menu.Item onPress={() => {}} title="Item 2" /> */}
-            </Menu>
+            </Menu> */}
         </Appbar.Header>
     );
 };

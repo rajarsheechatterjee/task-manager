@@ -76,14 +76,13 @@ export default function About({ navigation }) {
                     )}
                 />
             </TouchableRipple>
-            {/* <TouchableRipple onPress={() => logout(navigation)}>
-                <List.Item
-                    title="Logout"
-                    left={() => (
-                        <List.Icon color={Colors.accentColor} icon="logout" />
-                    )}
-                />
-            </TouchableRipple> */}
+            <List.Item
+                title="Logout"
+                left={() => (
+                    <List.Icon color={Colors.accentColor} icon="logout" />
+                )}
+                onPress={() => logout(navigation)}
+            />
             <TouchableRipple onPress={deleteAccountAlert} disabled>
                 <List.Item
                     title="Delete your account"

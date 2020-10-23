@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, View, ToastAndroid, FlatList, Button } from "react-native";
+import { StyleSheet, View, ToastAndroid, FlatList } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { Provider, FAB, ActivityIndicator } from "react-native-paper";
+import { Provider, FAB, ActivityIndicator, Portal } from "react-native-paper";
 
 import { getAllTasks } from "../../utils/firebase";
 
@@ -100,16 +100,18 @@ export default function Home({ navigation }) {
                 color={Colors.iconColor}
                 onPress={() => navigation.navigate("Add Task")}
             />
-            <SlideUpPanel
-                handleSortByCreatedAt={handleSortByCreatedAt}
-                handleSortByDueAt={handleSortByDueAt}
-                handleSortByPriority={handleSortByPriority}
-                handleFilter={handleFilter}
-                sortMode={sortMode}
-                sortOrder={sortOrder}
-                filter={filter}
-                handleRef={(c) => (_panel = c)}
-            />
+            <Portal>
+                <SlideUpPanel
+                    handleSortByCreatedAt={handleSortByCreatedAt}
+                    handleSortByDueAt={handleSortByDueAt}
+                    handleSortByPriority={handleSortByPriority}
+                    handleFilter={handleFilter}
+                    sortMode={sortMode}
+                    sortOrder={sortOrder}
+                    filter={filter}
+                    handleRef={(c) => (_panel = c)}
+                />
+            </Portal>
         </Provider>
     );
 }

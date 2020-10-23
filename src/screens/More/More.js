@@ -6,6 +6,11 @@ const MoreScreen = ({ navigation }) => {
     return (
         <>
             <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+                <Appbar.BackAction
+                    onPress={() => {
+                        navigation.goBack();
+                    }}
+                />
                 <Appbar.Content title="More" />
             </Appbar.Header>
             <List.Section

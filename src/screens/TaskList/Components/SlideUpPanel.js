@@ -19,11 +19,9 @@ const SlideUpPanel = ({
 }) => {
     return (
         <SlidingUpPanel
-            animatedValue={new Animated.Value(0)}
             ref={handleRef}
             draggableRange={{ top: 280, bottom: 0 }}
             snappingPoints={[0, 50, 280]}
-            showBackdrop={false}
         >
             <View style={styles.sliderContainer}>
                 <View style={styles.indicator} />
