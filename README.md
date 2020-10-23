@@ -4,7 +4,7 @@ A cross-platform task manager application built with React Native (Expo CLI)
 
 ## Download
 
-Get the app from our [releases page](https://github.com/rajarsheechatterjee/shigoto/releases/tag/v0.3.2).
+Get the app from our [releases page](https://github.com/rajarsheechatterjee/shigoto/releases).
 
 ## Screeshots
 
