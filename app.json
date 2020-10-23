@@ -1,8 +1,8 @@
 {
     "expo": {
-        "name": "shigoto",
+        "name": "Shigoto",
         "slug": "shigoto",
-        "version": "1.0.0",
+        "version": "0.3.4",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "splash": {
@@ -22,7 +22,7 @@
         },
         "android": {
             "package": "com.rajarsheechatterjee.shigoto",
-            "versionCode": 8
+            "versionCode": 9
         },
         "web": {
             "favicon": "./assets/favicon.png"
