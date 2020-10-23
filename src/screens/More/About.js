@@ -1,5 +1,5 @@
 import React from "react";
-import { Clipboard, ToastAndroid } from "react-native";
+import { Clipboard, ToastAndroid, Alert } from "react-native";
 import { List, Divider } from "react-native-paper";
 import * as Linking from "expo-linking";
 import * as Updates from "expo-updates";
@@ -33,9 +33,9 @@ export default function About() {
         }
     };
     const handleCopyVersion = () => {
-        Clipboard.setString("Version: Stable 0.3.5");
+        Clipboard.setString("Version: Stable 0.3.6");
         ToastAndroid.show(
-            "Copied to clipboard: Version: Stable 0.3.5",
+            "Copied to clipboard: Version: Stable 0.3.6",
             ToastAndroid.SHORT
         );
     };
@@ -51,10 +51,10 @@ export default function About() {
         >
             <List.Item
                 title="Version"
-                description="Stable 0.3.5"
+                description="Stable 0.3.6"
                 onPress={handleCopyVersion}
             />
-            <List.Item title="Build Time" description="23/10/20  3:00 PM" />
+            <List.Item title="Build Time" description="23/10/20  8:00 PM" />
             <List.Item title="Check for updates" onPress={checkForUpdates} />
             <List.Item
                 title="What's new"
