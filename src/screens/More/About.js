@@ -53,7 +53,7 @@ export default function About() {
                 <List.Item title="Version" description="Stable 0.3.4" />
             </TouchableRipple>
             <TouchableRipple>
-                <List.Item title="Build Time" description="23/10/20 8:00 AM" />
+                <List.Item title="Build Time" description="23/10/20  8:00 AM" />
             </TouchableRipple>
             <TouchableRipple onPress={checkForUpdates}>
                 <List.Item title="Check for updates" />

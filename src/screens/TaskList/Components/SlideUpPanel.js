@@ -21,7 +21,7 @@ const SlideUpPanel = ({
         <SlidingUpPanel
             ref={handleRef}
             draggableRange={{ top: 280, bottom: 0 }}
-            snappingPoints={[0, 50, 280]}
+            snappingPoints={[0, 280]}
         >
             <View style={styles.sliderContainer}>
                 <View style={styles.indicator} />
