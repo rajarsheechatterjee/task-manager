@@ -39,26 +39,10 @@ export default function Home({ navigation }) {
         ToastAndroid.show("Synced with cloud storage", ToastAndroid.SHORT);
     };
 
-    const handleSortByPriority = () => {
+    const handleSort = (sortMode) => {
         setLoading(true);
         setSortType({
-            sortMode: "priorityIs",
-            sortOrder: sortOrder === "asc" ? "desc" : "asc",
-        });
-    };
-
-    const handleSortByDueAt = () => {
-        setLoading(true);
-        setSortType({
-            sortMode: "taskTime",
-            sortOrder: sortOrder === "asc" ? "desc" : "asc",
-        });
-    };
-
-    const handleSortByCreatedAt = () => {
-        setLoading(true);
-        setSortType({
-            sortMode: "createdAt",
+            sortMode: sortMode,
             sortOrder: sortOrder === "asc" ? "desc" : "asc",
         });
     };
@@ -102,12 +86,9 @@ export default function Home({ navigation }) {
             />
             <Portal>
                 <SlideUpPanel
-                    handleSortByCreatedAt={handleSortByCreatedAt}
-                    handleSortByDueAt={handleSortByDueAt}
-                    handleSortByPriority={handleSortByPriority}
+                    handleSort={handleSort}
                     handleFilter={handleFilter}
-                    sortMode={sortMode}
-                    sortOrder={sortOrder}
+                    sortType={sortType}
                     filter={filter}
                     handleRef={(c) => (_panel = c)}
                 />

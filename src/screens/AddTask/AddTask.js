@@ -6,6 +6,7 @@ import {
     TextInput,
     ToastAndroid,
     Animated,
+    TouchableOpacity,
 } from "react-native";
 import { addTask } from "../../utils/firebase";
 import Colors from "../../theming/colors";
@@ -84,12 +85,14 @@ export default function Home({ navigation }) {
                         onChangeText={(text) => setNewTaskTitle(text)}
                         defaultValue={newTaskTitle}
                     />
-                    <TextInput
-                        style={styles.dateInput}
-                        defaultValue={chosenDate}
-                        editable={false}
-                        placeholder="Reminder Time"
-                    />
+                    <TouchableOpacity onPress={showPicker}>
+                        <TextInput
+                            style={styles.dateInput}
+                            defaultValue={chosenDate}
+                            editable={false}
+                            placeholder="Reminder Time"
+                        />
+                    </TouchableOpacity>
                     <TextInput
                         style={styles.contentInput}
                         onChangeText={(text) => setNewTaskContent(text)}

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, Animated } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 import Colors from "../../../theming/colors";
 
@@ -8,15 +8,13 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const SlideUpPanel = ({
-    handleSortByCreatedAt,
-    handleSortByDueAt,
-    handleSortByPriority,
+    handleSort,
     handleFilter,
-    sortMode,
-    sortOrder,
+    sortType,
     filter,
     handleRef,
 }) => {
+    const { sortMode, sortOrder } = sortType;
     return (
         <SlidingUpPanel
             ref={handleRef}
@@ -28,7 +26,7 @@ const SlideUpPanel = ({
                 <Text style={styles.priorityHeading}>Sort</Text>
                 <TouchableRipple
                     style={styles.setPriority}
-                    onPress={() => handleSortByCreatedAt()}
+                    onPress={() => handleSort("createdAt")}
                 >
                     <>
                         <Text style={{ fontSize: 15 }}>Sort by created at</Text>
@@ -48,7 +46,7 @@ const SlideUpPanel = ({
                 </TouchableRipple>
                 <TouchableRipple
                     style={styles.setPriority}
-                    onPress={() => handleSortByPriority()}
+                    onPress={() => handleSort("priorityIs")}
                 >
                     <>
                         <Text style={{ fontSize: 15 }}>Sort by priority</Text>
@@ -68,7 +66,7 @@ const SlideUpPanel = ({
                 </TouchableRipple>
                 <TouchableRipple
                     style={styles.setPriority}
-                    onPress={() => handleSortByDueAt()}
+                    onPress={() => handleSort("taskTime")}
                 >
                     <>
                         <Text style={{ fontSize: 15 }}>

@@ -136,7 +136,7 @@ export const updateTask = async (
     taskTime,
     taskContent,
     taskPriority,
-    isChecked
+    isCompleted
 ) => {
     const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
 
@@ -153,7 +153,7 @@ export const updateTask = async (
             taskContent: taskContent,
             createdAt: timeStamp,
             priorityIs: taskPriority,
-            isCompleted: isChecked,
+            isCompleted: isCompleted,
             isUpdated: true,
         })
         .catch((error) => console.log(error));
