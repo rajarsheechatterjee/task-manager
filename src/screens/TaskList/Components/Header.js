@@ -1,5 +1,6 @@
 import React from "react";
 import { Appbar } from "react-native-paper";
+import { CollapsibleHeaderScrollView } from "react-native-collapsible-header-views";
 
 import Colors from "../../../theming/colors";
 

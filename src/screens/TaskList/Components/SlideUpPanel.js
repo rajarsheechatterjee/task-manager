@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 
 import Colors from "../../../theming/colors";
 
-import { TouchableRipple, Checkbox } from "react-native-paper";
+import { TouchableRipple, Checkbox, Chip } from "react-native-paper";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -12,14 +12,16 @@ const SlideUpPanel = ({
     handleFilter,
     sortType,
     filter,
+    prioFilter,
+    handlePrioFilter,
     handleRef,
 }) => {
     const { sortMode, sortOrder } = sortType;
     return (
         <SlidingUpPanel
             ref={handleRef}
-            draggableRange={{ top: 280, bottom: 0 }}
-            snappingPoints={[0, 280]}
+            draggableRange={{ top: 330, bottom: 0 }}
+            snappingPoints={[0, 330]}
         >
             <View style={styles.sliderContainer}>
                 <View style={styles.indicator} />
@@ -104,6 +106,56 @@ const SlideUpPanel = ({
                         </Text>
                     </>
                 </TouchableRipple>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        paddingHorizontal: 16,
+                        paddingVertical: 5,
+                    }}
+                >
+                    <Chip
+                        selectedColor={prioFilter === 1 ? "white" : "black"}
+                        style={[
+                            { marginRight: 10 },
+                            prioFilter === 1 && {
+                                backgroundColor: "#A80000",
+                            },
+                        ]}
+                        icon="priority-high"
+                        onPress={() => handlePrioFilter(1)}
+                        selected={prioFilter === 1 ? true : false}
+                    >
+                        High
+                    </Chip>
+                    <Chip
+                        selectedColor={prioFilter === 2 ? "white" : "black"}
+                        style={[
+                            { marginRight: 10 },
+                            prioFilter === 2 && {
+                                backgroundColor: Colors.priorityMid,
+                            },
+                        ]}
+                        icon="sort"
+                        onPress={() => handlePrioFilter(2)}
+                        selected={prioFilter === 2 ? true : false}
+                    >
+                        Medium
+                    </Chip>
+                    <Chip
+                        selectedColor={prioFilter === 3 ? "white" : "black"}
+                        style={[
+                            { marginRight: 10 },
+                            prioFilter === 3 && {
+                                backgroundColor: Colors.priorityLow,
+                            },
+                        ]}
+                        icon="priority-low"
+                        onPress={() => handlePrioFilter(3)}
+                        selected={prioFilter === 3 ? true : false}
+                    >
+                        Low
+                    </Chip>
+                </View>
             </View>
         </SlidingUpPanel>
     );

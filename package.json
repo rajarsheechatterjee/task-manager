@@ -30,6 +30,7 @@
     "react-native-animated-nav-tab-bar": "^3.0.5",
     "react-native-appearance": "~0.3.3",
     "react-native-cardview": "^2.0.5",
+    "react-native-collapsible-header-views": "^1.1.2",
     "react-native-contacts-wrapper": "^0.2.4",
     "react-native-elements": "^2.3.2",
     "react-native-gesture-handler": "~1.7.0",
@@ -45,7 +46,8 @@
     "react-native-web": "~0.13.7",
     "react-native-windows": "^1.0.0",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
-    "rn-sliding-up-panel": "^2.4.3"
+    "rn-sliding-up-panel": "^2.4.3",
+    "expo-updates": "~0.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

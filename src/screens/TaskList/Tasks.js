@@ -19,18 +19,20 @@ export default function Home({ navigation }) {
     });
     const { sortMode, sortOrder } = sortType;
     const [filter, setFilter] = useState(false);
+    const [prioFilter, setPrioFilter] = useState(0);
 
     useFocusEffect(
         useCallback(() => {
             getTasks(sortMode, sortOrder);
-        }, [sortMode, sortOrder, filter])
+        }, [sortMode, sortOrder, filter, prioFilter])
     );
 
     const getTasks = async () => {
-        const list = await getAllTasks(sortMode, sortOrder);
-        setTasksList(
-            !filter ? list : list.filter((item) => item.isCompleted === true)
-        );
+        let list = await getAllTasks(sortMode, sortOrder);
+        filter && (list = list.filter((item) => item.isCompleted === true));
+        prioFilter !== 0 &&
+            (list = list.filter((item) => item.priorityIs === prioFilter));
+        setTasksList(list);
         setLoading(false);
     };
 
@@ -50,6 +52,15 @@ export default function Home({ navigation }) {
     const handleFilter = () => {
         setLoading(true);
         setFilter(!filter);
+    };
+
+    const handlePrioFilter = (priority) => {
+        setLoading(true);
+        if (priority === prioFilter) {
+            setPrioFilter(0);
+        } else {
+            setPrioFilter(priority);
+        }
     };
 
     const renderTaskCard = ({ item }) => (
@@ -90,6 +101,8 @@ export default function Home({ navigation }) {
                     handleFilter={handleFilter}
                     sortType={sortType}
                     filter={filter}
+                    prioFilter={prioFilter}
+                    handlePrioFilter={handlePrioFilter}
                     handleRef={(c) => (_panel = c)}
                 />
             </Portal>
