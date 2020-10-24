@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert } from "react-native";
-import { List, Divider } from "react-native-paper";
+import { List, Divider, Appbar } from "react-native-paper";
 
 import Colors from "../../theming/colors";
 import {
@@ -10,82 +10,94 @@ import {
     logout,
 } from "../../utils/firebase";
 
-export default function About({ navigation }) {
+const SettingsScreen = ({ navigation }) => {
     const email = currentUserEmail();
 
-    const handleDeleteUser = () => {
-        deleteUser(navigation);
-    };
+    // const handleDeleteUser = () => {
+    //     deleteUser(navigation);
+    // };
 
-    const deleteAccountAlert = () =>
-        Alert.alert(
-            "Warning",
-            "Are you sure you want to permanently delete your account",
-            [
-                {
-                    text: "Cancel",
-                    style: "cancel",
-                },
-                { text: "Delete", onPress: () => handleDeleteUser() },
-            ],
-            { cancelable: false }
-        );
+    // const deleteAccountAlert = () =>
+    //     Alert.alert(
+    //         "Warning",
+    //         "Are you sure you want to permanently delete your account",
+    //         [
+    //             {
+    //                 text: "Cancel",
+    //                 style: "cancel",
+    //             },
+    //             { text: "Delete", onPress: () => handleDeleteUser() },
+    //         ],
+    //         { cancelable: false }
+    //     );
 
     return (
-        <List.Section
-            style={{
-                flex: 1,
-                marginVertical: 0,
-                backgroundColor: Colors.background,
-            }}
-        >
-            <List.Item
-                title="Clear all tasks"
-                description="(Not added yet)"
-                left={() => (
-                    <List.Icon
-                        color={Colors.deleteColor}
-                        icon="trash-can-outline"
-                    />
-                )}
-            />
-            <List.Item
-                style={{ paddingVertical: 0 }}
-                title="Add sample task"
-                left={() => (
-                    <List.Icon
-                        color={Colors.accentColor}
-                        icon="playlist-plus"
-                    />
-                )}
-                onPress={() => addSampleData(navigation)}
-            />
-            <Divider />
-            <List.Subheader
+        <>
+            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+                <Appbar.BackAction
+                    onPress={() => {
+                        navigation.goBack();
+                    }}
+                />
+                <Appbar.Content title="Settings" />
+            </Appbar.Header>
+            <List.Section
                 style={{
-                    color: Colors.accentColor,
-                    paddingTop: 20,
-                    paddingBottom: 5,
+                    flex: 1,
+                    marginVertical: 0,
+                    backgroundColor: Colors.background,
                 }}
             >
-                Account Settings
-            </List.Subheader>
-            <List.Item
-                style={{ paddingVertical: 0 }}
-                title={email}
-                left={() => (
-                    <List.Icon color={Colors.accentColor} icon="email" />
-                )}
-            />
-            <List.Item
-                style={{ paddingVertical: 0 }}
-                title="Logout"
-                left={() => (
-                    <List.Icon color={Colors.accentColor} icon="logout" />
-                )}
-                onPress={() => logout(navigation)}
-            />
-            {/* <List.Item
+                <List.Item
+                    title="Clear all tasks"
+                    description="(Not added yet)"
+                    left={() => (
+                        <List.Icon
+                            color={Colors.deleteColor}
+                            icon="trash-can-outline"
+                        />
+                    )}
+                />
+                <List.Item
+                    style={{ paddingVertical: 0 }}
+                    title="Add sample task"
+                    left={() => (
+                        <List.Icon
+                            color={Colors.accentColor}
+                            icon="playlist-plus"
+                        />
+                    )}
+                    onPress={() => addSampleData(navigation)}
+                />
+                <Divider />
+                <List.Subheader
+                    style={{
+                        color: Colors.accentColor,
+                        paddingTop: 20,
+                        paddingBottom: 5,
+                    }}
+                >
+                    Account Settings
+                </List.Subheader>
+                <List.Item
+                    style={{ paddingVertical: 0 }}
+                    title={email}
+                    left={() => (
+                        <List.Icon color={Colors.accentColor} icon="email" />
+                    )}
+                />
+                <List.Item
+                    style={{ paddingVertical: 0 }}
+                    title="Logout"
+                    left={() => (
+                        <List.Icon
+                            color={Colors.accentColor}
+                            icon="logout-variant"
+                        />
+                    )}
+                    onPress={() => logout(navigation)}
+                />
+                {/* <List.Item
                 title="Reset your password"
                 description="(Not added yet)"
                 left={() => (
@@ -109,6 +121,9 @@ export default function About({ navigation }) {
                 onPress={deleteAccountAlert}
                 disabled
             /> */}
-        </List.Section>
+            </List.Section>
+        </>
     );
-}
+};
+
+export default SettingsScreen;

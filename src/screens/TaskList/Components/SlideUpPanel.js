@@ -37,8 +37,8 @@ const SlideUpPanel = ({
                                 color={Colors.accentColor}
                                 name={
                                     sortOrder === "asc"
-                                        ? "arrow-up"
-                                        : "arrow-down"
+                                        ? "arrow-down"
+                                        : "arrow-up"
                                 }
                                 size={25}
                                 style={styles.sortArrow}
@@ -57,8 +57,8 @@ const SlideUpPanel = ({
                                 color={Colors.accentColor}
                                 name={
                                     sortOrder === "asc"
-                                        ? "arrow-up"
-                                        : "arrow-down"
+                                        ? "arrow-down"
+                                        : "arrow-up"
                                 }
                                 size={25}
                                 style={styles.sortArrow}

@@ -9,29 +9,12 @@ import EditTask from "../screens/EditTask";
 
 const Stack = createStackNavigator();
 
-function StackNavigator({ navigation }) {
+function StackNavigator() {
     return (
-        <Stack.Navigator>
-            <Stack.Screen
-                name="Your Tasks"
-                component={TaskList}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen
-                name="Task Item"
-                component={TaskItem}
-                options={{
-                    headerStyle: { backgroundColor: Colors.accentColor },
-                    headerTintColor: "white",
-                }}
-            />
-            <Stack.Screen
-                name="EditTask"
-                component={EditTask}
-                options={{
-                    headerShown: false,
-                }}
-            />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Your Tasks" component={TaskList} />
+            <Stack.Screen name="Task Item" component={TaskItem} />
+            <Stack.Screen name="EditTask" component={EditTask} />
         </Stack.Navigator>
     );
 }

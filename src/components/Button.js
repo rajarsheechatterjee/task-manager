@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import Colors from "../theming/colors";
 
 import Ripple from "react-native-material-ripple";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Clipboard, ToastAndroid } from "react-native";
-import { FAB, Portal, Provider } from "react-native-paper";
+import { FAB, Portal, Provider, Appbar } from "react-native-paper";
 
 import { deleteTask } from "../../utils/firebase";
 import Colors from "../../theming/colors";
@@ -35,6 +35,14 @@ export default function TaskItem({ route, navigation }) {
 
     return (
         <Provider>
+            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+                <Appbar.BackAction
+                    onPress={() => {
+                        navigation.goBack();
+                    }}
+                />
+                <Appbar.Content title="Task Item" />
+            </Appbar.Header>
             <View style={{ flex: 1, backgroundColor: Colors.background }}>
                 <View
                     style={[

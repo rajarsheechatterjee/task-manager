@@ -36,7 +36,7 @@ export default function Home({ navigation }) {
         setLoading(false);
     };
 
-    const handleSyncButton = async () => {
+    const handleSync = async () => {
         await getTasks(sortMode, sortOrder);
         ToastAndroid.show("Synced with cloud storage", ToastAndroid.SHORT);
     };
@@ -72,7 +72,7 @@ export default function Home({ navigation }) {
             <CustomHeader
                 navigation={navigation}
                 handleSlider={() => _panel.show()}
-                handleSync={handleSyncButton}
+                handleSync={handleSync}
             />
             {loading ? (
                 <View style={{ flex: 1, justifyContent: "center" }}>
