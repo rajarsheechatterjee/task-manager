@@ -23,11 +23,11 @@ const SlideUpPanel = ({
             draggableRange={{ top: 330, bottom: 0 }}
             snappingPoints={[0, 330]}
         >
-            <View style={styles.sliderContainer}>
+            <View style={styles.bottomSheetContainer}>
                 <View style={styles.indicator} />
-                <Text style={styles.priorityHeading}>Sort</Text>
+                <Text style={styles.filterHeading}>Sort</Text>
                 <TouchableRipple
-                    style={styles.setPriority}
+                    style={styles.setSorting}
                     onPress={() => handleSort("createdAt")}
                 >
                     <>
@@ -47,7 +47,7 @@ const SlideUpPanel = ({
                     </>
                 </TouchableRipple>
                 <TouchableRipple
-                    style={styles.setPriority}
+                    style={styles.setSorting}
                     onPress={() => handleSort("priorityIs")}
                 >
                     <>
@@ -67,13 +67,11 @@ const SlideUpPanel = ({
                     </>
                 </TouchableRipple>
                 <TouchableRipple
-                    style={styles.setPriority}
+                    style={styles.setSorting}
                     onPress={() => handleSort("taskTime")}
                 >
                     <>
-                        <Text style={{ fontSize: 15 }}>
-                            Sort by due time at
-                        </Text>
+                        <Text style={{ fontSize: 15 }}>Sort by due time</Text>
                         {sortMode === "taskTime" && (
                             <MaterialCommunityIcons
                                 color={Colors.accentColor}
@@ -88,11 +86,11 @@ const SlideUpPanel = ({
                         )}
                     </>
                 </TouchableRipple>
-                <Text style={[styles.priorityHeading, { paddingTop: 5 }]}>
+                <Text style={[styles.filterHeading, { paddingTop: 5 }]}>
                     Filter
                 </Text>
                 <TouchableRipple
-                    style={styles.setCompleted}
+                    style={styles.completedFilter}
                     onPress={() => handleFilter()}
                 >
                     <>
@@ -106,13 +104,7 @@ const SlideUpPanel = ({
                         </Text>
                     </>
                 </TouchableRipple>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        paddingHorizontal: 16,
-                        paddingVertical: 5,
-                    }}
-                >
+                <View style={styles.priorityFilters}>
                     <Chip
                         selectedColor={prioFilter === 1 ? "white" : "black"}
                         style={[
@@ -164,7 +156,7 @@ const SlideUpPanel = ({
 export default SlideUpPanel;
 
 const styles = StyleSheet.create({
-    sliderContainer: {
+    bottomSheetContainer: {
         flex: 1,
         backgroundColor: "white",
         paddingTop: 20,
@@ -173,7 +165,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 15,
         elevation: 16,
     },
-    priorityHeading: {
+    filterHeading: {
         fontWeight: "bold",
         fontSize: 15,
         color: Colors.accentColor,
@@ -193,17 +185,22 @@ const styles = StyleSheet.create({
         paddingTop: 3,
         paddingRight: 5,
     },
-    setPriority: {
+    setSorting: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 20,
         height: 50,
     },
-    setCompleted: {
+    completedFilter: {
         flexDirection: "row",
         alignItems: "center",
         paddingHorizontal: 20,
         paddingVertical: 10,
+    },
+    priorityFilters: {
+        flexDirection: "row",
+        paddingHorizontal: 16,
+        paddingVertical: 5,
     },
 });

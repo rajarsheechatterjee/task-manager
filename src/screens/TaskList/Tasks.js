@@ -1,7 +1,13 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, View, ToastAndroid, FlatList } from "react-native";
+import {
+    StyleSheet,
+    View,
+    ToastAndroid,
+    FlatList,
+    RefreshControl,
+} from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { Provider, FAB, ActivityIndicator, Portal } from "react-native-paper";
+import { Provider, FAB, Portal } from "react-native-paper";
 
 import { getAllTasks } from "../../utils/firebase";
 
@@ -11,55 +17,64 @@ import SlideUpPanel from "./Components/SlideUpPanel";
 import Colors from "../../theming/colors";
 
 export default function Home({ navigation }) {
-    const [loading, setLoading] = useState(true);
     const [tasksList, setTasksList] = useState([]);
-    const [sortType, setSortType] = useState({
+    const [sorting, setSorting] = useState({
         sortMode: "createdAt",
         sortOrder: "desc",
     });
-    const { sortMode, sortOrder } = sortType;
-    const [filter, setFilter] = useState(false);
-    const [prioFilter, setPrioFilter] = useState(0);
+    const { sortMode, sortOrder } = sorting;
+    const [completedFilter, setCompletedFilter] = useState(false);
+    const [priorityFilter, setPriorityFilter] = useState(0);
+
+    // Refresh Control
+    const [refreshing, setRefreshing] = useState(true);
+    const onRefresh = async () => {
+        setRefreshing(true);
+        ToastAndroid.show("Updating your tasks", ToastAndroid.SHORT);
+        getTasks(sortMode, sortOrder);
+    };
+
+    const getTasks = async () => {
+        let list = await getAllTasks(sortMode, sortOrder);
+        completedFilter &&
+            (list = list.filter((item) => item.isCompleted === true));
+        priorityFilter !== 0 &&
+            (list = list.filter((item) => item.priorityIs === priorityFilter));
+        setTasksList(list);
+        setRefreshing(false);
+    };
 
     useFocusEffect(
         useCallback(() => {
             getTasks(sortMode, sortOrder);
-        }, [sortMode, sortOrder, filter, prioFilter])
+        }, [sortMode, sortOrder, completedFilter, priorityFilter])
     );
 
-    const getTasks = async () => {
-        let list = await getAllTasks(sortMode, sortOrder);
-        filter && (list = list.filter((item) => item.isCompleted === true));
-        prioFilter !== 0 &&
-            (list = list.filter((item) => item.priorityIs === prioFilter));
-        setTasksList(list);
-        setLoading(false);
-    };
-
     const handleSync = async () => {
+        setRefreshing(true);
         await getTasks(sortMode, sortOrder);
         ToastAndroid.show("Synced with cloud storage", ToastAndroid.SHORT);
     };
 
-    const handleSort = (sortMode) => {
-        setLoading(true);
-        setSortType({
+    const handleSorting = (sortMode) => {
+        setRefreshing(true);
+        setSorting({
             sortMode: sortMode,
             sortOrder: sortOrder === "asc" ? "desc" : "asc",
         });
     };
 
-    const handleFilter = () => {
-        setLoading(true);
-        setFilter(!filter);
+    const handleCompletedFilter = () => {
+        setRefreshing(true);
+        setCompletedFilter(!completedFilter);
     };
 
-    const handlePrioFilter = (priority) => {
-        setLoading(true);
-        if (priority === prioFilter) {
-            setPrioFilter(0);
+    const handlePriorityFilter = (priority) => {
+        setRefreshing(true);
+        if (priority === priorityFilter) {
+            setPriorityFilter(0);
         } else {
-            setPrioFilter(priority);
+            setPriorityFilter(priority);
         }
     };
 
@@ -74,21 +89,24 @@ export default function Home({ navigation }) {
                 handleSlider={() => _panel.show()}
                 handleSync={handleSync}
             />
-            {loading ? (
-                <View style={{ flex: 1, justifyContent: "center" }}>
-                    <ActivityIndicator color={Colors.accentColor} />
-                </View>
-            ) : (
-                <View style={styles.flatListContainer}>
-                    <FlatList
-                        removeClippedSubviews={true}
-                        data={tasksList}
-                        extraData={sortMode}
-                        keyExtractor={(item) => item.id}
-                        renderItem={renderTaskCard}
-                    />
-                </View>
-            )}
+
+            <View style={styles.flatListContainer}>
+                <FlatList
+                    removeClippedSubviews={true}
+                    data={tasksList}
+                    extraData={sortMode}
+                    keyExtractor={(item) => item.id}
+                    renderItem={renderTaskCard}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            colors={["white"]}
+                            progressBackgroundColor={Colors.accentColor}
+                        />
+                    }
+                />
+            </View>
             <FAB
                 style={styles.fab}
                 icon="plus"
@@ -97,12 +115,12 @@ export default function Home({ navigation }) {
             />
             <Portal>
                 <SlideUpPanel
-                    handleSort={handleSort}
-                    handleFilter={handleFilter}
-                    sortType={sortType}
-                    filter={filter}
-                    prioFilter={prioFilter}
-                    handlePrioFilter={handlePrioFilter}
+                    handleSort={handleSorting}
+                    handleFilter={handleCompletedFilter}
+                    sortType={sorting}
+                    filter={completedFilter}
+                    prioFilter={priorityFilter}
+                    handlePriorityFilter={handlePriorityFilter}
                     handleRef={(c) => (_panel = c)}
                 />
             </Portal>

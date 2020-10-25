@@ -1,5 +1,5 @@
 import React from "react";
-import { Appbar, List, TouchableRipple } from "react-native-paper";
+import { Appbar, List } from "react-native-paper";
 import Colors from "../../theming/colors";
 
 const MoreScreen = ({ navigation }) => {
