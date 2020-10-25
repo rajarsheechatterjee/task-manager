@@ -115,11 +115,11 @@ export default function Home({ navigation }) {
             />
             <Portal>
                 <SlideUpPanel
-                    handleSort={handleSorting}
-                    handleFilter={handleCompletedFilter}
-                    sortType={sorting}
-                    filter={completedFilter}
+                    sorting={sorting}
+                    completedFilter={completedFilter}
                     prioFilter={priorityFilter}
+                    handleSorting={handleSorting}
+                    handleCompletedFilter={handleCompletedFilter}
                     handlePriorityFilter={handlePriorityFilter}
                     handleRef={(c) => (_panel = c)}
                 />

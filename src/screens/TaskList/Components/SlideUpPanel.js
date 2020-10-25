@@ -8,15 +8,15 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const SlideUpPanel = ({
-    handleSort,
-    handleFilter,
-    sortType,
-    filter,
+    handleSorting,
+    handleCompletedFilter,
+    sorting,
+    completedFilter,
     prioFilter,
-    handlePrioFilter,
+    handlePriorityFilter,
     handleRef,
 }) => {
-    const { sortMode, sortOrder } = sortType;
+    const { sortMode, sortOrder } = sorting;
     return (
         <SlidingUpPanel
             ref={handleRef}
@@ -28,7 +28,7 @@ const SlideUpPanel = ({
                 <Text style={styles.filterHeading}>Sort</Text>
                 <TouchableRipple
                     style={styles.setSorting}
-                    onPress={() => handleSort("createdAt")}
+                    onPress={() => handleSorting("createdAt")}
                 >
                     <>
                         <Text style={{ fontSize: 15 }}>Sort by created at</Text>
@@ -48,7 +48,7 @@ const SlideUpPanel = ({
                 </TouchableRipple>
                 <TouchableRipple
                     style={styles.setSorting}
-                    onPress={() => handleSort("priorityIs")}
+                    onPress={() => handleSorting("priorityIs")}
                 >
                     <>
                         <Text style={{ fontSize: 15 }}>Sort by priority</Text>
@@ -68,7 +68,7 @@ const SlideUpPanel = ({
                 </TouchableRipple>
                 <TouchableRipple
                     style={styles.setSorting}
-                    onPress={() => handleSort("taskTime")}
+                    onPress={() => handleSorting("taskTime")}
                 >
                     <>
                         <Text style={{ fontSize: 15 }}>Sort by due time</Text>
@@ -91,12 +91,12 @@ const SlideUpPanel = ({
                 </Text>
                 <TouchableRipple
                     style={styles.completedFilter}
-                    onPress={() => handleFilter()}
+                    onPress={() => handleCompletedFilter()}
                 >
                     <>
                         <Checkbox
-                            status={filter ? "checked" : "unchecked"}
-                            onValueChange={() => handleFilter()}
+                            status={completedFilter ? "checked" : "unchecked"}
+                            onValueChange={() => handleCompletedFilter()}
                             color={Colors.accentColor}
                         />
                         <Text style={{ fontSize: 15, marginLeft: 10 }}>
@@ -114,7 +114,7 @@ const SlideUpPanel = ({
                             },
                         ]}
                         icon="priority-high"
-                        onPress={() => handlePrioFilter(1)}
+                        onPress={() => handlePriorityFilter(1)}
                         selected={prioFilter === 1 ? true : false}
                     >
                         High
@@ -128,7 +128,7 @@ const SlideUpPanel = ({
                             },
                         ]}
                         icon="sort"
-                        onPress={() => handlePrioFilter(2)}
+                        onPress={() => handlePriorityFilter(2)}
                         selected={prioFilter === 2 ? true : false}
                     >
                         Medium
@@ -142,7 +142,7 @@ const SlideUpPanel = ({
                             },
                         ]}
                         icon="priority-low"
-                        onPress={() => handlePrioFilter(3)}
+                        onPress={() => handlePriorityFilter(3)}
                         selected={prioFilter === 3 ? true : false}
                     >
                         Low

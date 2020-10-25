@@ -28,11 +28,3 @@ export const priorityColor = (priority) => {
         };
     }
 };
-
-export const priorityIconColor = (priority) => {
-    if (priority === 1 || priority === 1 || priority === 3) {
-        return "#FFC107";
-    } else {
-        return "white";
-    }
-};
