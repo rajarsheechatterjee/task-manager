@@ -7,9 +7,13 @@ import {
     RefreshControl,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { Provider, FAB, Portal } from "react-native-paper";
+import { Provider, FAB, Portal, Snackbar } from "react-native-paper";
 
-import { getAllTasks } from "../../utils/firebase";
+import {
+    deleteTask,
+    getAllTasks,
+    updateIsCompleted,
+} from "../../utils/firebase";
 
 import CustomHeader from "./Components/Header";
 import TaskCard from "./Components/TaskCard";
@@ -17,22 +21,21 @@ import SlideUpPanel from "./Components/SlideUpPanel";
 import Colors from "../../theming/colors";
 
 export default function Home({ navigation }) {
-    const [tasksList, setTasksList] = useState([]);
-    const [sorting, setSorting] = useState({
-        sortMode: "createdAt",
-        sortOrder: "desc",
-    });
-    const { sortMode, sortOrder } = sorting;
-    const [completedFilter, setCompletedFilter] = useState(false);
-    const [priorityFilter, setPriorityFilter] = useState(0);
-
-    // Refresh Control
+    /**
+     * Refresh Control
+     */
     const [refreshing, setRefreshing] = useState(true);
+
     const onRefresh = async () => {
         setRefreshing(true);
         ToastAndroid.show("Updating your tasks", ToastAndroid.SHORT);
         getTasks(sortMode, sortOrder);
     };
+
+    /**
+     * Get tasks from cloud storage
+     */
+    const [tasksList, setTasksList] = useState([]);
 
     const getTasks = async () => {
         let list = await getAllTasks(sortMode, sortOrder);
@@ -44,18 +47,35 @@ export default function Home({ navigation }) {
         setRefreshing(false);
     };
 
+    /**
+     * Sorting and filters
+     */
+    const [sorting, setSorting] = useState({
+        sortMode: "createdAt",
+        sortOrder: "desc",
+    });
+    const { sortMode, sortOrder } = sorting;
+    const [completedFilter, setCompletedFilter] = useState(false);
+    const [priorityFilter, setPriorityFilter] = useState(0);
+
     useFocusEffect(
         useCallback(() => {
             getTasks(sortMode, sortOrder);
         }, [sortMode, sortOrder, completedFilter, priorityFilter])
     );
 
+    /**
+     * Sync with cloud storage
+     */
     const handleSync = async () => {
         setRefreshing(true);
         await getTasks(sortMode, sortOrder);
         ToastAndroid.show("Synced with cloud storage", ToastAndroid.SHORT);
     };
 
+    /**
+     * Handle sort and filter settings
+     */
     const handleSorting = (sortMode) => {
         setRefreshing(true);
         setSorting({
@@ -78,8 +98,40 @@ export default function Home({ navigation }) {
         }
     };
 
+    /**
+     * Toggle and dismiss snackbar
+     */
+    const [visible, setVisible] = useState(false);
+    const onToggleSnackBar = () => setVisible(!visible);
+    const onDismissSnackBar = () => setVisible(false);
+
+    /**
+     * Delete task from snackbar when completed
+     */
+    const [deleteTaskId, setDeleteTaskId] = useState();
+
+    const handleSetTaskId = (taskId) => {
+        setDeleteTaskId(taskId);
+    };
+
+    const handleDeleteTask = async () => {
+        setRefreshing(true);
+        await deleteTask(navigation, deleteTaskId);
+        setDeleteTaskId("");
+        getTasks(sortMode, sortOrder);
+    };
+
+    /**
+     * Indivisual task item
+     */
     const renderTaskCard = ({ item }) => (
-        <TaskCard navigation={navigation} taskItem={item} />
+        <TaskCard
+            navigation={navigation}
+            taskItem={item}
+            updateIsCompleted={updateIsCompleted}
+            onToggleSnackBar={onToggleSnackBar}
+            handleSetTaskId={handleSetTaskId}
+        />
     );
 
     return (
@@ -94,7 +146,7 @@ export default function Home({ navigation }) {
                 <FlatList
                     removeClippedSubviews={true}
                     data={tasksList}
-                    extraData={sortMode}
+                    extraData={tasksList}
                     keyExtractor={(item) => item.id}
                     renderItem={renderTaskCard}
                     refreshControl={
@@ -123,6 +175,17 @@ export default function Home({ navigation }) {
                     handlePriorityFilter={handlePriorityFilter}
                     handleRef={(c) => (_panel = c)}
                 />
+                <Snackbar
+                    visible={visible}
+                    onDismiss={onDismissSnackBar}
+                    duration={3000}
+                    action={{
+                        label: "Delete Task",
+                        onPress: handleDeleteTask,
+                    }}
+                >
+                    Task Completed
+                </Snackbar>
             </Portal>
         </Provider>
     );

@@ -3,20 +3,30 @@ import { StyleSheet, Text, View } from "react-native";
 import { CheckBox } from "react-native-elements";
 import Colors from "../../../theming/colors";
 
-import { updateIsCompleted } from "../../../utils/firebase";
 import { priorityColor } from "../../../utils/priority";
 
 import { TouchableRipple } from "react-native-paper";
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ripple from "react-native-material-ripple";
+import { deleteTask } from "../../../utils/firebase";
 
-export default function TaskCard({ taskItem, navigation }) {
+export default function TaskCard({
+    taskItem,
+    navigation,
+    updateIsCompleted,
+    onToggleSnackBar,
+    handleSetTaskId,
+}) {
     const [checked, setChecked] = useState(taskItem.isCompleted);
 
     const handleCompleted = () => {
         setChecked(!checked);
         updateIsCompleted(checked, taskItem.id);
+        if (!checked) {
+            onToggleSnackBar();
+            handleSetTaskId(taskItem.id);
+        }
     };
 
     return (
