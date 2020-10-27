@@ -8,13 +8,16 @@ import {
     Animated,
     TouchableOpacity,
 } from "react-native";
+import { TouchableRipple } from "react-native-paper";
+import { CheckBox } from "react-native-elements";
+
+import moment from "moment";
+import BottomSheet from "rn-sliding-up-panel";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
+import Appbar from "./Components/AddTaskHeader";
 import { addTask } from "../../utils/firebase";
 import Colors from "../../theming/colors";
-import { Appbar, TouchableRipple } from "react-native-paper";
-import { CheckBox } from "react-native-elements";
-import BottomSheet from "rn-sliding-up-panel";
-import moment from "moment";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function Home({ navigation }) {
     const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -57,25 +60,13 @@ export default function Home({ navigation }) {
 
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
-                <Appbar.BackAction
-                    onPress={() => {
-                        navigation.navigate("Your Tasks");
-                        clearFields();
-                    }}
-                />
-                <Appbar.Content title="Add Task" />
-                <Appbar.Action icon="alarm" onPress={showPicker} />
-                <Appbar.Action
-                    icon="priority-high"
-                    onPress={() => _panel.show()}
-                />
-                <Appbar.Action
-                    icon="check"
-                    onPress={handleAddTask}
-                    disabled={newTaskTitle === "" ? true : false}
-                />
-            </Appbar.Header>
+            <Appbar
+                navigation={navigation}
+                handleRef={() => _panel.show()}
+                showPicker={showPicker}
+                handleAddTask={handleAddTask}
+                newTaskTitle={newTaskTitle}
+            />
             <View style={styles.mainContainer}>
                 <View>
                     <TextInput

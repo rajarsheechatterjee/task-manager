@@ -61,7 +61,7 @@ export default function Home({ navigation }) {
     useFocusEffect(
         useCallback(() => {
             getTasks(sortMode, sortOrder);
-        }, [sortMode, sortOrder, completedFilter, priorityFilter])
+        }, [sorting, completedFilter, priorityFilter])
     );
 
     /**
@@ -102,8 +102,11 @@ export default function Home({ navigation }) {
      * Toggle and dismiss snackbar
      */
     const [visible, setVisible] = useState(false);
-    const onToggleSnackBar = () => setVisible(!visible);
-    const onDismissSnackBar = () => setVisible(false);
+    const onToggleSnackBar = () => setVisible(true);
+    const onDismissSnackBar = () => {
+        setVisible(false);
+        setDeleteTaskId("");
+    };
 
     /**
      * Delete task from snackbar when completed
@@ -115,10 +118,12 @@ export default function Home({ navigation }) {
     };
 
     const handleDeleteTask = async () => {
-        setRefreshing(true);
-        await deleteTask(navigation, deleteTaskId);
-        setDeleteTaskId("");
-        getTasks(sortMode, sortOrder);
+        if (deleteTaskId !== "") {
+            setRefreshing(true);
+            await deleteTask(navigation, deleteTaskId);
+            setDeleteTaskId("");
+            getTasks(sortMode, sortOrder);
+        }
     };
 
     /**
@@ -131,6 +136,7 @@ export default function Home({ navigation }) {
             updateIsCompleted={updateIsCompleted}
             onToggleSnackBar={onToggleSnackBar}
             handleSetTaskId={handleSetTaskId}
+            onDismissSnackBar={onDismissSnackBar}
         />
     );
 
@@ -138,7 +144,7 @@ export default function Home({ navigation }) {
         <Provider>
             <CustomHeader
                 navigation={navigation}
-                handleSlider={() => _panel.show()}
+                handleSlider={() => _panel.show({ velocity: -1.5 })}
                 handleSync={handleSync}
             />
 

@@ -16,9 +16,9 @@ export default function TaskItem({ route, navigation }) {
         isUpdated,
     } = route.params;
 
-    const [state, setState] = useState({ open: false });
-    const onStateChange = ({ open }) => setState({ open });
-    const { open } = state;
+    // FAB
+    const [open, setOpen] = useState(false);
+    const onStateChange = () => setOpen(!open);
 
     const handleDivider = () => {
         if (taskTime !== "" || taskContent !== "") {
@@ -26,6 +26,9 @@ export default function TaskItem({ route, navigation }) {
         }
     };
 
+    /**
+     * Copy task details to clipboard
+     */
     const handleCopy = () => {
         Clipboard.setString(
             `Title: ${taskTitle}, Content: ${taskContent}, Due At: ${taskTime}`

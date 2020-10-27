@@ -9,7 +9,6 @@ import { TouchableRipple } from "react-native-paper";
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ripple from "react-native-material-ripple";
-import { deleteTask } from "../../../utils/firebase";
 
 export default function TaskCard({
     taskItem,
@@ -17,6 +16,7 @@ export default function TaskCard({
     updateIsCompleted,
     onToggleSnackBar,
     handleSetTaskId,
+    onDismissSnackBar,
 }) {
     const [checked, setChecked] = useState(taskItem.isCompleted);
 
@@ -26,6 +26,8 @@ export default function TaskCard({
         if (!checked) {
             onToggleSnackBar();
             handleSetTaskId(taskItem.id);
+        } else {
+            onDismissSnackBar();
         }
     };
 

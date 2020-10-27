@@ -95,7 +95,7 @@ const SettingsScreen = ({ navigation }) => {
                             icon="logout-variant"
                         />
                     )}
-                    onPress={() => logout(navigation)}
+                    onPress={() => logout()}
                 />
                 {/* <List.Item
                 title="Reset your password"

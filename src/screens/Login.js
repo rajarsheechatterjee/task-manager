@@ -19,12 +19,6 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    useFocusEffect(
-        useCallback(() => {
-            isLoggedIn(navigation);
-        }, [])
-    );
-
     const handleLogin = () => {
         loginUser(email, password);
         setLoading(true);

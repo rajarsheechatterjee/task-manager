@@ -3,35 +3,7 @@ import "firebase/firestore";
 import { Alert } from "react-native";
 import moment from "moment";
 
-export const isLoggedIn = (navigation) => {
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            navigation.navigate("Task Monitor");
-            navigation.reset({
-                index: 0,
-                routes: [{ name: "Task Monitor" }],
-            });
-        }
-    });
-};
-
-export const loadUser = (navigation) => {
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            navigation.navigate("Task Monitor");
-            navigation.reset({
-                index: 0,
-                routes: [{ name: "Task Monitor" }],
-            });
-        } else {
-            navigation.navigate("Login");
-            navigation.reset({
-                index: 0,
-                routes: [{ name: "Login" }],
-            });
-        }
-    });
-};
+export const auth = firebase.auth();
 
 export const loginUser = async (email, password) => {
     try {
@@ -67,11 +39,8 @@ export const signupUser = async (email, password) => {
     }
 };
 
-export const logout = (navigation) => {
-    firebase
-        .auth()
-        .signOut()
-        .then(() => navigation.navigate("Login"));
+export const logout = () => {
+    firebase.auth().signOut();
 };
 
 export const addTask = async (

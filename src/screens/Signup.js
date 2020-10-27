@@ -20,12 +20,6 @@ export default function SignupScreen({ navigation }) {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    useFocusEffect(
-        useCallback(() => {
-            isLoggedIn(navigation);
-        }, [])
-    );
-
     const handleSignup = () => {
         signupUser(email, password);
         setLoading(true);

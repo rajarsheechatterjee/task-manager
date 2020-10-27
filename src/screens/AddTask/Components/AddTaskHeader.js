@@ -1,7 +1,33 @@
 import React from "react";
+import { Appbar } from "react-native-paper";
 
-const AddTaskHeader = () => {
-    return;
+import Colors from "../../../theming/colors";
+
+const AddTaskHeader = ({
+    navigation,
+    handleRef,
+    showPicker,
+    handleAddTask,
+    newTaskTitle,
+}) => {
+    return (
+        <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+            <Appbar.BackAction
+                onPress={() => {
+                    navigation.navigate("Your Tasks");
+                    clearFields();
+                }}
+            />
+            <Appbar.Content title="Add Task" />
+            <Appbar.Action icon="alarm" onPress={showPicker} />
+            <Appbar.Action icon="priority-high" onPress={handleRef} />
+            <Appbar.Action
+                icon="check"
+                onPress={handleAddTask}
+                disabled={newTaskTitle === "" ? true : false}
+            />
+        </Appbar.Header>
+    );
 };
 
 export default AddTaskHeader;
