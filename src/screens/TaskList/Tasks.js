@@ -127,6 +127,51 @@ export default function Home({ navigation }) {
     };
 
     /**
+     * Select multiple items
+     */
+    const [selectedTasks, setSelectedTasks] = useState([]);
+    const handleSelectTask = async (taskId) => {
+        if (selectedTasks.length > 0) {
+            const index = selectedTasks.indexOf(taskId);
+            if (index > -1) {
+                selectedTasks.splice(index, 1);
+            } else {
+                selectedTasks.push(taskId);
+            }
+        } else {
+            setDeleteVisible(true);
+            selectedTasks.push(taskId);
+        }
+        setSelectedTasks(selectedTasks);
+        if (selectedTasks.length > 0) {
+            setDeleteVisible(true);
+        } else {
+            setDeleteVisible(false);
+        }
+    };
+
+    const isItemSelected = (taskId) => {
+        const index = selectedTasks.indexOf(taskId);
+        if (index > -1) {
+            return true;
+        } else return false;
+    };
+
+    const [deleteVisible, setDeleteVisible] = useState(false);
+
+    const deleteSelected = () => {
+        setRefreshing(true);
+        selectedTasks.forEach((id) => {
+            deleteTask(navigation, id);
+            isItemSelected(id);
+        });
+        setDeleteVisible(false);
+        getTasks(sortMode, sortOrder);
+        setSelectedTasks([]);
+        ToastAndroid.show("Tasks Deleted", ToastAndroid.SHORT);
+    };
+
+    /**
      * Indivisual task item
      */
     const renderTaskCard = ({ item }) => (
@@ -137,6 +182,8 @@ export default function Home({ navigation }) {
             onToggleSnackBar={onToggleSnackBar}
             handleSetTaskId={handleSetTaskId}
             onDismissSnackBar={onDismissSnackBar}
+            handleSelectTask={handleSelectTask}
+            isItemSelected={isItemSelected}
         />
     );
 
@@ -146,6 +193,8 @@ export default function Home({ navigation }) {
                 navigation={navigation}
                 handleSlider={() => _panel.show({ velocity: -1.5 })}
                 handleSync={handleSync}
+                deleteVisible={deleteVisible}
+                deleteSelected={deleteSelected}
             />
 
             <View style={styles.flatListContainer}>

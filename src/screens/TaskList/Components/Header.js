@@ -3,7 +3,13 @@ import { Appbar } from "react-native-paper";
 
 import Colors from "../../../theming/colors";
 
-const Header = ({ navigation, handleSlider, handleSync }) => {
+const Header = ({
+    navigation,
+    handleSlider,
+    handleSync,
+    deleteSelected,
+    deleteVisible,
+}) => {
     return (
         <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
             <Appbar.Content title="Your Tasks" />
@@ -16,6 +22,12 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
                 icon="settings-outline"
                 onPress={() => navigation.navigate("More")}
             />
+            {deleteVisible && (
+                <Appbar.Action
+                    icon="delete-sweep-outline"
+                    onPress={() => deleteSelected()}
+                />
+            )}
         </Appbar.Header>
     );
 };

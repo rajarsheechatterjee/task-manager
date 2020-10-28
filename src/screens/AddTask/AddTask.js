@@ -66,6 +66,7 @@ export default function Home({ navigation }) {
                 showPicker={showPicker}
                 handleAddTask={handleAddTask}
                 newTaskTitle={newTaskTitle}
+                clearFields={clearFields}
             />
             <View style={styles.mainContainer}>
                 <View>

@@ -9,12 +9,13 @@ const AddTaskHeader = ({
     showPicker,
     handleAddTask,
     newTaskTitle,
+    clearFields,
 }) => {
     return (
         <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
             <Appbar.BackAction
                 onPress={() => {
-                    navigation.navigate("Your Tasks");
+                    navigation.goBack();
                     clearFields();
                 }}
             />

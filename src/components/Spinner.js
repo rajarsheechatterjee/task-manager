@@ -6,7 +6,7 @@ import Colors from "../theming/colors";
 export default function Spinner() {
     return (
         <View style={styles.container}>
-            <ActivityIndicator size="large" color={Colors.accentColor} />
+            <ActivityIndicator size="large" color="white" />
         </View>
     );
 }
@@ -16,5 +16,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: Colors.accentColor,
     },
 });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { CheckBox } from "react-native-elements";
 import Colors from "../../../theming/colors";
@@ -17,6 +17,8 @@ export default function TaskCard({
     onToggleSnackBar,
     handleSetTaskId,
     onDismissSnackBar,
+    handleSelectTask,
+    isItemSelected,
 }) {
     const [checked, setChecked] = useState(taskItem.isCompleted);
 
@@ -31,13 +33,28 @@ export default function TaskCard({
         }
     };
 
+    const [isSelected, setSelected] = useState(isItemSelected(taskItem.id));
+
     return (
-        <View style={styles.mainContainer}>
+        <View
+            style={[
+                styles.mainContainer,
+                isSelected && {
+                    borderWidth: 2,
+                    borderColor: Colors.accentColor,
+                    borderRadius: 15,
+                },
+            ]}
+        >
             <TouchableRipple
                 borderless
                 centered
                 style={styles.taskListContainer}
                 onPress={() => navigation.navigate("Task Item", taskItem)}
+                onLongPress={() => {
+                    handleSelectTask(taskItem.id);
+                    setSelected(!isSelected);
+                }}
             >
                 <View style={styles.taskListView}>
                     <View style={styles.checkbox}>
@@ -116,11 +133,11 @@ const styles = StyleSheet.create({
     taskListContainer: {
         borderRadius: 15,
         elevation: 2,
+        backgroundColor: "#fff",
     },
     taskListView: {
         flex: 1,
         paddingVertical: 9,
-        backgroundColor: "#fff",
     },
     taskItemTitle: {
         paddingTop: 10,
