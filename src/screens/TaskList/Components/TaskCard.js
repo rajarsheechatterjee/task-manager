@@ -18,7 +18,6 @@ export default function TaskCard({
     handleSetTaskId,
     onDismissSnackBar,
     handleSelectTask,
-    isItemSelected,
 }) {
     const [checked, setChecked] = useState(taskItem.isCompleted);
 
@@ -33,7 +32,7 @@ export default function TaskCard({
         }
     };
 
-    const [isSelected, setSelected] = useState(isItemSelected(taskItem.id));
+    const [isSelected, setSelected] = useState(false);
 
     return (
         <View

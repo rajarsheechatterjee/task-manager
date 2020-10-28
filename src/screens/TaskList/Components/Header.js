@@ -9,8 +9,9 @@ const Header = ({
     handleSync,
     deleteSelected,
     deleteVisible,
+    deselectAll,
 }) => {
-    return (
+    return !deleteVisible ? (
         <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
             <Appbar.Content title="Your Tasks" />
             <Appbar.Action icon="sync" onPress={() => handleSync()} />
@@ -22,12 +23,22 @@ const Header = ({
                 icon="settings-outline"
                 onPress={() => navigation.navigate("More")}
             />
-            {deleteVisible && (
-                <Appbar.Action
-                    icon="delete-sweep-outline"
-                    onPress={() => deleteSelected()}
-                />
-            )}
+        </Appbar.Header>
+    ) : (
+        <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+            {/* <Appbar.Action
+                icon="close"
+                onPress={() => {
+                    deselectAll();
+                }}
+            /> */}
+            <Appbar.Content title="Delete Selected" />
+            <Appbar.Action
+                icon="trash-can-outline"
+                onPress={() => {
+                    deleteSelected();
+                }}
+            />
         </Appbar.Header>
     );
 };

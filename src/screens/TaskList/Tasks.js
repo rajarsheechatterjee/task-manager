@@ -57,11 +57,12 @@ export default function Home({ navigation }) {
     const { sortMode, sortOrder } = sorting;
     const [completedFilter, setCompletedFilter] = useState(false);
     const [priorityFilter, setPriorityFilter] = useState(0);
+    const [deleteVisible, setDeleteVisible] = useState(false);
 
     useFocusEffect(
         useCallback(() => {
             getTasks(sortMode, sortOrder);
-        }, [sorting, completedFilter, priorityFilter])
+        }, [sorting, completedFilter, priorityFilter, deleteVisible])
     );
 
     /**
@@ -149,23 +150,18 @@ export default function Home({ navigation }) {
             setDeleteVisible(false);
         }
     };
-
-    const isItemSelected = (taskId) => {
-        const index = selectedTasks.indexOf(taskId);
-        if (index > -1) {
-            return true;
-        } else return false;
+    const deselectAll = () => {
+        setSelectedTasks([]);
+        setDeleteVisible(false);
     };
 
-    const [deleteVisible, setDeleteVisible] = useState(false);
-
     const deleteSelected = () => {
-        setRefreshing(true);
         selectedTasks.forEach((id) => {
             deleteTask(navigation, id);
-            isItemSelected(id);
         });
+        setRefreshing(true);
         setDeleteVisible(false);
+        setTasksList([]);
         getTasks(sortMode, sortOrder);
         setSelectedTasks([]);
         ToastAndroid.show("Tasks Deleted", ToastAndroid.SHORT);
@@ -183,7 +179,6 @@ export default function Home({ navigation }) {
             handleSetTaskId={handleSetTaskId}
             onDismissSnackBar={onDismissSnackBar}
             handleSelectTask={handleSelectTask}
-            isItemSelected={isItemSelected}
         />
     );
 
@@ -195,6 +190,7 @@ export default function Home({ navigation }) {
                 handleSync={handleSync}
                 deleteVisible={deleteVisible}
                 deleteSelected={deleteSelected}
+                deselectAll={deselectAll}
             />
 
             <View style={styles.flatListContainer}>
