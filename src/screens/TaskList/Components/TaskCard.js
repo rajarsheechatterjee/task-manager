@@ -18,6 +18,7 @@ export default function TaskCard({
     handleSetTaskId,
     onDismissSnackBar,
     handleSelectTask,
+    selectHelper,
 }) {
     const [checked, setChecked] = useState(taskItem.isCompleted);
 
@@ -53,6 +54,7 @@ export default function TaskCard({
                 onLongPress={() => {
                     handleSelectTask(taskItem.id);
                     setSelected(!isSelected);
+                    selectHelper();
                 }}
             >
                 <View style={styles.taskListView}>

@@ -10,7 +10,12 @@ const Header = ({
     deleteSelected,
     deleteVisible,
     deselectAll,
+    selectedTasks,
 }) => {
+    const getLength = () => {
+        return selectedTasks.length;
+    };
+
     return !deleteVisible ? (
         <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
             <Appbar.Content title="Your Tasks" />
@@ -26,13 +31,13 @@ const Header = ({
         </Appbar.Header>
     ) : (
         <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
-            {/* <Appbar.Action
+            <Appbar.Action
                 icon="close"
                 onPress={() => {
                     deselectAll();
                 }}
-            /> */}
-            <Appbar.Content title="Delete Selected" />
+            />
+            <Appbar.Content title={getLength() + " selected"} />
             <Appbar.Action
                 icon="trash-can-outline"
                 onPress={() => {

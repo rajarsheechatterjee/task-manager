@@ -151,20 +151,25 @@ export default function Home({ navigation }) {
         }
     };
     const deselectAll = () => {
+        setRefreshing(true);
         setSelectedTasks([]);
+        setTasksList([]);
         setDeleteVisible(false);
     };
 
     const deleteSelected = () => {
+        setTasksList([]);
+        setRefreshing(true);
         selectedTasks.forEach((id) => {
             deleteTask(navigation, id);
         });
-        setRefreshing(true);
         setDeleteVisible(false);
-        setTasksList([]);
-        getTasks(sortMode, sortOrder);
         setSelectedTasks([]);
         ToastAndroid.show("Tasks Deleted", ToastAndroid.SHORT);
+    };
+
+    const selectHelper = () => {
+        getTasks(sortMode, sortOrder);
     };
 
     /**
@@ -179,6 +184,7 @@ export default function Home({ navigation }) {
             handleSetTaskId={handleSetTaskId}
             onDismissSnackBar={onDismissSnackBar}
             handleSelectTask={handleSelectTask}
+            selectHelper={selectHelper}
         />
     );
 
@@ -191,6 +197,7 @@ export default function Home({ navigation }) {
                 deleteVisible={deleteVisible}
                 deleteSelected={deleteSelected}
                 deselectAll={deselectAll}
+                selectedTasks={selectedTasks}
             />
 
             <View style={styles.flatListContainer}>
