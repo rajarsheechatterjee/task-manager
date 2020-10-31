@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Clipboard, ToastAndroid, Alert } from "react-native";
 import { List, Divider, Appbar } from "react-native-paper";
 import * as Linking from "expo-linking";
 import * as Updates from "expo-updates";
-import Colors from "../../theming/colors";
+import { ThemeContext } from "../../navigation/ThemeProvider";
 
 const AboutScreen = ({ navigation }) => {
+    const { theme } = useContext(ThemeContext);
+
     const checkForUpdates = async () => {
         ToastAndroid.show("Searching for updates...", ToastAndroid.SHORT);
         const update = await Updates.checkForUpdateAsync();
@@ -44,7 +46,7 @@ const AboutScreen = ({ navigation }) => {
 
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+            <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
@@ -56,21 +58,30 @@ const AboutScreen = ({ navigation }) => {
                 style={{
                     flex: 1,
                     marginTop: 0,
-                    backgroundColor: Colors.background,
+                    backgroundColor: theme.background,
                     marginBottom: 0,
                 }}
             >
                 <List.Item
+                    titleStyle={{ color: theme.textColor }}
                     title="Version"
+                    descriptionStyle={{ color: theme.subTextColor }}
                     description="Stable 0.3.6"
                     onPress={handleCopyVersion}
                 />
-                <List.Item title="Build Time" description="23/10/20  8:00 PM" />
                 <List.Item
+                    titleStyle={{ color: theme.textColor }}
+                    title="Build Time"
+                    descriptionStyle={{ color: theme.subTextColor }}
+                    description="23/10/20  8:00 PM"
+                />
+                <List.Item
+                    titleStyle={{ color: theme.textColor }}
                     title="Check for updates"
                     onPress={checkForUpdates}
                 />
                 <List.Item
+                    titleStyle={{ color: theme.textColor }}
                     title="What's new"
                     onPress={() =>
                         Linking.openURL(
@@ -81,6 +92,8 @@ const AboutScreen = ({ navigation }) => {
                 <Divider />
 
                 <List.Item
+                    titleStyle={{ color: theme.textColor }}
+                    descriptionStyle={{ color: theme.subTextColor }}
                     title="Github"
                     description="https://github.com/rajarsheechatterjee/shigoto"
                     onPress={() =>

@@ -10,9 +10,10 @@ const AddTaskHeader = ({
     handleAddTask,
     newTaskTitle,
     clearFields,
+    theme,
 }) => {
     return (
-        <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+        <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
             <Appbar.BackAction
                 onPress={() => {
                     navigation.goBack();

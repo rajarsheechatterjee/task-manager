@@ -16,9 +16,9 @@ const Header = ({
 }) => {
     const { theme } = useContext(ThemeContext);
 
-    const getLength = () => {
-        return selectedTasks.length;
-    };
+    // const getLength = () => {
+    //     return selectedTasks.length;
+    // };
 
     return (
         // !deleteVisible ? (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
     StyleSheet,
     Text,
@@ -19,7 +19,11 @@ import Appbar from "./Components/AddTaskHeader";
 import { addTask } from "../../utils/firebase";
 import Colors from "../../theming/colors";
 
-export default function Home({ navigation }) {
+import { ThemeContext } from "../../navigation/ThemeProvider";
+
+export default function AddTask({ navigation }) {
+    const { theme } = useContext(ThemeContext);
+
     const [newTaskTitle, setNewTaskTitle] = useState("");
     const [newTaskContent, setNewTaskContent] = useState("");
     const [priority, setPriority] = useState(2);
@@ -67,8 +71,14 @@ export default function Home({ navigation }) {
                 handleAddTask={handleAddTask}
                 newTaskTitle={newTaskTitle}
                 clearFields={clearFields}
+                theme={theme}
             />
-            <View style={styles.mainContainer}>
+            <View
+                style={[
+                    styles.mainContainer,
+                    { backgroundColor: theme.background },
+                ]}
+            >
                 <View>
                     <TextInput
                         multiline={true}
@@ -76,6 +86,7 @@ export default function Home({ navigation }) {
                         placeholder="Title"
                         onChangeText={(text) => setNewTaskTitle(text)}
                         defaultValue={newTaskTitle}
+                        placeholderTextColor={theme.subTextColor}
                     />
                     <TouchableOpacity onPress={showPicker}>
                         <TextInput
@@ -83,6 +94,7 @@ export default function Home({ navigation }) {
                             defaultValue={chosenDate}
                             editable={false}
                             placeholder="Reminder Time"
+                            placeholderTextColor={theme.subTextColor}
                         />
                     </TouchableOpacity>
                     <TextInput
@@ -91,6 +103,7 @@ export default function Home({ navigation }) {
                         placeholder="Content"
                         defaultValue={newTaskContent}
                         multiline={true}
+                        placeholderTextColor={theme.subTextColor}
                     />
                 </View>
                 <DateTimePickerModal
@@ -108,18 +121,34 @@ export default function Home({ navigation }) {
                 snappingPoints={[50, 210]}
                 showBackdrop={false}
             >
-                <View style={styles.bottomSheetContainer}>
+                <View
+                    style={[
+                        styles.bottomSheetContainer,
+                        { backgroundColor: theme.bottomsheetColor },
+                    ]}
+                >
                     <View style={styles.indicator} />
-                    <Text style={styles.priorityHeading}>Priority</Text>
+                    <Text
+                        style={[
+                            styles.priorityHeading,
+                            { color: theme.secondaryAccentColor },
+                        ]}
+                    >
+                        Priority
+                    </Text>
                     <TouchableRipple
                         style={styles.setPriority}
                         onPress={() => setPriority(1)}
                     >
                         <>
-                            <Text style={{ fontSize: 15 }}>High</Text>
+                            <Text
+                                style={{ fontSize: 15, color: theme.textColor }}
+                            >
+                                High
+                            </Text>
                             <CheckBox
-                                checkedColor={Colors.priorityHigh}
-                                uncheckedColor={Colors.priorityHigh}
+                                checkedColor={theme.priorityHigh}
+                                uncheckedColor={theme.priorityHigh}
                                 checkedIcon="dot-circle-o"
                                 uncheckedIcon="circle-o"
                                 checked={priority === 1 ? true : false}
@@ -133,10 +162,14 @@ export default function Home({ navigation }) {
                         onPress={() => setPriority(2)}
                     >
                         <>
-                            <Text style={{ fontSize: 15 }}>Medium</Text>
+                            <Text
+                                style={{ fontSize: 15, color: theme.textColor }}
+                            >
+                                Medium
+                            </Text>
                             <CheckBox
-                                checkedColor={Colors.priorityMid}
-                                uncheckedColor={Colors.priorityMid}
+                                checkedColor={theme.priorityMid}
+                                uncheckedColor={theme.priorityMid}
                                 checkedIcon="dot-circle-o"
                                 uncheckedIcon="circle-o"
                                 checked={priority === 2 ? true : false}
@@ -150,10 +183,14 @@ export default function Home({ navigation }) {
                         onPress={() => setPriority(3)}
                     >
                         <>
-                            <Text style={{ fontSize: 15 }}>Low</Text>
+                            <Text
+                                style={{ fontSize: 15, color: theme.textColor }}
+                            >
+                                Low
+                            </Text>
                             <CheckBox
-                                checkedColor={Colors.priorityLow}
-                                uncheckedColor={Colors.priorityLow}
+                                checkedColor={theme.priorityLow}
+                                uncheckedColor={theme.priorityLow}
                                 checkedIcon="dot-circle-o"
                                 uncheckedIcon="circle-o"
                                 checked={priority === 3 ? true : false}
@@ -171,7 +208,6 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: Colors.background,
         padding: 10,
     },
     dateInput: { marginHorizontal: 10, paddingTop: 5 },
@@ -195,7 +231,6 @@ const styles = StyleSheet.create({
     },
     bottomSheetContainer: {
         flex: 1,
-        backgroundColor: "white",
         paddingTop: 20,
         paddingBottom: 8,
         borderTopLeftRadius: 15,

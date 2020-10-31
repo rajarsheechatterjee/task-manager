@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { CheckBox } from "react-native-elements";
-import Colors from "../../../theming/colors";
 
 import { priorityColor } from "../../../utils/priority";
 
@@ -10,6 +9,8 @@ import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ripple from "react-native-material-ripple";
 
+import { ThemeContext } from "../../../navigation/ThemeProvider";
+
 export default function TaskCard({
     taskItem,
     navigation,
@@ -17,9 +18,11 @@ export default function TaskCard({
     onToggleSnackBar,
     handleSetTaskId,
     onDismissSnackBar,
-    handleSelectTask,
-    selectHelper,
+    // handleSelectTask,
+    // selectHelper,
 }) {
+    const { theme } = useContext(ThemeContext);
+
     const [checked, setChecked] = useState(taskItem.isCompleted);
 
     const handleCompleted = () => {
@@ -41,7 +44,7 @@ export default function TaskCard({
                 styles.mainContainer,
                 // isSelected && {
                 //     borderWidth: 2,
-                //     borderColor: Colors.accentColor,
+                //     borderColor: theme.secondaryAccentColor,
                 //     borderRadius: 15,
                 // },
             ]}
@@ -49,7 +52,10 @@ export default function TaskCard({
             <TouchableRipple
                 borderless
                 centered
-                style={styles.taskListContainer}
+                style={[
+                    styles.taskListContainer,
+                    { backgroundColor: theme.cardBackground },
+                ]}
                 onPress={() => navigation.navigate("Task Item", taskItem)}
                 // onLongPress={() => {
                 //     handleSelectTask(taskItem.id);
@@ -61,8 +67,8 @@ export default function TaskCard({
                     <View style={styles.checkbox}>
                         <CheckBox
                             center
-                            checkedColor={Colors.accentColor}
-                            uncheckedColor={Colors.accentColor}
+                            checkedColor={theme.taskCardColor}
+                            uncheckedColor={theme.taskCardColor}
                             checkedIcon="dot-circle-o"
                             uncheckedIcon="circle-o"
                             checked={checked}
@@ -75,6 +81,7 @@ export default function TaskCard({
                     <Text
                         style={[
                             styles.taskItemTitle,
+                            { color: theme.textColor },
                             checked && {
                                 textDecorationLine: "line-through",
                             },
@@ -114,7 +121,7 @@ export default function TaskCard({
                         >
                             <MaterialCommunityIcons
                                 name="chevron-right"
-                                color={Colors.accentColor}
+                                color={theme.taskCardColor}
                                 size={30}
                                 style={styles.icon}
                             />
@@ -134,7 +141,6 @@ const styles = StyleSheet.create({
     taskListContainer: {
         borderRadius: 15,
         elevation: 2,
-        backgroundColor: "#fff",
     },
     taskListView: {
         flex: 1,
@@ -145,7 +151,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 80,
         fontSize: 18,
         fontWeight: "700",
-        color: "#484848",
     },
     taskItemDate: {
         marginBottom: 10,

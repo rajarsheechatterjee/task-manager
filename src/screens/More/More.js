@@ -4,7 +4,7 @@ import { Appbar, List } from "react-native-paper";
 import { ThemeContext } from "../../navigation/ThemeProvider";
 
 const MoreScreen = ({ navigation }) => {
-    const { toggleDarkMode, theme } = useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
 
     return (
         <>
@@ -29,7 +29,7 @@ const MoreScreen = ({ navigation }) => {
                     title="Settings"
                     left={() => (
                         <List.Icon
-                            color={theme.iconColor}
+                            color={theme.secondaryAccentColor}
                             icon="settings-outline"
                         />
                     )}
@@ -40,16 +40,11 @@ const MoreScreen = ({ navigation }) => {
                     title="About"
                     left={() => (
                         <List.Icon
-                            color={theme.iconColor}
+                            color={theme.secondaryAccentColor}
                             icon="information-outline"
                         />
                     )}
                     onPress={() => navigation.navigate("About")}
-                />
-                <List.Item
-                    titleStyle={{ color: theme.textColor }}
-                    title="Dark Theme"
-                    onPress={() => toggleDarkMode()}
                 />
             </List.Section>
         </>

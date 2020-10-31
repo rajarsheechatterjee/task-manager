@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import Colors from "../../../theming/colors";
@@ -6,6 +6,8 @@ import Colors from "../../../theming/colors";
 import { TouchableRipple, Checkbox, Chip } from "react-native-paper";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
+import { ThemeContext } from "../../../navigation/ThemeProvider";
 
 const SlideUpPanel = ({
     handleSorting,
@@ -16,25 +18,42 @@ const SlideUpPanel = ({
     handlePriorityFilter,
     handleRef,
 }) => {
+    const { theme } = useContext(ThemeContext);
+
     const { sortMode, sortOrder } = sorting;
+
     return (
         <SlidingUpPanel
             ref={handleRef}
             draggableRange={{ top: 330, bottom: 0 }}
             snappingPoints={[0, 330]}
         >
-            <View style={styles.bottomSheetContainer}>
+            <View
+                style={[
+                    styles.bottomSheetContainer,
+                    { backgroundColor: theme.bottomsheetColor },
+                ]}
+            >
                 <View style={styles.indicator} />
-                <Text style={styles.filterHeading}>Sort</Text>
+                <Text
+                    style={[
+                        styles.filterHeading,
+                        { color: theme.secondaryAccentColor },
+                    ]}
+                >
+                    Sort
+                </Text>
                 <TouchableRipple
                     style={styles.setSorting}
                     onPress={() => handleSorting("createdAt")}
                 >
                     <>
-                        <Text style={{ fontSize: 15 }}>Sort by created at</Text>
+                        <Text style={{ fontSize: 15, color: theme.textColor }}>
+                            Sort by created at
+                        </Text>
                         {sortMode === "createdAt" && (
                             <MaterialCommunityIcons
-                                color={Colors.accentColor}
+                                color={theme.secondaryAccentColor}
                                 name={
                                     sortOrder === "asc"
                                         ? "arrow-down"
@@ -51,10 +70,12 @@ const SlideUpPanel = ({
                     onPress={() => handleSorting("priorityIs")}
                 >
                     <>
-                        <Text style={{ fontSize: 15 }}>Sort by priority</Text>
+                        <Text style={{ fontSize: 15, color: theme.textColor }}>
+                            Sort by priority
+                        </Text>
                         {sortMode === "priorityIs" && (
                             <MaterialCommunityIcons
-                                color={Colors.accentColor}
+                                color={theme.secondaryAccentColor}
                                 name={
                                     sortOrder === "asc"
                                         ? "arrow-down"
@@ -71,10 +92,12 @@ const SlideUpPanel = ({
                     onPress={() => handleSorting("taskTime")}
                 >
                     <>
-                        <Text style={{ fontSize: 15 }}>Sort by due time</Text>
+                        <Text style={{ fontSize: 15, color: theme.textColor }}>
+                            Sort by due time
+                        </Text>
                         {sortMode === "taskTime" && (
                             <MaterialCommunityIcons
-                                color={Colors.accentColor}
+                                color={theme.secondaryAccentColor}
                                 name={
                                     sortOrder === "asc"
                                         ? "arrow-up"
@@ -86,7 +109,15 @@ const SlideUpPanel = ({
                         )}
                     </>
                 </TouchableRipple>
-                <Text style={[styles.filterHeading, { paddingTop: 5 }]}>
+                <Text
+                    style={[
+                        [
+                            styles.filterHeading,
+                            { color: theme.secondaryAccentColor },
+                        ],
+                        { paddingTop: 5 },
+                    ]}
+                >
                     Filter
                 </Text>
                 <TouchableRipple
@@ -97,9 +128,16 @@ const SlideUpPanel = ({
                         <Checkbox
                             status={completedFilter ? "checked" : "unchecked"}
                             onValueChange={() => handleCompletedFilter()}
-                            color={Colors.accentColor}
+                            color={theme.secondaryAccentColor}
+                            uncheckedColor={theme.textColor}
                         />
-                        <Text style={{ fontSize: 15, marginLeft: 10 }}>
+                        <Text
+                            style={{
+                                fontSize: 15,
+                                marginLeft: 10,
+                                color: theme.textColor,
+                            }}
+                        >
                             Completed
                         </Text>
                     </>
@@ -158,7 +196,6 @@ export default SlideUpPanel;
 const styles = StyleSheet.create({
     bottomSheetContainer: {
         flex: 1,
-        backgroundColor: "white",
         paddingTop: 20,
         paddingBottom: 8,
         borderTopLeftRadius: 15,
@@ -168,7 +205,6 @@ const styles = StyleSheet.create({
     filterHeading: {
         fontWeight: "bold",
         fontSize: 15,
-        color: Colors.accentColor,
         paddingHorizontal: 20,
         paddingBottom: 5,
     },

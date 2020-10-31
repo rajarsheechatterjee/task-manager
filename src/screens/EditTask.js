@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
     StyleSheet,
     Text,
@@ -10,6 +10,8 @@ import {
 import { CheckBox } from "react-native-elements";
 import { Appbar, TouchableRipple, Switch } from "react-native-paper";
 import BottomSheet from "rn-sliding-up-panel";
+
+import { ThemeContext } from "../navigation/ThemeProvider";
 
 import Colors from "../theming/colors";
 import { updateTask } from "../utils/firebase";
@@ -26,6 +28,8 @@ export default function EditTask({ route, navigation }) {
         isCompleted,
         priorityIs,
     } = route.params;
+
+    const { theme } = useContext(ThemeContext);
 
     const [newTaskTitle, setNewTaskTitle] = useState(taskTitle);
     const [newTaskContent, setNewTaskContent] = useState(taskContent);
@@ -64,7 +68,7 @@ export default function EditTask({ route, navigation }) {
 
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+            <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
@@ -82,27 +86,41 @@ export default function EditTask({ route, navigation }) {
                     disabled={newTaskTitle === "" ? true : false}
                 />
             </Appbar.Header>
-            <View style={styles.mainContainer}>
+            <View
+                style={[
+                    styles.mainContainer,
+                    { backgroundColor: theme.background },
+                ]}
+            >
                 <View>
                     <TextInput
                         multiline={true}
-                        style={styles.titleInput}
+                        style={[styles.titleInput, { color: theme.textColor }]}
                         placeholder="Title"
                         onChangeText={(text) => setNewTaskTitle(text)}
                         defaultValue={newTaskTitle}
+                        placeholderTextColor={theme.subTextColor}
                     />
                     <TextInput
-                        style={styles.dateInput}
+                        style={[
+                            styles.dateInput,
+                            { color: theme.subTextColor },
+                        ]}
                         defaultValue={chosenDate}
                         editable={false}
                         placeholder="Reminder Time"
+                        placeholderTextColor={theme.subTextColor}
                     />
                     <TextInput
-                        style={styles.contentInput}
+                        style={[
+                            styles.contentInput,
+                            { color: theme.textColor },
+                        ]}
                         onChangeText={(text) => setNewTaskContent(text)}
                         placeholder="Content"
                         defaultValue={newTaskContent}
                         multiline={true}
+                        spellCheck={false}
                     />
                 </View>
                 <DateTimePickerModal
@@ -120,15 +138,31 @@ export default function EditTask({ route, navigation }) {
                 snappingPoints={[50, 290]}
                 showBackdrop={false}
             >
-                <View style={styles.bottomSheetContainer}>
+                <View
+                    style={[
+                        styles.bottomSheetContainer,
+                        { backgroundColor: theme.bottomsheetColor },
+                    ]}
+                >
                     <View style={styles.indicator} />
-                    <Text style={styles.priorityHeading}>Priority</Text>
+                    <Text
+                        style={[
+                            styles.priorityHeading,
+                            { color: theme.secondaryAccentColor },
+                        ]}
+                    >
+                        Priority
+                    </Text>
                     <TouchableRipple
                         style={styles.setPriority}
                         onPress={() => setPriority(1)}
                     >
                         <>
-                            <Text style={{ fontSize: 15 }}>High</Text>
+                            <Text
+                                style={{ fontSize: 15, color: theme.textColor }}
+                            >
+                                High
+                            </Text>
                             <CheckBox
                                 checkedColor={Colors.priorityHigh}
                                 uncheckedColor={Colors.priorityHigh}
@@ -145,7 +179,11 @@ export default function EditTask({ route, navigation }) {
                         onPress={() => setPriority(2)}
                     >
                         <>
-                            <Text style={{ fontSize: 15 }}>Medium</Text>
+                            <Text
+                                style={{ fontSize: 15, color: theme.textColor }}
+                            >
+                                Medium
+                            </Text>
                             <CheckBox
                                 checkedColor={Colors.priorityMid}
                                 uncheckedColor={Colors.priorityMid}
@@ -162,7 +200,11 @@ export default function EditTask({ route, navigation }) {
                         onPress={() => setPriority(3)}
                     >
                         <>
-                            <Text style={{ fontSize: 15 }}>Low</Text>
+                            <Text
+                                style={{ fontSize: 15, color: theme.textColor }}
+                            >
+                                Low
+                            </Text>
                             <CheckBox
                                 checkedColor={Colors.priorityLow}
                                 uncheckedColor={Colors.priorityLow}
@@ -174,19 +216,30 @@ export default function EditTask({ route, navigation }) {
                             />
                         </>
                     </TouchableRipple>
-                    <Text style={styles.priorityHeading}>Completed</Text>
+                    <Text
+                        style={[
+                            styles.priorityHeading,
+                            { color: theme.secondaryAccentColor },
+                        ]}
+                    >
+                        Completed
+                    </Text>
                     <TouchableRipple
                         style={styles.setCompleted}
                         onPress={() => handleIsCompleted(isChecked)}
                     >
                         <>
-                            <Text style={{ fontSize: 15 }}>Set completed</Text>
+                            <Text
+                                style={{ fontSize: 15, color: theme.textColor }}
+                            >
+                                Set completed
+                            </Text>
                             <Switch
                                 value={isChecked}
                                 onValueChange={() =>
                                     handleIsCompleted(isChecked)
                                 }
-                                color={Colors.accentColor}
+                                color={theme.secondaryAccentColor}
                             />
                         </>
                     </TouchableRipple>
@@ -199,7 +252,6 @@ export default function EditTask({ route, navigation }) {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: Colors.background,
         padding: 10,
     },
     dateInput: { marginHorizontal: 10, paddingTop: 5 },
@@ -223,7 +275,6 @@ const styles = StyleSheet.create({
     },
     bottomSheetContainer: {
         flex: 1,
-        backgroundColor: "white",
         paddingTop: 20,
         paddingBottom: 8,
         borderTopLeftRadius: 15,
@@ -233,7 +284,6 @@ const styles = StyleSheet.create({
     priorityHeading: {
         fontWeight: "bold",
         fontSize: 15,
-        color: Colors.accentColor,
         paddingHorizontal: 20,
         paddingVertical: 5,
     },

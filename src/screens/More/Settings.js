@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Alert } from "react-native";
-import { List, Divider, Appbar } from "react-native-paper";
-
-import Colors from "../../theming/colors";
+import { List, Divider, Appbar, Checkbox } from "react-native-paper";
 import {
     deleteUser,
     addSampleData,
@@ -10,7 +8,18 @@ import {
     logout,
 } from "../../utils/firebase";
 
+import { ThemeContext } from "../../navigation/ThemeProvider";
+
 const SettingsScreen = ({ navigation }) => {
+    const { toggleDarkMode, theme } = useContext(ThemeContext);
+
+    const [checked, setChecked] = useState(true);
+
+    const handleCheckbox = () => {
+        toggleDarkMode();
+        setChecked(!checked);
+    };
+
     const email = currentUserEmail();
 
     // const handleDeleteUser = () => {
@@ -33,7 +42,7 @@ const SettingsScreen = ({ navigation }) => {
 
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+            <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
@@ -45,15 +54,26 @@ const SettingsScreen = ({ navigation }) => {
                 style={{
                     flex: 1,
                     marginVertical: 0,
-                    backgroundColor: Colors.background,
+                    backgroundColor: theme.background,
                 }}
             >
+                <List.Subheader
+                    style={{
+                        color: theme.secondaryAccentColor,
+                        paddingTop: 20,
+                        paddingBottom: 5,
+                    }}
+                >
+                    General
+                </List.Subheader>
                 <List.Item
                     title="Clear all tasks"
+                    titleStyle={{ color: theme.textColor }}
+                    descriptionStyle={{ color: theme.subTextColor }}
                     description="(Not added yet)"
-                    left={() => (
+                    right={() => (
                         <List.Icon
-                            color={Colors.deleteColor}
+                            color={theme.secondaryAccentColor}
                             icon="trash-can-outline"
                         />
                     )}
@@ -61,9 +81,10 @@ const SettingsScreen = ({ navigation }) => {
                 <List.Item
                     style={{ paddingVertical: 0 }}
                     title="Add sample task"
-                    left={() => (
+                    titleStyle={{ color: theme.textColor }}
+                    right={() => (
                         <List.Icon
-                            color={Colors.accentColor}
+                            color={theme.secondaryAccentColor}
                             icon="playlist-plus"
                         />
                     )}
@@ -72,26 +93,54 @@ const SettingsScreen = ({ navigation }) => {
                 <Divider />
                 <List.Subheader
                     style={{
-                        color: Colors.accentColor,
+                        color: theme.secondaryAccentColor,
                         paddingTop: 20,
                         paddingBottom: 5,
                     }}
                 >
-                    Account Settings
+                    Theme
+                </List.Subheader>
+                <List.Item
+                    titleStyle={{ color: theme.textColor }}
+                    title="Dark Theme"
+                    onPress={() => handleCheckbox()}
+                    right={() => (
+                        <Checkbox
+                            status={checked ? "checked" : "unchecked"}
+                            onPress={() => handleCheckbox()}
+                            color={theme.secondaryAccentColor}
+                        />
+                    )}
+                    style={{ paddingRight: 20 }}
+                />
+                <Divider />
+                <List.Subheader
+                    style={{
+                        color: theme.secondaryAccentColor,
+                        paddingTop: 20,
+                        paddingBottom: 5,
+                    }}
+                >
+                    Account
                 </List.Subheader>
                 <List.Item
                     style={{ paddingVertical: 0 }}
                     title={email}
-                    left={() => (
-                        <List.Icon color={Colors.accentColor} icon="email" />
+                    titleStyle={{ color: theme.textColor }}
+                    right={() => (
+                        <List.Icon
+                            color={theme.secondaryAccentColor}
+                            icon="email"
+                        />
                     )}
                 />
                 <List.Item
                     style={{ paddingVertical: 0 }}
                     title="Logout"
-                    left={() => (
+                    titleStyle={{ color: theme.textColor }}
+                    right={() => (
                         <List.Icon
-                            color={Colors.accentColor}
+                            color={theme.secondaryAccentColor}
                             icon="logout-variant"
                         />
                     )}
@@ -100,9 +149,9 @@ const SettingsScreen = ({ navigation }) => {
                 {/* <List.Item
                 title="Reset your password"
                 description="(Not added yet)"
-                left={() => (
+                right={() => (
                     <List.Icon
-                        color={Colors.accentColor}
+                        color={theme.accentColor}
                         icon="textbox-password"
                     />
                 )}
@@ -112,9 +161,9 @@ const SettingsScreen = ({ navigation }) => {
             <List.Item
                 title="Delete your account"
                 description="(Not added yet)"
-                left={() => (
+                right={() => (
                     <List.Icon
-                        color={Colors.deleteColor}
+                        color={theme.deleteColor}
                         icon="account-remove"
                     />
                 )}

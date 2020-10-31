@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Text, View, StyleSheet, Clipboard, ToastAndroid } from "react-native";
 import { FAB, Portal, Provider, Appbar } from "react-native-paper";
 
 import { deleteTask } from "../../utils/firebase";
-import Colors from "../../theming/colors";
+
+import { ThemeContext } from "../../navigation/ThemeProvider";
 
 export default function TaskItem({ route, navigation }) {
     const {
@@ -15,6 +16,8 @@ export default function TaskItem({ route, navigation }) {
         isCompleted,
         isUpdated,
     } = route.params;
+
+    const { theme } = useContext(ThemeContext);
 
     // FAB
     const [open, setOpen] = useState(false);
@@ -38,7 +41,7 @@ export default function TaskItem({ route, navigation }) {
 
     return (
         <Provider>
-            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+            <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
@@ -46,10 +49,14 @@ export default function TaskItem({ route, navigation }) {
                 />
                 <Appbar.Content title="Task Item" />
             </Appbar.Header>
-            <View style={{ flex: 1, backgroundColor: Colors.background }}>
+            <View style={{ flex: 1, backgroundColor: theme.background }}>
                 <View
                     style={[
                         styles.mainContainer,
+                        {
+                            backgroundColor: theme.cardBackground,
+                            color: theme.textColor,
+                        },
                         taskContent === "" && { paddingBottom: 15 },
                     ]}
                 >
@@ -60,6 +67,9 @@ export default function TaskItem({ route, navigation }) {
                                 isCompleted && {
                                     textDecorationLine: "line-through",
                                 },
+                                {
+                                    color: theme.textColor,
+                                },
                             ]}
                         >
                             {taskTitle}
@@ -67,7 +77,14 @@ export default function TaskItem({ route, navigation }) {
                     </View>
                     {taskTime !== "" && (
                         <View>
-                            <Text style={styles.taskDate}>Due {taskTime}</Text>
+                            <Text
+                                style={[
+                                    styles.taskDate,
+                                    { color: theme.subTextColor },
+                                ]}
+                            >
+                                Due {taskTime}
+                            </Text>
                         </View>
                     )}
                     {taskContent !== "" && (
@@ -76,6 +93,9 @@ export default function TaskItem({ route, navigation }) {
                                 style={[
                                     styles.taskContent,
                                     taskTime === "" && { paddingTop: 10 },
+                                    {
+                                        color: theme.textColor,
+                                    },
                                 ]}
                             >
                                 {taskContent}
@@ -93,30 +113,41 @@ export default function TaskItem({ route, navigation }) {
                     <FAB.Group
                         open={open}
                         color="white"
-                        fabStyle={{ backgroundColor: Colors.accentColor }}
+                        fabStyle={{
+                            backgroundColor: theme.secondaryAccentColor,
+                        }}
                         icon={open ? "dots-vertical" : "dots-horizontal"}
                         actions={[
                             {
                                 icon: "share-variant",
-                                color: Colors.accentColor,
+                                color: theme.textColor,
                                 label: "Share",
                                 onPress: () => handleCopy(),
+                                style: {
+                                    backgroundColor: theme.fabGroup,
+                                },
                             },
                             {
                                 icon: "trash-can-outline",
-                                color: "#E53935",
+                                color: theme.textColor,
                                 label: "Delete",
                                 onPress: () => deleteTask(navigation, id),
+                                style: {
+                                    backgroundColor: theme.fabGroup,
+                                },
                             },
                             {
                                 icon: "pencil",
                                 label: "Edit",
-                                color: Colors.accentColor,
+                                color: theme.textColor,
                                 onPress: () =>
                                     navigation.navigate(
                                         "EditTask",
                                         route.params
                                     ),
+                                style: {
+                                    backgroundColor: theme.fabGroup,
+                                },
                             },
                         ]}
                         onStateChange={onStateChange}
@@ -135,8 +166,6 @@ const styles = StyleSheet.create({
         elevation: 2,
         paddingTop: 15,
         borderRadius: 15,
-        backgroundColor: Colors.background,
-        color: Colors.textColor,
     },
     taskTitle: {
         fontWeight: "700",
@@ -147,12 +176,10 @@ const styles = StyleSheet.create({
     taskDate: {
         paddingVertical: 10,
         fontSize: 14,
-        color: Colors.subTextColor,
     },
     createdDate: {
         marginTop: 5,
         fontSize: 14,
-        color: Colors.subTextColor,
     },
     taskContent: {
         fontSize: 18,
