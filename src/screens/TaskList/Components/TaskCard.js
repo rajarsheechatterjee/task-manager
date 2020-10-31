@@ -33,17 +33,17 @@ export default function TaskCard({
         }
     };
 
-    const [isSelected, setSelected] = useState(false);
+    // const [isSelected, setSelected] = useState(false);
 
     return (
         <View
             style={[
                 styles.mainContainer,
-                isSelected && {
-                    borderWidth: 2,
-                    borderColor: Colors.accentColor,
-                    borderRadius: 15,
-                },
+                // isSelected && {
+                //     borderWidth: 2,
+                //     borderColor: Colors.accentColor,
+                //     borderRadius: 15,
+                // },
             ]}
         >
             <TouchableRipple
@@ -51,11 +51,11 @@ export default function TaskCard({
                 centered
                 style={styles.taskListContainer}
                 onPress={() => navigation.navigate("Task Item", taskItem)}
-                onLongPress={() => {
-                    handleSelectTask(taskItem.id);
-                    setSelected(!isSelected);
-                    selectHelper();
-                }}
+                // onLongPress={() => {
+                //     handleSelectTask(taskItem.id);
+                //     setSelected(!isSelected);
+                //     selectHelper();
+                // }}
             >
                 <View style={styles.taskListView}>
                     <View style={styles.checkbox}>

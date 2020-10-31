@@ -2,7 +2,9 @@ export const lightTheme = {
     textColor: "#484848",
     iconColor: "#FFFFFF",
     subTextColor: "#767676",
+    headerActionColor: "#ffffff",
     accentColor: "#118086",
+    secondaryAccentColor: "#118086",
     priorityHigh: "#FF0000",
     priorityMid: "orange",
     priorityLow: "#1E90FF",
@@ -12,13 +14,15 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-    textColor: "#A80000",
-    iconColor: "#ffffff",
+    textColor: "#ffffff",
     subTextColor: "#767676",
-    accentColor: "black",
+    iconColor: "#ffffff",
+    headerActionColor: "#ffffff",
+    accentColor: "#212121",
+    secondaryAccentColor: "rgba(33, 33, 33, 0.7)",
     priorityHigh: "red",
     priorityMid: "orange",
     priorityLow: "dodgerblue",
-    background: "rgba(0,0,0,0.9)",
+    background: "#1C1C1D",
     tabNavigator: "rgba(0,0,0,1)",
 };

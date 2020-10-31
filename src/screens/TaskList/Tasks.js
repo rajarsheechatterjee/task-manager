@@ -23,6 +23,7 @@ import SlideUpPanel from "./Components/SlideUpPanel";
 import Colors from "../../theming/colors";
 
 export default function Home({ navigation }) {
+    const { theme } = useContext(ThemeContext);
     /**
      * Refresh Control
      */
@@ -132,47 +133,47 @@ export default function Home({ navigation }) {
     /**
      * Select multiple items
      */
-    const [selectedTasks, setSelectedTasks] = useState([]);
-    const handleSelectTask = async (taskId) => {
-        if (selectedTasks.length > 0) {
-            const index = selectedTasks.indexOf(taskId);
-            if (index > -1) {
-                selectedTasks.splice(index, 1);
-            } else {
-                selectedTasks.push(taskId);
-            }
-        } else {
-            setDeleteVisible(true);
-            selectedTasks.push(taskId);
-        }
-        setSelectedTasks(selectedTasks);
-        if (selectedTasks.length > 0) {
-            setDeleteVisible(true);
-        } else {
-            setDeleteVisible(false);
-        }
-    };
-    const deselectAll = () => {
-        setRefreshing(true);
-        setSelectedTasks([]);
-        setTasksList([]);
-        setDeleteVisible(false);
-    };
+    // const [selectedTasks, setSelectedTasks] = useState([]);
+    // const handleSelectTask = async (taskId) => {
+    //     if (selectedTasks.length > 0) {
+    //         const index = selectedTasks.indexOf(taskId);
+    //         if (index > -1) {
+    //             selectedTasks.splice(index, 1);
+    //         } else {
+    //             selectedTasks.push(taskId);
+    //         }
+    //     } else {
+    //         setDeleteVisible(true);
+    //         selectedTasks.push(taskId);
+    //     }
+    //     setSelectedTasks(selectedTasks);
+    //     if (selectedTasks.length > 0) {
+    //         setDeleteVisible(true);
+    //     } else {
+    //         setDeleteVisible(false);
+    //     }
+    // };
+    // const deselectAll = () => {
+    //     setRefreshing(true);
+    //     setSelectedTasks([]);
+    //     setTasksList([]);
+    //     setDeleteVisible(false);
+    // };
 
-    const deleteSelected = () => {
-        setTasksList([]);
-        setRefreshing(true);
-        selectedTasks.forEach((id) => {
-            deleteTask(navigation, id);
-        });
-        setDeleteVisible(false);
-        setSelectedTasks([]);
-        ToastAndroid.show("Tasks Deleted", ToastAndroid.SHORT);
-    };
+    // const deleteSelected = () => {
+    //     setTasksList([]);
+    //     setRefreshing(true);
+    //     selectedTasks.forEach((id) => {
+    //         deleteTask(navigation, id);
+    //     });
+    //     setDeleteVisible(false);
+    //     setSelectedTasks([]);
+    //     ToastAndroid.show("Tasks Deleted", ToastAndroid.SHORT);
+    // };
 
-    const selectHelper = () => {
-        getTasks(sortMode, sortOrder);
-    };
+    // const selectHelper = () => {
+    //     getTasks(sortMode, sortOrder);
+    // };
 
     /**
      * Indivisual task item
@@ -185,8 +186,8 @@ export default function Home({ navigation }) {
             onToggleSnackBar={onToggleSnackBar}
             handleSetTaskId={handleSetTaskId}
             onDismissSnackBar={onDismissSnackBar}
-            handleSelectTask={handleSelectTask}
-            selectHelper={selectHelper}
+            // handleSelectTask={handleSelectTask}
+            // selectHelper={selectHelper}
         />
     );
 
@@ -197,12 +198,17 @@ export default function Home({ navigation }) {
                 handleSlider={() => _panel.show({ velocity: -1.5 })}
                 handleSync={handleSync}
                 deleteVisible={deleteVisible}
-                deleteSelected={deleteSelected}
-                deselectAll={deselectAll}
-                selectedTasks={selectedTasks}
+                // deleteSelected={deleteSelected}
+                // deselectAll={deselectAll}
+                // selectedTasks={selectedTasks}
             />
 
-            <View style={styles.flatListContainer}>
+            <View
+                style={[
+                    styles.flatListContainer,
+                    { backgroundColor: theme.background },
+                ]}
+            >
                 <FlatList
                     removeClippedSubviews={true}
                     data={tasksList}
@@ -214,13 +220,16 @@ export default function Home({ navigation }) {
                             refreshing={refreshing}
                             onRefresh={onRefresh}
                             colors={["white"]}
-                            progressBackgroundColor={Colors.accentColor}
+                            progressBackgroundColor={theme.secondaryAccentColor}
                         />
                     }
                 />
             </View>
             <FAB
-                style={styles.fab}
+                style={[
+                    styles.fab,
+                    { backgroundColor: theme.secondaryAccentColor },
+                ]}
                 icon="plus"
                 color={Colors.iconColor}
                 onPress={() => navigation.navigate("Add Task")}
@@ -255,13 +264,11 @@ const styles = StyleSheet.create({
     flatListContainer: {
         flex: 1,
         paddingVertical: 5,
-        backgroundColor: Colors.background,
     },
     fab: {
         position: "absolute",
         margin: 16,
         right: 0,
         bottom: 0,
-        backgroundColor: Colors.accentColor,
     },
 });
