@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import {
     StyleSheet,
     View,
@@ -14,6 +14,8 @@ import {
     getAllTasks,
     updateIsCompleted,
 } from "../../utils/firebase";
+
+import { ThemeContext } from "../../navigation/ThemeProvider";
 
 import CustomHeader from "./Components/Header";
 import TaskCard from "./Components/TaskCard";

@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Appbar, List } from "react-native-paper";
 import Colors from "../../theming/colors";
 
+import { ThemeContext } from "../../navigation/ThemeProvider";
+
 const MoreScreen = ({ navigation }) => {
+    const { toggleDarkMode, theme } = useContext(ThemeContext);
+
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: Colors.accentColor }}>
+            <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
@@ -16,7 +20,7 @@ const MoreScreen = ({ navigation }) => {
             <List.Section
                 style={{
                     flex: 1,
-                    backgroundColor: Colors.background,
+                    backgroundColor: theme.background,
                     marginTop: 0,
                     marginBottom: 0,
                 }}
@@ -25,7 +29,7 @@ const MoreScreen = ({ navigation }) => {
                     title="Settings"
                     left={() => (
                         <List.Icon
-                            color={Colors.accentColor}
+                            color={theme.accentColor}
                             icon="settings-outline"
                         />
                     )}
@@ -35,11 +39,15 @@ const MoreScreen = ({ navigation }) => {
                     title="About"
                     left={() => (
                         <List.Icon
-                            color={Colors.accentColor}
+                            color={theme.accentColor}
                             icon="information-outline"
                         />
                     )}
                     onPress={() => navigation.navigate("About")}
+                />
+                <List.Item
+                    title="Dark Theme"
+                    onPress={() => toggleDarkMode()}
                 />
             </List.Section>
         </>
