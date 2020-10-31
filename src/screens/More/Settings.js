@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Alert } from "react-native";
 import { List, Divider, Appbar, Checkbox } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     deleteUser,
     addSampleData,
@@ -13,7 +14,11 @@ import { ThemeContext } from "../../navigation/ThemeProvider";
 const SettingsScreen = ({ navigation }) => {
     const { toggleDarkMode, theme } = useContext(ThemeContext);
 
-    const [checked, setChecked] = useState(true);
+    const [checked, setChecked] = useState();
+
+    AsyncStorage.getItem("@theme").then((value) =>
+        setChecked(JSON.parse(value))
+    );
 
     const handleCheckbox = () => {
         toggleDarkMode();

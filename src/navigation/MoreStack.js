@@ -11,10 +11,7 @@ const Stack = createStackNavigator();
 
 function StackNavigator() {
     return (
-        <Stack.Navigator
-            screenOptions={{ headerShown: false }}
-            headerMode="screen"
-        >
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="More" component={More} />
             <Stack.Screen name="About" component={About} />
             <Stack.Screen name="Settings" component={Settings} />

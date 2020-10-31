@@ -29,6 +29,6 @@ export const darkTheme = {
     background: "#1C1C1D",
     cardBackground: "#212121",
     bottomsheetColor: "#212121",
-    taskCardColor: "#3399ff",
+    taskCardColor: "white",
     fabGroup: "#3399ff",
 };

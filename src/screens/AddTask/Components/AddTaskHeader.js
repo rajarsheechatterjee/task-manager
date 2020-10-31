@@ -1,8 +1,6 @@
 import React from "react";
 import { Appbar } from "react-native-paper";
 
-import Colors from "../../../theming/colors";
-
 const AddTaskHeader = ({
     navigation,
     handleRef,

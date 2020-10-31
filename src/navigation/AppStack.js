@@ -9,10 +9,7 @@ const Stack = createStackNavigator();
 
 const AppStack = () => {
     return (
-        <Stack.Navigator
-            initialRouteName="Task Monitor"
-            screenOptions={{ headerShown: false }}
-        >
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Task Monitor" component={TaskList} />
             <Stack.Screen name="Add Task" component={AddTask} />
             <Stack.Screen name="More" component={More} />

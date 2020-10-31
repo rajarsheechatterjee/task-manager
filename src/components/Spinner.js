@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View, StatusBar } from "react-native";
 
 import { ThemeContext } from "../navigation/ThemeProvider";
 
 export default function Spinner() {
     const { theme } = useContext(ThemeContext);
+    StatusBar.setBarStyle("light-content");
 
     return (
         <View
