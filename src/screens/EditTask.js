@@ -121,6 +121,7 @@ export default function EditTask({ route, navigation }) {
                         defaultValue={newTaskContent}
                         multiline={true}
                         spellCheck={false}
+                        placeholderTextColor={theme.subTextColor}
                     />
                 </View>
                 <DateTimePickerModal

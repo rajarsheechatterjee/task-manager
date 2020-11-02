@@ -1,5 +1,4 @@
 import React, { useState, createContext } from "react";
-import { StatusBar } from "react-native";
 import { lightTheme, darkTheme } from "../theming/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export const ThemeContext = createContext({});

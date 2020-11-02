@@ -17,7 +17,7 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-    textColor: "#ffffff",
+    textColor: "rgba(255,255,255,0.8)",
     subTextColor: "rgba(255,255,255,0.7)",
     iconColor: "#ffffff",
     headerActionColor: "#ffffff",
@@ -29,6 +29,6 @@ export const darkTheme = {
     background: "#1C1C1D",
     cardBackground: "#212121",
     bottomsheetColor: "#212121",
-    taskCardColor: "white",
+    taskCardColor: "rgba(255,255,255,0.9)",
     fabGroup: "#3399ff",
 };

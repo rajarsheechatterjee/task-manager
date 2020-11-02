@@ -252,6 +252,8 @@ export default function Home({ navigation }) {
                         label: "Delete Task",
                         onPress: handleDeleteTask,
                     }}
+                    style={{ backgroundColor: theme.accentColor }}
+                    theme={{ colors: { accent: "white" } }}
                 >
                     Task Completed
                 </Snackbar>
