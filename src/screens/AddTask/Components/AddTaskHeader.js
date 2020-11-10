@@ -9,6 +9,7 @@ const AddTaskHeader = ({
     newTaskTitle,
     clearFields,
     theme,
+    showModal,
 }) => {
     return (
         <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
@@ -20,6 +21,7 @@ const AddTaskHeader = ({
             />
             <Appbar.Content title="Add Task" />
             <Appbar.Action icon="alarm" onPress={showPicker} />
+            <Appbar.Action icon="account-multiple-plus" onPress={showModal} />
             <Appbar.Action icon="priority-high" onPress={handleRef} />
             <Appbar.Action
                 icon="check"

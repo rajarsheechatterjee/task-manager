@@ -6,9 +6,15 @@ import {
     TextInput,
     ToastAndroid,
     Animated,
-    TouchableOpacity,
 } from "react-native";
-import { TouchableRipple } from "react-native-paper";
+import {
+    TouchableRipple,
+    Portal,
+    Dialog,
+    Provider,
+    Button,
+    TextInput as PaperInput,
+} from "react-native-paper";
 import { CheckBox } from "react-native-elements";
 
 import moment from "moment";
@@ -30,6 +36,20 @@ export default function AddTask({ navigation }) {
 
     const [isVisible, setIsVisible] = useState(false);
     const [chosenDate, setChosenDate] = useState("");
+
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const [email, setEmail] = useState();
+    const [emails, setEmails] = useState();
+    const showDialog = () => setDialogVisible(true);
+    const hideDialog = () => {
+        setDialogVisible(false);
+    };
+
+    const addEmail = (email) => {
+        setEmails((emails) => [...emails, email]);
+        console.log(emails);
+        setDialogVisible(false);
+    };
 
     const handleAddTask = async () => {
         if (newTaskTitle === "") {
@@ -63,7 +83,7 @@ export default function AddTask({ navigation }) {
     const hidePicker = () => setIsVisible(false);
 
     return (
-        <>
+        <Provider>
             <Appbar
                 navigation={navigation}
                 handleRef={() => _panel.show()}
@@ -72,6 +92,7 @@ export default function AddTask({ navigation }) {
                 newTaskTitle={newTaskTitle}
                 clearFields={clearFields}
                 theme={theme}
+                showModal={showDialog}
             />
             <View
                 style={[
@@ -79,6 +100,35 @@ export default function AddTask({ navigation }) {
                     { backgroundColor: theme.background },
                 ]}
             >
+                <Portal>
+                    <Dialog visible={dialogVisible} onDismiss={hideDialog}>
+                        <Dialog.Title>Add Collaborators</Dialog.Title>
+                        <Dialog.Content>
+                            <PaperInput
+                                label="Email"
+                                mode="outlined"
+                                dense={true}
+                                value={email}
+                                onChangeText={(text) => setEmail(text)}
+                                selectionColor={theme.secondaryAccentColor}
+                                theme={{
+                                    colors: {
+                                        primary: theme.secondaryAccentColor,
+                                        underlineColor: "transparent",
+                                    },
+                                }}
+                            />
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button
+                                onPress={() => addEmail(email)}
+                                color={theme.secondaryAccentColor}
+                            >
+                                Add
+                            </Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
                 <View>
                     <TextInput
                         multiline={true}
@@ -107,6 +157,7 @@ export default function AddTask({ navigation }) {
                         multiline={true}
                         placeholderTextColor={theme.subTextColor}
                     />
+                    <Text>{emails}</Text>
                 </View>
                 <DateTimePickerModal
                     isVisible={isVisible}
@@ -203,7 +254,7 @@ export default function AddTask({ navigation }) {
                     </TouchableRipple>
                 </View>
             </BottomSheet>
-        </>
+        </Provider>
     );
 }
 
