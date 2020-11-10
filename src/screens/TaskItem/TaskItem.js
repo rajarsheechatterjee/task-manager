@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Text, View, StyleSheet, Clipboard, ToastAndroid } from "react-native";
-import { FAB, Portal, Provider, Appbar } from "react-native-paper";
+import { FAB, Portal, Provider, Appbar, Chip } from "react-native-paper";
 import moment from "moment";
+import * as MailComposer from "expo-mail-composer";
 
 import { deleteTask } from "../../utils/firebase";
 
@@ -26,7 +27,7 @@ export default function TaskItem({ route, navigation }) {
     const onStateChange = () => setOpen(!open);
 
     const handleDivider = () => {
-        if (taskTime !== "" || taskContent !== "") {
+        if (taskTime !== "" || taskContent !== "" || collaborators.length > 0) {
             return { borderBottomWidth: 1, borderBottomColor: "#E8E8E8" };
         }
     };
@@ -85,7 +86,7 @@ export default function TaskItem({ route, navigation }) {
                                     { color: theme.subTextColor },
                                 ]}
                             >
-                                Due {moment(Date(taskTime)).calendar()}
+                                Due {moment(taskTime.toDate()).calendar()}
                             </Text>
                         </View>
                     )}
@@ -97,6 +98,9 @@ export default function TaskItem({ route, navigation }) {
                                     taskTime === "" && { paddingTop: 10 },
                                     {
                                         color: theme.textColor,
+                                    },
+                                    collaborators.length > 0 && {
+                                        paddingBottom: 5,
                                     },
                                 ]}
                             >
@@ -110,18 +114,29 @@ export default function TaskItem({ route, navigation }) {
                             {moment(createdAt.toDate()).calendar()}
                         </Text>
                     </View> */}
-                    {collaborators && (
-                        <Text
+                    {collaborators.length > 0 && (
+                        <View
                             style={[
-                                styles.taskContent,
-                                { color: theme.textColor, fontSize: 16 },
+                                {
+                                    flexDirection: "row",
+                                    flexWrap: "wrap",
+                                    marginBottom: 15,
+                                },
+                                taskContent === "" && { marginTop: 15 },
                             ]}
                         >
-                            <Text style={{ fontWeight: "bold" }}>
-                                Collaborators:{" "}
-                            </Text>
-                            {collaborators.map((item) => item).join(", ")}
-                        </Text>
+                            {collaborators.map((item) => (
+                                <Chip
+                                    icon="email"
+                                    style={{
+                                        marginVertical: 5,
+                                        marginRight: 5,
+                                    }}
+                                >
+                                    {item}
+                                </Chip>
+                            ))}
+                        </View>
                     )}
                 </View>
                 <Portal>
@@ -134,34 +149,49 @@ export default function TaskItem({ route, navigation }) {
                         icon={open ? "dots-vertical" : "dots-horizontal"}
                         actions={[
                             {
-                                icon: "share-variant",
-                                color: theme.textColor,
-                                label: "Share",
-                                onPress: () => handleCopy(),
+                                icon: "email-check",
+                                color: theme.secondaryAccentColor,
+                                label: "Resend Email",
+                                onPress: () => {
+                                    MailComposer.composeAsync({
+                                        recipients: collaborators,
+                                        subject: taskTitle,
+                                        body: taskTime,
+                                    });
+                                },
                                 style: {
-                                    backgroundColor: theme.fabGroup,
+                                    backgroundColor: theme.background,
                                 },
                             },
+                            // {
+                            //     icon: "share-variant",
+                            //     color: theme.secondaryAccentColor,
+                            //     label: "Share",
+                            //     onPress: () => handleCopy(),
+                            //     style: {
+                            //         backgroundColor: theme.background,
+                            //     },
+                            // },
                             {
                                 icon: "trash-can-outline",
-                                color: theme.textColor,
+                                color: theme.secondaryAccentColor,
                                 label: "Delete",
                                 onPress: () => deleteTask(navigation, id),
                                 style: {
-                                    backgroundColor: theme.fabGroup,
+                                    backgroundColor: theme.background,
                                 },
                             },
                             {
                                 icon: "pencil",
                                 label: "Edit",
-                                color: theme.textColor,
+                                color: theme.secondaryAccentColor,
                                 onPress: () =>
                                     navigation.navigate(
                                         "EditTask",
                                         route.params
                                     ),
                                 style: {
-                                    backgroundColor: theme.fabGroup,
+                                    backgroundColor: theme.background,
                                 },
                             },
                         ]}

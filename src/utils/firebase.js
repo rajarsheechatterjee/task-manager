@@ -1,7 +1,6 @@
 import firebase from "../../firebaseConfig";
 import "firebase/firestore";
 import { Alert } from "react-native";
-import moment from "moment";
 
 export const auth = firebase.auth();
 
@@ -80,11 +79,12 @@ export const addSampleData = async (navigation) => {
     const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
     const dummyData = {
         userId: firebase.auth().currentUser.uid,
-        taskTitle: "Task Title 1",
-        taskTime: moment(new Date()).calendar(),
+        taskTitle: "Task Title",
+        taskTime: timeStamp,
         taskContent: "Task Content",
         createdAt: timeStamp,
         priorityIs: 2,
+        collaborators: ["abc@gmail.com"],
         isCompleted: false,
         isUpdated: false,
     };
