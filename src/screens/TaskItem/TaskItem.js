@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Text, View, StyleSheet, Clipboard, ToastAndroid } from "react-native";
 import { FAB, Portal, Provider, Appbar } from "react-native-paper";
+import moment from "moment";
 
 import { deleteTask } from "../../utils/firebase";
 
@@ -83,7 +84,7 @@ export default function TaskItem({ route, navigation }) {
                                     { color: theme.subTextColor },
                                 ]}
                             >
-                                Due {taskTime}
+                                Due {moment(Date(taskTime)).calendar()}
                             </Text>
                         </View>
                     )}

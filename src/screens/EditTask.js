@@ -43,7 +43,7 @@ export default function EditTask({ route, navigation }) {
     const handleIsCompleted = (isChecked) => setIsChecked(!isChecked);
 
     const handlePicker = (date) => {
-        setChosenDate(moment(date).calendar());
+        setChosenDate(date);
         setIsVisible(false);
     };
     const showPicker = () => setIsVisible(true);
@@ -101,16 +101,17 @@ export default function EditTask({ route, navigation }) {
                         defaultValue={newTaskTitle}
                         placeholderTextColor={theme.subTextColor}
                     />
-                    <TextInput
+                    <Text
+                        onPress={showPicker}
                         style={[
                             styles.dateInput,
                             { color: theme.subTextColor },
                         ]}
-                        defaultValue={chosenDate}
-                        editable={false}
-                        placeholder="Reminder Time"
-                        placeholderTextColor={theme.subTextColor}
-                    />
+                    >
+                        {chosenDate !== ""
+                            ? moment(Date(chosenDate)).calendar()
+                            : "Reminder Time"}
+                    </Text>
                     <TextInput
                         style={[
                             styles.contentInput,

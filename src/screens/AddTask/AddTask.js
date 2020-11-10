@@ -56,7 +56,7 @@ export default function AddTask({ navigation }) {
 
     // Date & time picker
     const handlePicker = (date) => {
-        setChosenDate(moment(date).calendar());
+        setChosenDate(date);
         setIsVisible(false);
     };
     const showPicker = () => setIsVisible(true);
@@ -88,15 +88,17 @@ export default function AddTask({ navigation }) {
                         defaultValue={newTaskTitle}
                         placeholderTextColor={theme.subTextColor}
                     />
-                    <TouchableOpacity onPress={showPicker}>
-                        <TextInput
-                            style={styles.dateInput}
-                            defaultValue={chosenDate}
-                            editable={false}
-                            placeholder="Reminder Time"
-                            placeholderTextColor={theme.subTextColor}
-                        />
-                    </TouchableOpacity>
+                    <Text
+                        onPress={showPicker}
+                        style={[
+                            styles.dateInput,
+                            { color: theme.subTextColor },
+                        ]}
+                    >
+                        {chosenDate !== ""
+                            ? moment(chosenDate).calendar()
+                            : "Reminder Time"}
+                    </Text>
                     <TextInput
                         style={styles.contentInput}
                         onChangeText={(text) => setNewTaskContent(text)}
