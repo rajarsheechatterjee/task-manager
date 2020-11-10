@@ -16,16 +16,16 @@ Get the app from our [releases page](https://github.com/rajarsheechatterjee/shig
 ## Features
 
 -   [x] Signup and login with your account
--   [x] Add, Edit, Update and Delete tasks
--   [x] Mark completed when finished
--   [x] Sort tasks as per your need
+-   [x] Add, Read, Edit and Delete tasks
+-   [x] Sort and filter tasks as per your need
+-   [x] Send emails to multiple collaborators on a task
 -   [x] Works on both IOS and Android devices
 -   [x] All data is stored on cloud storage
+-   [x] Light and dark themes
 
 ## Todo (In Progress)
 
--   [ ] Dark theme support
--   [ ] Build a web client to sync your tasks/reminders across devices
+-   [ ] Build a web client to sync tasks across devices
 
 ## Get Started
 
