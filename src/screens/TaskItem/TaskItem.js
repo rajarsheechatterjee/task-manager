@@ -14,6 +14,7 @@ export default function TaskItem({ route, navigation }) {
         taskContent,
         createdAt,
         taskTime,
+        collaborators,
         isCompleted,
         isUpdated,
     } = route.params;
@@ -109,6 +110,19 @@ export default function TaskItem({ route, navigation }) {
                             {moment(createdAt.toDate()).calendar()}
                         </Text>
                     </View> */}
+                    {collaborators && (
+                        <Text
+                            style={[
+                                styles.taskContent,
+                                { color: theme.textColor, fontSize: 16 },
+                            ]}
+                        >
+                            <Text style={{ fontWeight: "bold" }}>
+                                Collaborators:{" "}
+                            </Text>
+                            {collaborators.map((item) => item).join(", ")}
+                        </Text>
+                    )}
                 </View>
                 <Portal>
                     <FAB.Group
@@ -185,6 +199,6 @@ const styles = StyleSheet.create({
     taskContent: {
         fontSize: 18,
         lineHeight: 29,
-        paddingBottom: 20,
+        paddingBottom: 15,
     },
 });

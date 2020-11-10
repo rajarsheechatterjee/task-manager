@@ -24,6 +24,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Appbar from "./Components/AddTaskHeader";
 import { addTask } from "../../utils/firebase";
 import Colors from "../../theming/colors";
+import * as MailComposer from "expo-mail-composer";
 
 import { ThemeContext } from "../../navigation/ThemeProvider";
 
@@ -38,29 +39,44 @@ export default function AddTask({ navigation }) {
     const [chosenDate, setChosenDate] = useState("");
 
     const [dialogVisible, setDialogVisible] = useState(false);
-    const [email, setEmail] = useState();
-    const [emails, setEmails] = useState();
     const showDialog = () => setDialogVisible(true);
     const hideDialog = () => {
         setDialogVisible(false);
+        setError(false);
     };
 
-    const addEmail = (email) => {
-        setEmails((emails) => [...emails, email]);
-        console.log(emails);
-        setDialogVisible(false);
+    const [email, setEmail] = useState();
+    const [emails, setEmails] = useState([]);
+    const [error, setError] = useState(false);
+    const addEmail = () => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (re.test(String(email).toLowerCase())) {
+            setEmails((emails) => emails.concat(email));
+            setEmail("");
+            setDialogVisible(false);
+            setError(false);
+        } else {
+            setError(true);
+        }
     };
 
     const handleAddTask = async () => {
         if (newTaskTitle === "") {
             ToastAndroid.show("Task title is empty", ToastAndroid.SHORT);
         } else {
+            await MailComposer.composeAsync({
+                recipients: emails,
+                subject: newTaskTitle,
+                body: newTaskContent,
+            });
+
             await addTask(
                 navigation,
                 newTaskTitle,
                 chosenDate,
                 newTaskContent,
-                priority
+                priority,
+                emails
             );
 
             ToastAndroid.show("Task Added", ToastAndroid.SHORT);
@@ -109,6 +125,7 @@ export default function AddTask({ navigation }) {
                                 mode="outlined"
                                 dense={true}
                                 value={email}
+                                error={error}
                                 onChangeText={(text) => setEmail(text)}
                                 selectionColor={theme.secondaryAccentColor}
                                 theme={{
@@ -118,10 +135,20 @@ export default function AddTask({ navigation }) {
                                     },
                                 }}
                             />
+                            {error && (
+                                <Text
+                                    style={{
+                                        color: "red",
+                                        paddingTop: 5,
+                                    }}
+                                >
+                                    Enter a valid Email
+                                </Text>
+                            )}
                         </Dialog.Content>
                         <Dialog.Actions>
                             <Button
-                                onPress={() => addEmail(email)}
+                                onPress={addEmail}
                                 color={theme.secondaryAccentColor}
                             >
                                 Add
@@ -157,7 +184,24 @@ export default function AddTask({ navigation }) {
                         multiline={true}
                         placeholderTextColor={theme.subTextColor}
                     />
-                    <Text>{emails}</Text>
+                    <Text
+                        style={{
+                            marginHorizontal: 10,
+                            marginVertical: 50,
+                            color: theme.subTextColor,
+                            fontSize: 15,
+                            paddingTop: 10,
+                            borderTopWidth: 1.2,
+                            borderTopColor: "#E8E8E8",
+                            lineHeight: 23,
+                        }}
+                        onPress={showDialog}
+                    >
+                        <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                            Collaborators:{" "}
+                        </Text>
+                        {emails.map((item) => item).join(", ")}
+                    </Text>
                 </View>
                 <DateTimePickerModal
                     isVisible={isVisible}

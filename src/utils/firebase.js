@@ -49,6 +49,7 @@ export const addTask = async (
     taskTime,
     taskContent,
     priorityIs,
+    collaborators,
     isCompleted = false,
     isUpdated = false
 ) => {
@@ -66,6 +67,7 @@ export const addTask = async (
             taskContent: taskContent,
             createdAt: timeStamp,
             priorityIs: priorityIs,
+            collaborators: collaborators,
             isCompleted: isCompleted,
             isUpdated: isUpdated,
         })
