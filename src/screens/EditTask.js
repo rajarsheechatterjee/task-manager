@@ -8,8 +8,19 @@ import {
     Animated,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
-import { Appbar, TouchableRipple, Switch } from "react-native-paper";
+import {
+    Appbar,
+    TouchableRipple,
+    Switch,
+    Portal,
+    Dialog,
+    Provider,
+    Button,
+    TextInput as PaperInput,
+    Chip,
+} from "react-native-paper";
 import BottomSheet from "rn-sliding-up-panel";
+import * as MailComposer from "expo-mail-composer";
 
 import { ThemeContext } from "../navigation/ThemeProvider";
 
@@ -27,6 +38,7 @@ export default function EditTask({ route, navigation }) {
         taskContent,
         isCompleted,
         priorityIs,
+        collaborators,
     } = route.params;
 
     const { theme } = useContext(ThemeContext);
@@ -42,6 +54,7 @@ export default function EditTask({ route, navigation }) {
 
     const handleIsCompleted = (isChecked) => setIsChecked(!isChecked);
 
+    // Date & Time Picker
     const handlePicker = (date) => {
         setChosenDate(date);
         setIsVisible(false);
@@ -49,10 +62,57 @@ export default function EditTask({ route, navigation }) {
     const showPicker = () => setIsVisible(true);
     const hidePicker = () => setIsVisible(false);
 
+    // Collaborators Dialog
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const [error, setError] = useState(false);
+    const showDialog = () => setDialogVisible(true);
+    const hideDialog = () => {
+        setDialogVisible(false);
+        setError(false);
+    };
+
+    // Validate and add email
+    const [email, setEmail] = useState();
+    const [emails, setEmails] = useState(collaborators);
+    const [sendEmail, setSendEmail] = useState(false);
+    const onToggleSwitch = () => setSendEmail(!sendEmail);
+    const addEmail = () => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if (re.test(String(email).toLowerCase())) {
+            if (emails.length > 0) {
+                const index = emails.indexOf(email);
+                if (index > -1) {
+                    setError("Email already added");
+                } else {
+                    setEmails((emails) => emails.concat(email));
+                    setEmail("");
+                    setDialogVisible(false);
+                    setError("");
+                }
+            } else {
+                setEmails((emails) => emails.concat(email));
+                setEmail("");
+                setDialogVisible(false);
+                setError("");
+            }
+        } else {
+            setError("Enter a valid email");
+        }
+    };
+
     const handleEditTask = async () => {
         if (newTaskTitle === "") {
             ToastAndroid.show("Task title is empty", ToastAndroid.SHORT);
         } else {
+            if (sendEmail && emails.length > 0) {
+                await MailComposer.composeAsync({
+                    recipients: emails,
+                    subject: newTaskTitle,
+                    body: newTaskContent,
+                });
+            }
+
             await updateTask(
                 navigation,
                 id,
@@ -60,6 +120,7 @@ export default function EditTask({ route, navigation }) {
                 chosenDate,
                 newTaskContent,
                 priority,
+                emails,
                 isChecked
             );
             ToastAndroid.show("Task Updated", ToastAndroid.SHORT);
@@ -67,7 +128,7 @@ export default function EditTask({ route, navigation }) {
     };
 
     return (
-        <>
+        <Provider>
             <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
                 <Appbar.BackAction
                     onPress={() => {
@@ -76,10 +137,15 @@ export default function EditTask({ route, navigation }) {
                 />
                 <Appbar.Content title="Edit Task" />
                 <Appbar.Action icon="alarm" onPress={showPicker} />
-                <Appbar.Action
+                {/* <Appbar.Action
                     icon="priority-high"
                     onPress={() => _panel.show()}
+                /> */}
+                <Appbar.Action
+                    icon="account-multiple-plus"
+                    onPress={showDialog}
                 />
+
                 <Appbar.Action
                     icon="check"
                     onPress={handleEditTask}
@@ -92,6 +158,61 @@ export default function EditTask({ route, navigation }) {
                     { backgroundColor: theme.background },
                 ]}
             >
+                <Portal>
+                    <Dialog
+                        visible={dialogVisible}
+                        onDismiss={hideDialog}
+                        style={{ backgroundColor: theme.background }}
+                    >
+                        <Dialog.Title style={{ color: theme.textColor }}>
+                            Add Collaborators
+                        </Dialog.Title>
+                        <Dialog.Content>
+                            <PaperInput
+                                label="Email"
+                                mode="outlined"
+                                dense={true}
+                                error={error}
+                                onChangeText={(text) => setEmail(text)}
+                                selectionColor={theme.secondaryAccentColor}
+                                theme={{
+                                    colors: {
+                                        primary: theme.secondaryAccentColor,
+                                        text: theme.textColor,
+                                        underlineColor: "transparent",
+                                    },
+                                }}
+                                style={{
+                                    backgroundColor: theme.background,
+                                }}
+                            />
+                            {error !== "" && (
+                                <Text
+                                    style={{
+                                        color: "red",
+                                        paddingTop: 5,
+                                    }}
+                                >
+                                    {error}
+                                </Text>
+                            )}
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button
+                                onPress={() => setEmails([])}
+                                color={theme.secondaryAccentColor}
+                            >
+                                Clear emails
+                            </Button>
+                            <Button
+                                onPress={addEmail}
+                                color={theme.secondaryAccentColor}
+                            >
+                                Add
+                            </Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
                 <View>
                     <TextInput
                         multiline={true}
@@ -125,6 +246,44 @@ export default function EditTask({ route, navigation }) {
                         placeholderTextColor={theme.subTextColor}
                     />
                 </View>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginHorizontal: 10,
+                        marginVertical: 50,
+                        fontSize: 15,
+                        paddingTop: 10,
+                        borderTopWidth: 1.2,
+                        borderTopColor: "#E8E8E8",
+                        lineHeight: 23,
+                    }}
+                >
+                    {emails.length > 0 ? (
+                        emails.map((item) => (
+                            <Chip
+                                icon="email"
+                                style={{
+                                    marginVertical: 5,
+                                    marginRight: 5,
+                                }}
+                            >
+                                {item}
+                            </Chip>
+                        ))
+                    ) : (
+                        <Chip
+                            onPress={showDialog}
+                            icon="email-plus"
+                            style={{
+                                marginVertical: 5,
+                                marginRight: 5,
+                            }}
+                        >
+                            Add Collaborators
+                        </Chip>
+                    )}
+                </View>
                 <DateTimePickerModal
                     isVisible={isVisible}
                     onConfirm={handlePicker}
@@ -134,10 +293,10 @@ export default function EditTask({ route, navigation }) {
                 />
             </View>
             <BottomSheet
-                animatedValue={new Animated.Value(290)}
+                animatedValue={new Animated.Value(220)}
                 ref={(c) => (_panel = c)}
-                draggableRange={{ top: 290, bottom: 50 }}
-                snappingPoints={[50, 290]}
+                draggableRange={{ top: 370, bottom: 60 }}
+                snappingPoints={[60, 220, 370]}
                 showBackdrop={false}
             >
                 <View
@@ -147,6 +306,67 @@ export default function EditTask({ route, navigation }) {
                     ]}
                 >
                     <View style={styles.indicator} />
+                    <Text
+                        style={[
+                            styles.priorityHeading,
+                            { color: theme.secondaryAccentColor },
+                        ]}
+                    >
+                        Collaborators
+                    </Text>
+                    <TouchableRipple
+                        style={[
+                            styles.setPriority,
+                            { paddingRight: 35, paddingVertical: 10 },
+                        ]}
+                        onPress={() => setSendEmail(!sendEmail)}
+                    >
+                        <>
+                            <Text
+                                style={{
+                                    fontSize: 15,
+                                    color: theme.textColor,
+                                }}
+                            >
+                                Send updated email to collaborators
+                            </Text>
+                            <Switch
+                                value={sendEmail}
+                                onValueChange={onToggleSwitch}
+                                color={theme.secondaryAccentColor}
+                            />
+                        </>
+                    </TouchableRipple>
+                    <Text
+                        style={[
+                            styles.priorityHeading,
+                            { color: theme.secondaryAccentColor },
+                        ]}
+                    >
+                        Completed
+                    </Text>
+                    <TouchableRipple
+                        style={[
+                            styles.setPriority,
+                            { paddingRight: 35, paddingVertical: 10 },
+                        ]}
+                        onPress={() => handleIsCompleted(isChecked)}
+                    >
+                        <>
+                            <Text
+                                style={{ fontSize: 15, color: theme.textColor }}
+                            >
+                                Set completed
+                            </Text>
+                            <Switch
+                                value={isChecked}
+                                onValueChange={() =>
+                                    handleIsCompleted(isChecked)
+                                }
+                                color={theme.secondaryAccentColor}
+                            />
+                        </>
+                    </TouchableRipple>
                     <Text
                         style={[
                             styles.priorityHeading,
@@ -218,36 +438,9 @@ export default function EditTask({ route, navigation }) {
                             />
                         </>
                     </TouchableRipple>
-                    <Text
-                        style={[
-                            styles.priorityHeading,
-                            { color: theme.secondaryAccentColor },
-                        ]}
-                    >
-                        Completed
-                    </Text>
-                    <TouchableRipple
-                        style={styles.setCompleted}
-                        onPress={() => handleIsCompleted(isChecked)}
-                    >
-                        <>
-                            <Text
-                                style={{ fontSize: 15, color: theme.textColor }}
-                            >
-                                Set completed
-                            </Text>
-                            <Switch
-                                value={isChecked}
-                                onValueChange={() =>
-                                    handleIsCompleted(isChecked)
-                                }
-                                color={theme.secondaryAccentColor}
-                            />
-                        </>
-                    </TouchableRipple>
                 </View>
             </BottomSheet>
-        </>
+        </Provider>
     );
 }
 

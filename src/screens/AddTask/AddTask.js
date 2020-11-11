@@ -14,8 +14,8 @@ import {
     Provider,
     Button,
     TextInput as PaperInput,
-    Checkbox as PaperCheckBox,
     Chip,
+    Switch,
 } from "react-native-paper";
 import { CheckBox } from "react-native-elements";
 
@@ -49,9 +49,9 @@ export default function AddTask({ navigation }) {
 
     const [email, setEmail] = useState();
     const [emails, setEmails] = useState([]);
-    const [sendEmail, setSendEmail] = useState(true);
+    const [sendEmail, setSendEmail] = useState(false);
     const [error, setError] = useState(false);
-
+    const onToggleSwitch = () => setSendEmail(!sendEmail);
     const addEmail = () => {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -306,11 +306,10 @@ export default function AddTask({ navigation }) {
                             >
                                 Send Email to Collaborators
                             </Text>
-                            <PaperCheckBox
-                                status={sendEmail ? "checked" : "unchecked"}
-                                onValueChange={() => setSendEmail(!sendEmail)}
+                            <Switch
+                                value={sendEmail}
+                                onValueChange={onToggleSwitch}
                                 color={theme.secondaryAccentColor}
-                                uncheckedColor={theme.textColor}
                             />
                         </>
                     </TouchableRipple>

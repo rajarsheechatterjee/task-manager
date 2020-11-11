@@ -151,7 +151,7 @@ export default function TaskItem({ route, navigation }) {
                             {
                                 icon: "email-check",
                                 color: theme.secondaryAccentColor,
-                                label: "Resend Email",
+                                label: "Send Email",
                                 onPress: () => {
                                     MailComposer.composeAsync({
                                         recipients: collaborators,

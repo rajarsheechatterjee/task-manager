@@ -4,43 +4,30 @@ import { Alert } from "react-native";
 
 export const auth = firebase.auth();
 
-export const loginUser = async (email, password) => {
-    try {
-        await firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .catch((error) => {
-                Alert.alert(error.message);
+export const loginUser = (email, password) => {
+    auth.signInWithEmailAndPassword(email, password).catch((error) => {
+        Alert.alert(error.message);
+    });
+};
+
+export const signupUser = (email, password) => {
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            const userUid = firebase.auth().currentUser.uid;
+
+            firebase.firestore().collection("users").doc(userUid).set({
+                userUid: userUid,
+                userEmail: email,
             });
-    } catch (error) {
-        console.log(error.toString());
-    }
+        })
+        .catch((error) => {
+            Alert.alert(error.message);
+        });
 };
 
-export const signupUser = async (email, password) => {
-    try {
-        await firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                const userUid = firebase.auth().currentUser.uid;
+export const logout = () => auth.signOut();
 
-                firebase.firestore().collection("users").doc(userUid).set({
-                    userUid: userUid,
-                    userEmail: email,
-                });
-            })
-            .catch((error) => {
-                Alert.alert(error.message);
-            });
-    } catch (error) {
-        console.log(error.toString());
-    }
-};
-
-export const logout = () => {
-    firebase.auth().signOut();
-};
+export const passwordReset = (email) => auth.sendPasswordResetEmail(email);
 
 export const addTask = async (
     navigation,
@@ -107,6 +94,7 @@ export const updateTask = async (
     taskTime,
     taskContent,
     taskPriority,
+    collaborators,
     isCompleted
 ) => {
     const timeStamp = firebase.firestore.Timestamp.fromDate(new Date());
@@ -124,6 +112,7 @@ export const updateTask = async (
             taskContent: taskContent,
             createdAt: timeStamp,
             priorityIs: taskPriority,
+            collaborators: collaborators,
             isCompleted: isCompleted,
             isUpdated: true,
         })
@@ -173,7 +162,7 @@ export const deleteUser = async (navigation) => {
 };
 
 export const currentUserEmail = () => {
-    return firebase.auth().currentUser.email;
+    return auth.currentUser.email;
 };
 
 export const getAllTasks = async (sortBy, sortOrder) => {
