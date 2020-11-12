@@ -39,16 +39,7 @@ export default function TaskCard({
     // const [isSelected, setSelected] = useState(false);
 
     return (
-        <View
-            style={[
-                styles.mainContainer,
-                // isSelected && {
-                //     borderWidth: 2,
-                //     borderColor: theme.secondaryAccentColor,
-                //     borderRadius: 15,
-                // },
-            ]}
-        >
+        <View style={styles.mainContainer}>
             <TouchableRipple
                 borderless
                 centered
@@ -57,27 +48,11 @@ export default function TaskCard({
                     { backgroundColor: theme.cardBackground },
                 ]}
                 onPress={() => navigation.navigate("Task Item", taskItem)}
-                // onLongPress={() => {
-                //     handleSelectTask(taskItem.id);
-                //     setSelected(!isSelected);
-                //     selectHelper();
-                // }}
+                onLongPress={() => {
+                    handleCompleted();
+                }}
             >
                 <View style={styles.taskListView}>
-                    <View style={styles.checkbox}>
-                        <CheckBox
-                            center
-                            checkedColor={theme.taskCardColor}
-                            uncheckedColor={theme.taskCardColor}
-                            checkedIcon="dot-circle-o"
-                            uncheckedIcon="circle-o"
-                            checked={checked}
-                            onPress={() => {
-                                handleCompleted();
-                            }}
-                            containerStyle={styles.checkBoxStyle}
-                        />
-                    </View>
                     <Text
                         style={[
                             styles.taskItemTitle,
@@ -99,34 +74,18 @@ export default function TaskCard({
                         ]}
                         numberOfLines={1}
                     >
-                        {taskItem.isUpdated && "Updated on "}
-                        {moment(taskItem.createdAt.toDate()).calendar()}
+                        {"Due " + moment(taskItem.taskTime.toDate()).calendar()}
                     </Text>
-                    <View style={styles.priorityMarker}>
-                        <View
-                            style={[
-                                styles.taskPriority,
-                                priorityColor(taskItem.priorityIs),
-                            ]}
-                        />
-                    </View>
-                    <View style={styles.rightChevronContainer}>
-                        <Ripple
-                            style={styles.rightChevron}
-                            rippleContainerBorderRadius={50}
-                            rippleCentered={true}
-                            onPress={() =>
-                                navigation.navigate("Task Item", taskItem)
-                            }
-                        >
-                            <MaterialCommunityIcons
-                                name="chevron-right"
-                                color={theme.taskCardColor}
-                                size={30}
-                                style={styles.icon}
-                            />
-                        </Ripple>
-                    </View>
+                    <Text
+                        style={[
+                            styles.taskContent,
+                            checked && {
+                                textDecorationLine: "line-through",
+                            },
+                        ]}
+                    >
+                        {taskItem.taskContent}
+                    </Text>
                 </View>
             </TouchableRipple>
         </View>
@@ -148,15 +107,22 @@ const styles = StyleSheet.create({
     },
     taskItemTitle: {
         paddingTop: 10,
-        marginHorizontal: 80,
+        paddingHorizontal: 20,
         fontSize: 18,
         fontWeight: "bold",
     },
     taskItemDate: {
-        marginBottom: 10,
-        marginHorizontal: 80,
+        marginBottom: 5,
+        paddingHorizontal: 20,
         fontSize: 14,
         color: "#767676",
+    },
+    taskContent: {
+        marginBottom: 10,
+        paddingHorizontal: 20,
+        fontSize: 14,
+        color: "#484848",
+        lineHeight: 20,
     },
     priorityMarker: {
         position: "absolute",

@@ -19,6 +19,7 @@ import { ThemeContext } from "../../navigation/ThemeProvider";
 
 import CustomHeader from "./Components/Header";
 import TaskCard from "./Components/TaskCard";
+import TaskCard2 from "./Components/TaskCard2";
 import SlideUpPanel from "./Components/SlideUpPanel";
 import Colors from "../../theming/colors";
 
@@ -62,10 +63,18 @@ export default function Home({ navigation }) {
     const [priorityFilter, setPriorityFilter] = useState(0);
     const [deleteVisible, setDeleteVisible] = useState(false);
 
+    const [displayMode, setDisplayMode] = useState(false);
+
     useFocusEffect(
         useCallback(() => {
             getTasks(sortMode, sortOrder);
-        }, [sorting, completedFilter, priorityFilter, deleteVisible])
+        }, [
+            sorting,
+            completedFilter,
+            priorityFilter,
+            deleteVisible,
+            displayMode,
+        ])
     );
 
     /**
@@ -130,6 +139,10 @@ export default function Home({ navigation }) {
         }
     };
 
+    const handleDisplayMode = () => {
+        setDisplayMode(!displayMode);
+    };
+
     /**
      * Select multiple items
      */
@@ -191,6 +204,19 @@ export default function Home({ navigation }) {
         />
     );
 
+    const renderTaskCard2 = ({ item }) => (
+        <TaskCard2
+            navigation={navigation}
+            taskItem={item}
+            updateIsCompleted={updateIsCompleted}
+            onToggleSnackBar={onToggleSnackBar}
+            handleSetTaskId={handleSetTaskId}
+            onDismissSnackBar={onDismissSnackBar}
+            // handleSelectTask={handleSelectTask}
+            // selectHelper={selectHelper}
+        />
+    );
+
     return (
         <Provider>
             <CustomHeader
@@ -214,7 +240,7 @@ export default function Home({ navigation }) {
                     data={tasksList}
                     extraData={tasksList}
                     keyExtractor={(item) => item.id}
-                    renderItem={renderTaskCard}
+                    renderItem={displayMode ? renderTaskCard2 : renderTaskCard}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
@@ -243,6 +269,8 @@ export default function Home({ navigation }) {
                     handleCompletedFilter={handleCompletedFilter}
                     handlePriorityFilter={handlePriorityFilter}
                     handleRef={(c) => (_panel = c)}
+                    handleDisplayMode={handleDisplayMode}
+                    displayMode={displayMode}
                 />
                 <Snackbar
                     visible={visible}

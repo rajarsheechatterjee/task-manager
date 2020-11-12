@@ -108,7 +108,7 @@ export default function EditTask({ route, navigation }) {
             if (sendEmail && emails.length > 0) {
                 await MailComposer.composeAsync({
                     recipients: emails,
-                    subject: newTaskTitle,
+                    subject: "[Updated] " + newTaskTitle,
                     body: newTaskContent,
                 });
             }
@@ -230,7 +230,7 @@ export default function EditTask({ route, navigation }) {
                         ]}
                     >
                         {chosenDate !== ""
-                            ? moment(Date(chosenDate)).calendar()
+                            ? moment(chosenDate).calendar()
                             : "Reminder Time"}
                     </Text>
                     <TextInput

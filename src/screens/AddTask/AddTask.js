@@ -271,8 +271,8 @@ export default function AddTask({ navigation }) {
             <BottomSheet
                 animatedValue={new Animated.Value(280)}
                 ref={(c) => (_panel = c)}
-                draggableRange={{ top: 280, bottom: 50 }}
-                snappingPoints={[50, 280]}
+                draggableRange={{ top: 280, bottom: 55 }}
+                snappingPoints={[55, 120, 280]}
                 showBackdrop={false}
             >
                 <View

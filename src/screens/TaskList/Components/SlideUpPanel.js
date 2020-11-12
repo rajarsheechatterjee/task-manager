@@ -17,6 +17,8 @@ const SlideUpPanel = ({
     prioFilter,
     handlePriorityFilter,
     handleRef,
+    handleDisplayMode,
+    displayMode,
 }) => {
     const { theme } = useContext(ThemeContext);
 
@@ -25,8 +27,8 @@ const SlideUpPanel = ({
     return (
         <SlidingUpPanel
             ref={handleRef}
-            draggableRange={{ top: 330, bottom: 0 }}
-            snappingPoints={[0, 330]}
+            draggableRange={{ top: 420, bottom: 0 }}
+            snappingPoints={[0, 420]}
         >
             <View
                 style={[
@@ -139,6 +141,39 @@ const SlideUpPanel = ({
                             }}
                         >
                             Completed
+                        </Text>
+                    </>
+                </TouchableRipple>
+                <Text
+                    style={[
+                        [
+                            styles.filterHeading,
+                            { color: theme.secondaryAccentColor },
+                        ],
+                        { paddingTop: 5 },
+                    ]}
+                >
+                    Display
+                </Text>
+                <TouchableRipple
+                    style={styles.completedFilter}
+                    onPress={() => handleDisplayMode()}
+                >
+                    <>
+                        <Checkbox
+                            status={displayMode ? "checked" : "unchecked"}
+                            onValueChange={() => handleDisplayMode()}
+                            color={theme.secondaryAccentColor}
+                            uncheckedColor={theme.textColor}
+                        />
+                        <Text
+                            style={{
+                                fontSize: 15,
+                                marginLeft: 10,
+                                color: theme.textColor,
+                            }}
+                        >
+                            Full Card
                         </Text>
                     </>
                 </TouchableRipple>
