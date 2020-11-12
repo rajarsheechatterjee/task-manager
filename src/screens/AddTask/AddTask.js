@@ -16,8 +16,8 @@ import {
     TextInput as PaperInput,
     Chip,
     Switch,
+    RadioButton,
 } from "react-native-paper";
-import { CheckBox } from "react-native-elements";
 
 import moment from "moment";
 import BottomSheet from "rn-sliding-up-panel";
@@ -322,69 +322,32 @@ export default function AddTask({ navigation }) {
                     >
                         Priority
                     </Text>
-                    <TouchableRipple
-                        style={styles.setPriority}
-                        onPress={() => setPriority(1)}
+                    <RadioButton.Group
+                        onValueChange={(newValue) => setPriority(newValue)}
+                        value={priority}
                     >
-                        <>
-                            <Text
-                                style={{ fontSize: 15, color: theme.textColor }}
-                            >
-                                High
-                            </Text>
-                            <CheckBox
-                                checkedColor={theme.priorityHigh}
-                                uncheckedColor={theme.priorityHigh}
-                                checkedIcon="dot-circle-o"
-                                uncheckedIcon="circle-o"
-                                checked={priority === 1 ? true : false}
-                                containerStyle={styles.checkBox}
-                                onPress={() => setPriority(1)}
-                            />
-                        </>
-                    </TouchableRipple>
-                    <TouchableRipple
-                        style={styles.setPriority}
-                        onPress={() => setPriority(2)}
-                    >
-                        <>
-                            <Text
-                                style={{ fontSize: 15, color: theme.textColor }}
-                            >
-                                Medium
-                            </Text>
-                            <CheckBox
-                                checkedColor={theme.priorityMid}
-                                uncheckedColor={theme.priorityMid}
-                                checkedIcon="dot-circle-o"
-                                uncheckedIcon="circle-o"
-                                checked={priority === 2 ? true : false}
-                                containerStyle={styles.checkBox}
-                                onPress={() => setPriority(2)}
-                            />
-                        </>
-                    </TouchableRipple>
-                    <TouchableRipple
-                        style={styles.setPriority}
-                        onPress={() => setPriority(3)}
-                    >
-                        <>
-                            <Text
-                                style={{ fontSize: 15, color: theme.textColor }}
-                            >
-                                Low
-                            </Text>
-                            <CheckBox
-                                checkedColor={theme.priorityLow}
-                                uncheckedColor={theme.priorityLow}
-                                checkedIcon="dot-circle-o"
-                                uncheckedIcon="circle-o"
-                                checked={priority === 3 ? true : false}
-                                containerStyle={styles.checkBox}
-                                onPress={() => setPriority(3)}
-                            />
-                        </>
-                    </TouchableRipple>
+                        <RadioButton.Item
+                            label="High"
+                            value={1}
+                            color={theme.priorityHigh}
+                            uncheckedColor={theme.priorityHigh}
+                            style={{ paddingHorizontal: 20, paddingRight: 35 }}
+                        />
+                        <RadioButton.Item
+                            label="Medium"
+                            value={2}
+                            color={theme.priorityMid}
+                            uncheckedColor={theme.priorityMid}
+                            style={{ paddingHorizontal: 20, paddingRight: 35 }}
+                        />
+                        <RadioButton.Item
+                            label="Low"
+                            value={3}
+                            color={theme.priorityLow}
+                            uncheckedColor={theme.priorityLow}
+                            style={{ paddingHorizontal: 20, paddingRight: 35 }}
+                        />
+                    </RadioButton.Group>
                 </View>
             </BottomSheet>
         </Provider>

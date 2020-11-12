@@ -28,3 +28,23 @@ export const priorityColor = (priority) => {
         };
     }
 };
+
+export const priorityTextColor = (priority) => {
+    if (priority === 1) {
+        return {
+            color: Colors.priorityHigh,
+        };
+    } else if (priority === 2) {
+        return {
+            color: Colors.priorityMid,
+        };
+    } else if (priority === 3) {
+        return {
+            color: Colors.priorityLow,
+        };
+    } else {
+        return {
+            color: Colors.textColor,
+        };
+    }
+};

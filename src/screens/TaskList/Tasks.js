@@ -63,7 +63,7 @@ export default function Home({ navigation }) {
     const [priorityFilter, setPriorityFilter] = useState(0);
     const [deleteVisible, setDeleteVisible] = useState(false);
 
-    const [displayMode, setDisplayMode] = useState(false);
+    const [displayMode, setDisplayMode] = useState("compact");
 
     useFocusEffect(
         useCallback(() => {
@@ -139,8 +139,8 @@ export default function Home({ navigation }) {
         }
     };
 
-    const handleDisplayMode = () => {
-        setDisplayMode(!displayMode);
+    const handleDisplayMode = (value) => {
+        setDisplayMode(value);
     };
 
     /**
@@ -240,7 +240,11 @@ export default function Home({ navigation }) {
                     data={tasksList}
                     extraData={tasksList}
                     keyExtractor={(item) => item.id}
-                    renderItem={displayMode ? renderTaskCard2 : renderTaskCard}
+                    renderItem={
+                        displayMode === "fullcard"
+                            ? renderTaskCard2
+                            : renderTaskCard
+                    }
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}

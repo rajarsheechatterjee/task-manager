@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { CheckBox } from "react-native-elements";
 
-import { priorityColor } from "../../../utils/priority";
+import { priorityColor, priorityTextColor } from "../../../utils/priority";
 
 import { TouchableRipple } from "react-native-paper";
 import moment from "moment";
@@ -63,8 +63,19 @@ export default function TaskCard({
                         ]}
                         numberOfLines={1}
                     >
-                        {taskItem.taskTitle}
+                        {taskItem.taskTitle + "  "}
+                        <View
+                            style={[
+                                priorityColor(taskItem.priorityIs),
+                                {
+                                    height: 10,
+                                    width: 10,
+                                    borderRadius: 50,
+                                },
+                            ]}
+                        />
                     </Text>
+
                     <Text
                         style={[
                             styles.taskItemDate,
@@ -76,6 +87,7 @@ export default function TaskCard({
                     >
                         {"Due " + moment(taskItem.taskTime.toDate()).calendar()}
                     </Text>
+
                     <Text
                         style={[
                             styles.taskContent,

@@ -3,7 +3,12 @@ import { StyleSheet, View, Text } from "react-native";
 
 import Colors from "../../../theming/colors";
 
-import { TouchableRipple, Checkbox, Chip } from "react-native-paper";
+import {
+    TouchableRipple,
+    Checkbox,
+    Chip,
+    RadioButton,
+} from "react-native-paper";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -155,7 +160,27 @@ const SlideUpPanel = ({
                 >
                     Display
                 </Text>
-                <TouchableRipple
+
+                <RadioButton.Group
+                    onValueChange={(value) => handleDisplayMode(value)}
+                    value={displayMode}
+                >
+                    <View style={{ flexDirection: "row" }}>
+                        <RadioButton.Item
+                            label="Compact"
+                            value="compact"
+                            uncheckedColor={theme.secondaryAccentColor}
+                            color={theme.secondaryAccentColor}
+                        />
+                        <RadioButton.Item
+                            label="Full Card"
+                            value="fullcard"
+                            uncheckedColor={theme.secondaryAccentColor}
+                            color={theme.secondaryAccentColor}
+                        />
+                    </View>
+                </RadioButton.Group>
+                {/* <TouchableRipple
                     style={styles.completedFilter}
                     onPress={() => handleDisplayMode()}
                 >
@@ -177,6 +202,7 @@ const SlideUpPanel = ({
                         </Text>
                     </>
                 </TouchableRipple>
+                 */}
                 <View style={styles.priorityFilters}>
                     <Chip
                         selectedColor={prioFilter === 1 ? "white" : "black"}
