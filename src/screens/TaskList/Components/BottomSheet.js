@@ -14,7 +14,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import { ThemeContext } from "../../../navigation/ThemeProvider";
 
-const SlideUpPanel = ({
+const BottomSheet = ({
     handleSorting,
     handleCompletedFilter,
     sorting,
@@ -179,29 +179,6 @@ const SlideUpPanel = ({
                         />
                     </View>
                 </RadioButton.Group>
-                {/* <TouchableRipple
-                    style={styles.completedFilter}
-                    onPress={() => handleDisplayMode()}
-                >
-                    <>
-                        <Checkbox
-                            status={displayMode ? "checked" : "unchecked"}
-                            onValueChange={() => handleDisplayMode()}
-                            color={theme.secondaryAccentColor}
-                            uncheckedColor={theme.textColor}
-                        />
-                        <Text
-                            style={{
-                                fontSize: 15,
-                                marginLeft: 10,
-                                color: theme.textColor,
-                            }}
-                        >
-                            Full Card
-                        </Text>
-                    </>
-                </TouchableRipple>
-                 */}
                 <View style={styles.priorityFilters}>
                     <Chip
                         selectedColor={prioFilter === 1 ? "white" : "black"}
@@ -251,7 +228,7 @@ const SlideUpPanel = ({
     );
 };
 
-export default SlideUpPanel;
+export default BottomSheet;
 
 const styles = StyleSheet.create({
     bottomSheetContainer: {

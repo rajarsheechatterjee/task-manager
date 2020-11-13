@@ -1,13 +1,7 @@
 import React, { useContext, useState } from "react";
-import { Alert } from "react-native";
 import { List, Divider, Appbar, Checkbox } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-    deleteUser,
-    addSampleData,
-    currentUserEmail,
-    logout,
-} from "../../utils/firebase";
+import { addSampleData, currentUserEmail, logout } from "../../utils/firebase";
 
 import { ThemeContext } from "../../navigation/ThemeProvider";
 
@@ -26,24 +20,6 @@ const SettingsScreen = ({ navigation }) => {
     };
 
     const email = currentUserEmail();
-
-    // const handleDeleteUser = () => {
-    //     deleteUser(navigation);
-    // };
-
-    // const deleteAccountAlert = () =>
-    //     Alert.alert(
-    //         "Warning",
-    //         "Are you sure you want to permanently delete your account",
-    //         [
-    //             {
-    //                 text: "Cancel",
-    //                 style: "cancel",
-    //             },
-    //             { text: "Delete", onPress: () => handleDeleteUser() },
-    //         ],
-    //         { cancelable: false }
-    //     );
 
     return (
         <>
@@ -151,30 +127,6 @@ const SettingsScreen = ({ navigation }) => {
                     )}
                     onPress={() => logout()}
                 />
-                {/* <List.Item
-                title="Reset your password"
-                description="(Not added yet)"
-                right={() => (
-                    <List.Icon
-                        color={theme.accentColor}
-                        icon="textbox-password"
-                    />
-                )}
-                onPress={deleteAccountAlert}
-                disabled
-            />
-            <List.Item
-                title="Delete your account"
-                description="(Not added yet)"
-                right={() => (
-                    <List.Icon
-                        color={theme.deleteColor}
-                        icon="account-remove"
-                    />
-                )}
-                onPress={deleteAccountAlert}
-                disabled
-            /> */}
             </List.Section>
         </>
     );

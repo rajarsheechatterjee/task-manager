@@ -3,16 +3,14 @@ import { StyleSheet, Text, View } from "react-native";
 import { TouchableRipple } from "react-native-paper";
 
 import moment from "moment";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Ripple from "react-native-material-ripple";
-import { priorityColor, priorityTextColor } from "../../../utils/priority";
+import { priorityColor } from "../../../utils/priority";
 
 import { ThemeContext } from "../../../navigation/ThemeProvider";
 
 export default function TaskCard({
     taskItem,
     navigation,
-    updateIsCompleted,
+    updateCompleted,
     onToggleSnackBar,
     handleSetTaskId,
     onDismissSnackBar,
@@ -25,7 +23,7 @@ export default function TaskCard({
 
     const handleCompleted = () => {
         setChecked(!checked);
-        updateIsCompleted(checked, taskItem.id);
+        updateCompleted(checked, taskItem.id);
         if (!checked) {
             onToggleSnackBar();
             handleSetTaskId(taskItem.id);

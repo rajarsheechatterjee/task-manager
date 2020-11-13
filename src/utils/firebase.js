@@ -133,7 +133,7 @@ export const deleteTask = async (navigation, id) => {
     navigation.navigate("Your Tasks");
 };
 
-export const updateIsCompleted = async (isCompleted, taskId) => {
+export const updateCompleted = async (isCompleted, taskId) => {
     const dbRef = firebase
         .firestore()
         .collection("users")

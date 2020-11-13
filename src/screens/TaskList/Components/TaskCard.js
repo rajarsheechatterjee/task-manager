@@ -14,12 +14,10 @@ import { ThemeContext } from "../../../navigation/ThemeProvider";
 export default function TaskCard({
     taskItem,
     navigation,
-    updateIsCompleted,
+    updateCompleted,
     onToggleSnackBar,
     handleSetTaskId,
     onDismissSnackBar,
-    // handleSelectTask,
-    // selectHelper,
 }) {
     const { theme } = useContext(ThemeContext);
 
@@ -27,7 +25,7 @@ export default function TaskCard({
 
     const handleCompleted = () => {
         setChecked(!checked);
-        updateIsCompleted(checked, taskItem.id);
+        updateCompleted(checked, taskItem.id);
         if (!checked) {
             onToggleSnackBar();
             handleSetTaskId(taskItem.id);
@@ -36,19 +34,8 @@ export default function TaskCard({
         }
     };
 
-    // const [isSelected, setSelected] = useState(false);
-
     return (
-        <View
-            style={[
-                styles.mainContainer,
-                // isSelected && {
-                //     borderWidth: 2,
-                //     borderColor: theme.secondaryAccentColor,
-                //     borderRadius: 15,
-                // },
-            ]}
-        >
+        <View style={styles.mainContainer}>
             <TouchableRipple
                 borderless
                 centered
@@ -57,11 +44,6 @@ export default function TaskCard({
                     { backgroundColor: theme.cardBackground },
                 ]}
                 onPress={() => navigation.navigate("Task Item", taskItem)}
-                // onLongPress={() => {
-                //     handleSelectTask(taskItem.id);
-                //     setSelected(!isSelected);
-                //     selectHelper();
-                // }}
             >
                 <View style={styles.taskListView}>
                     <View style={styles.checkbox}>

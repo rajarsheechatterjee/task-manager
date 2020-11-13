@@ -9,21 +9,17 @@ import {
 import { useFocusEffect } from "@react-navigation/native";
 import { Provider, FAB, Portal, Snackbar } from "react-native-paper";
 
-import {
-    deleteTask,
-    getAllTasks,
-    updateIsCompleted,
-} from "../../utils/firebase";
+import { deleteTask, getAllTasks, updateCompleted } from "../../utils/firebase";
 
 import { ThemeContext } from "../../navigation/ThemeProvider";
 
-import CustomHeader from "./Components/Header";
+import AppBar from "./Components/Header";
 import TaskCard from "./Components/TaskCard";
 import FullCard from "./Components/FullCard";
-import SlideUpPanel from "./Components/SlideUpPanel";
+import BottomSheet from "./Components/BottomSheet";
 import Colors from "../../theming/colors";
 
-export default function Home({ navigation }) {
+const TasksList = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
 
     /**
@@ -62,7 +58,6 @@ export default function Home({ navigation }) {
     const { sortMode, sortOrder } = sorting;
     const [completedFilter, setCompletedFilter] = useState(false);
     const [priorityFilter, setPriorityFilter] = useState(0);
-    // const [deleteVisible, setDeleteVisible] = useState(false);
 
     const [displayMode, setDisplayMode] = useState("compact");
 
@@ -135,63 +130,16 @@ export default function Home({ navigation }) {
     const handleDisplayMode = (value) => setDisplayMode(value);
 
     /**
-     * Select multiple items
-     */
-    // const [selectedTasks, setSelectedTasks] = useState([]);
-    // const handleSelectTask = async (taskId) => {
-    //     if (selectedTasks.length > 0) {
-    //         const index = selectedTasks.indexOf(taskId);
-    //         if (index > -1) {
-    //             selectedTasks.splice(index, 1);
-    //         } else {
-    //             selectedTasks.push(taskId);
-    //         }
-    //     } else {
-    //         setDeleteVisible(true);
-    //         selectedTasks.push(taskId);
-    //     }
-    //     setSelectedTasks(selectedTasks);
-    //     if (selectedTasks.length > 0) {
-    //         setDeleteVisible(true);
-    //     } else {
-    //         setDeleteVisible(false);
-    //     }
-    // };
-    // const deselectAll = () => {
-    //     setRefreshing(true);
-    //     setSelectedTasks([]);
-    //     setTasksList([]);
-    //     setDeleteVisible(false);
-    // };
-
-    // const deleteSelected = () => {
-    //     setTasksList([]);
-    //     setRefreshing(true);
-    //     selectedTasks.forEach((id) => {
-    //         deleteTask(navigation, id);
-    //     });
-    //     setDeleteVisible(false);
-    //     setSelectedTasks([]);
-    //     ToastAndroid.show("Tasks Deleted", ToastAndroid.SHORT);
-    // };
-
-    // const selectHelper = () => {
-    //     getTasks(sortMode, sortOrder);
-    // };
-
-    /**
      * Indivisual task item
      */
     const renderTaskCard = ({ item }) => (
         <TaskCard
             navigation={navigation}
             taskItem={item}
-            updateIsCompleted={updateIsCompleted}
+            updateCompleted={updateCompleted}
             onToggleSnackBar={onToggleSnackBar}
             handleSetTaskId={handleSetTaskId}
             onDismissSnackBar={onDismissSnackBar}
-            // handleSelectTask={handleSelectTask}
-            // selectHelper={selectHelper}
         />
     );
 
@@ -199,25 +147,19 @@ export default function Home({ navigation }) {
         <FullCard
             navigation={navigation}
             taskItem={item}
-            updateIsCompleted={updateIsCompleted}
+            updateCompleted={updateCompleted}
             onToggleSnackBar={onToggleSnackBar}
             handleSetTaskId={handleSetTaskId}
             onDismissSnackBar={onDismissSnackBar}
-            // handleSelectTask={handleSelectTask}
-            // selectHelper={selectHelper}
         />
     );
 
     return (
         <Provider>
-            <CustomHeader
+            <AppBar
                 navigation={navigation}
                 handleSlider={() => _panel.show({ velocity: -1.5 })}
                 handleSync={handleSync}
-                // deleteVisible={deleteVisible}
-                // deleteSelected={deleteSelected}
-                // deselectAll={deselectAll}
-                // selectedTasks={selectedTasks}
             />
 
             <View
@@ -256,7 +198,7 @@ export default function Home({ navigation }) {
                 onPress={() => navigation.navigate("Add Task")}
             />
             <Portal>
-                <SlideUpPanel
+                <BottomSheet
                     sorting={sorting}
                     completedFilter={completedFilter}
                     prioFilter={priorityFilter}
@@ -283,7 +225,9 @@ export default function Home({ navigation }) {
             </Portal>
         </Provider>
     );
-}
+};
+
+export default TasksList;
 
 const styles = StyleSheet.create({
     flatListContainer: {
