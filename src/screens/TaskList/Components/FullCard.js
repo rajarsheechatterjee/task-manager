@@ -1,13 +1,11 @@
 import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { CheckBox } from "react-native-elements";
-
-import { priorityColor, priorityTextColor } from "../../../utils/priority";
-
 import { TouchableRipple } from "react-native-paper";
+
 import moment from "moment";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ripple from "react-native-material-ripple";
+import { priorityColor, priorityTextColor } from "../../../utils/priority";
 
 import { ThemeContext } from "../../../navigation/ThemeProvider";
 
@@ -18,10 +16,10 @@ export default function TaskCard({
     onToggleSnackBar,
     handleSetTaskId,
     onDismissSnackBar,
-    // handleSelectTask,
-    // selectHelper,
 }) {
     const { theme } = useContext(ThemeContext);
+
+    const { taskTitle, taskTime, taskContent, priorityIs } = taskItem;
 
     const [checked, setChecked] = useState(taskItem.isCompleted);
 
@@ -35,9 +33,6 @@ export default function TaskCard({
             onDismissSnackBar();
         }
     };
-
-    // const [isSelected, setSelected] = useState(false);
-
     return (
         <View style={styles.mainContainer}>
             <TouchableRipple
@@ -60,13 +55,16 @@ export default function TaskCard({
                             checked && {
                                 textDecorationLine: "line-through",
                             },
+                            taskContent === "" && {
+                                paddingBottom: 10,
+                            },
                         ]}
                         numberOfLines={1}
                     >
-                        {taskItem.taskTitle + "  "}
+                        {taskTitle + "  "}
                         <View
                             style={[
-                                priorityColor(taskItem.priorityIs),
+                                priorityColor(priorityIs),
                                 {
                                     height: 10,
                                     width: 10,
@@ -75,29 +73,31 @@ export default function TaskCard({
                             ]}
                         />
                     </Text>
-
-                    <Text
-                        style={[
-                            styles.taskItemDate,
-                            checked && {
-                                textDecorationLine: "line-through",
-                            },
-                        ]}
-                        numberOfLines={1}
-                    >
-                        {"Due " + moment(taskItem.taskTime.toDate()).calendar()}
-                    </Text>
-
-                    <Text
-                        style={[
-                            styles.taskContent,
-                            checked && {
-                                textDecorationLine: "line-through",
-                            },
-                        ]}
-                    >
-                        {taskItem.taskContent}
-                    </Text>
+                    {taskTime !== "" && (
+                        <Text
+                            style={[
+                                styles.taskItemDate,
+                                checked && {
+                                    textDecorationLine: "line-through",
+                                },
+                            ]}
+                            numberOfLines={1}
+                        >
+                            {"Due " + moment(taskTime.toDate()).calendar()}
+                        </Text>
+                    )}
+                    {taskContent !== "" && (
+                        <Text
+                            style={[
+                                styles.taskContent,
+                                checked && {
+                                    textDecorationLine: "line-through",
+                                },
+                            ]}
+                        >
+                            {taskContent}
+                        </Text>
+                    )}
                 </View>
             </TouchableRipple>
         </View>

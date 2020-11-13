@@ -19,12 +19,13 @@ import { ThemeContext } from "../../navigation/ThemeProvider";
 
 import CustomHeader from "./Components/Header";
 import TaskCard from "./Components/TaskCard";
-import TaskCard2 from "./Components/TaskCard2";
+import FullCard from "./Components/FullCard";
 import SlideUpPanel from "./Components/SlideUpPanel";
 import Colors from "../../theming/colors";
 
 export default function Home({ navigation }) {
     const { theme } = useContext(ThemeContext);
+
     /**
      * Refresh Control
      */
@@ -61,20 +62,14 @@ export default function Home({ navigation }) {
     const { sortMode, sortOrder } = sorting;
     const [completedFilter, setCompletedFilter] = useState(false);
     const [priorityFilter, setPriorityFilter] = useState(0);
-    const [deleteVisible, setDeleteVisible] = useState(false);
+    // const [deleteVisible, setDeleteVisible] = useState(false);
 
     const [displayMode, setDisplayMode] = useState("compact");
 
     useFocusEffect(
         useCallback(() => {
             getTasks(sortMode, sortOrder);
-        }, [
-            sorting,
-            completedFilter,
-            priorityFilter,
-            deleteVisible,
-            displayMode,
-        ])
+        }, [sorting, completedFilter, priorityFilter, displayMode])
     );
 
     /**
@@ -126,9 +121,7 @@ export default function Home({ navigation }) {
      */
     const [deleteTaskId, setDeleteTaskId] = useState();
 
-    const handleSetTaskId = (taskId) => {
-        setDeleteTaskId(taskId);
-    };
+    const handleSetTaskId = (taskId) => setDeleteTaskId(taskId);
 
     const handleDeleteTask = async () => {
         if (deleteTaskId !== "") {
@@ -139,9 +132,7 @@ export default function Home({ navigation }) {
         }
     };
 
-    const handleDisplayMode = (value) => {
-        setDisplayMode(value);
-    };
+    const handleDisplayMode = (value) => setDisplayMode(value);
 
     /**
      * Select multiple items
@@ -204,8 +195,8 @@ export default function Home({ navigation }) {
         />
     );
 
-    const renderTaskCard2 = ({ item }) => (
-        <TaskCard2
+    const renderFullCard = ({ item }) => (
+        <FullCard
             navigation={navigation}
             taskItem={item}
             updateIsCompleted={updateIsCompleted}
@@ -223,7 +214,7 @@ export default function Home({ navigation }) {
                 navigation={navigation}
                 handleSlider={() => _panel.show({ velocity: -1.5 })}
                 handleSync={handleSync}
-                deleteVisible={deleteVisible}
+                // deleteVisible={deleteVisible}
                 // deleteSelected={deleteSelected}
                 // deselectAll={deselectAll}
                 // selectedTasks={selectedTasks}
@@ -242,7 +233,7 @@ export default function Home({ navigation }) {
                     keyExtractor={(item) => item.id}
                     renderItem={
                         displayMode === "fullcard"
-                            ? renderTaskCard2
+                            ? renderFullCard
                             : renderTaskCard
                     }
                     refreshControl={

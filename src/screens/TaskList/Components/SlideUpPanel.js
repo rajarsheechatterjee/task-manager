@@ -160,7 +160,6 @@ const SlideUpPanel = ({
                 >
                     Display
                 </Text>
-
                 <RadioButton.Group
                     onValueChange={(value) => handleDisplayMode(value)}
                     value={displayMode}
