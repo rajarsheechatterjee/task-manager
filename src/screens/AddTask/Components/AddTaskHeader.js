@@ -11,7 +11,7 @@ const AddTaskHeader = ({
     showModal,
 }) => {
     return (
-        <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
+        <Appbar.Header style={{ backgroundColor: theme.colorAccentPrimary }}>
             <Appbar.BackAction
                 onPress={() => {
                     navigation.goBack();

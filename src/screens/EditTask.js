@@ -129,7 +129,9 @@ export default function EditTask({ route, navigation }) {
 
     return (
         <Provider>
-            <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
+            <Appbar.Header
+                style={{ backgroundColor: theme.colorAccentPrimary }}
+            >
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
@@ -174,10 +176,10 @@ export default function EditTask({ route, navigation }) {
                                 dense={true}
                                 error={error}
                                 onChangeText={(text) => setEmail(text)}
-                                selectionColor={theme.secondaryAccentColor}
+                                selectionColor={theme.colorAccentSecondary}
                                 theme={{
                                     colors: {
-                                        primary: theme.secondaryAccentColor,
+                                        primary: theme.colorAccentSecondary,
                                         text: theme.textColor,
                                         underlineColor: "transparent",
                                     },
@@ -200,13 +202,13 @@ export default function EditTask({ route, navigation }) {
                         <Dialog.Actions>
                             <Button
                                 onPress={() => setEmails([])}
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                             >
                                 Clear emails
                             </Button>
                             <Button
                                 onPress={addEmail}
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                             >
                                 Add
                             </Button>
@@ -302,14 +304,14 @@ export default function EditTask({ route, navigation }) {
                 <View
                     style={[
                         styles.bottomSheetContainer,
-                        { backgroundColor: theme.bottomsheetColor },
+                        { backgroundColor: theme.bottomSheet },
                     ]}
                 >
                     <View style={styles.indicator} />
                     <Text
                         style={[
                             styles.priorityHeading,
-                            { color: theme.secondaryAccentColor },
+                            { color: theme.colorAccentSecondary },
                         ]}
                     >
                         Collaborators
@@ -333,14 +335,14 @@ export default function EditTask({ route, navigation }) {
                             <Switch
                                 value={sendEmail}
                                 onValueChange={onToggleSwitch}
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                             />
                         </>
                     </TouchableRipple>
                     <Text
                         style={[
                             styles.priorityHeading,
-                            { color: theme.secondaryAccentColor },
+                            { color: theme.colorAccentSecondary },
                         ]}
                     >
                         Completed
@@ -363,14 +365,14 @@ export default function EditTask({ route, navigation }) {
                                 onValueChange={() =>
                                     handleIsCompleted(isChecked)
                                 }
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                             />
                         </>
                     </TouchableRipple>
                     <Text
                         style={[
                             styles.priorityHeading,
-                            { color: theme.secondaryAccentColor },
+                            { color: theme.colorAccentSecondary },
                         ]}
                     >
                         Priority

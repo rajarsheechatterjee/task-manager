@@ -1,6 +1,15 @@
 import React, { useState, useContext } from "react";
 import { Text, View, StyleSheet, Clipboard, ToastAndroid } from "react-native";
-import { FAB, Portal, Provider, Appbar, Chip } from "react-native-paper";
+import {
+    FAB,
+    Portal,
+    Provider,
+    Appbar,
+    Chip,
+    Button,
+    Dialog,
+    Paragraph,
+} from "react-native-paper";
 import moment from "moment";
 import * as MailComposer from "expo-mail-composer";
 
@@ -42,9 +51,22 @@ export default function TaskItem({ route, navigation }) {
         ToastAndroid.show("Copied task to clipboard", ToastAndroid.SHORT);
     };
 
+    /**
+     * Delete Dialog
+     */
+    const [visible, setVisible] = useState(false);
+    const showDialog = () => setVisible(true);
+    const hideDialog = () => setVisible(false);
+    const handleDelete = (id) => {
+        deleteTask(navigation, id);
+        hideDialog();
+    };
+
     return (
         <Provider>
-            <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
+            <Appbar.Header
+                style={{ backgroundColor: theme.colorAccentPrimary }}
+            >
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
@@ -52,6 +74,38 @@ export default function TaskItem({ route, navigation }) {
                 />
                 <Appbar.Content title="Task Item" />
             </Appbar.Header>
+            <Portal>
+                <Dialog
+                    visible={visible}
+                    onDismiss={hideDialog}
+                    style={{
+                        backgroundColor: theme.background,
+                        width: 320,
+                        alignSelf: "center",
+                        borderRadius: 10,
+                    }}
+                >
+                    <Dialog.Content>
+                        <Paragraph style={{ fontSize: 16 }}>
+                            The note will be deleted
+                        </Paragraph>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button
+                            onPress={() => console.log("Cancel")}
+                            color={theme.colorAccentSecondary}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            onPress={() => handleDelete(id)}
+                            color={theme.colorAccentSecondary}
+                        >
+                            Delete
+                        </Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
             <View style={{ flex: 1, backgroundColor: theme.background }}>
                 <View
                     style={[
@@ -144,13 +198,13 @@ export default function TaskItem({ route, navigation }) {
                         open={open}
                         color="white"
                         fabStyle={{
-                            backgroundColor: theme.secondaryAccentColor,
+                            backgroundColor: theme.colorAccentSecondary,
                         }}
                         icon={open ? "dots-vertical" : "dots-horizontal"}
                         actions={[
                             {
                                 icon: "email-check",
-                                color: theme.secondaryAccentColor,
+                                color: theme.colorAccentSecondary,
                                 label: "Send Email",
                                 onPress: () => {
                                     MailComposer.composeAsync({
@@ -165,7 +219,7 @@ export default function TaskItem({ route, navigation }) {
                             },
                             // {
                             //     icon: "share-variant",
-                            //     color: theme.secondaryAccentColor,
+                            //     color: theme.colorAccentSecondary,
                             //     label: "Share",
                             //     onPress: () => handleCopy(),
                             //     style: {
@@ -174,9 +228,9 @@ export default function TaskItem({ route, navigation }) {
                             // },
                             {
                                 icon: "trash-can-outline",
-                                color: theme.secondaryAccentColor,
+                                color: theme.colorAccentSecondary,
                                 label: "Delete",
-                                onPress: () => deleteTask(navigation, id),
+                                onPress: () => showDialog(),
                                 style: {
                                     backgroundColor: theme.background,
                                 },
@@ -184,7 +238,7 @@ export default function TaskItem({ route, navigation }) {
                             {
                                 icon: "pencil",
                                 label: "Edit",
-                                color: theme.secondaryAccentColor,
+                                color: theme.colorAccentSecondary,
                                 onPress: () =>
                                     navigation.navigate(
                                         "EditTask",

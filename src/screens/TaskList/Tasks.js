@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { Provider, FAB, Portal, Snackbar } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { deleteTask, getAllTasks, updateCompleted } from "../../utils/firebase";
 
@@ -60,6 +61,10 @@ const TasksList = ({ navigation }) => {
     const [priorityFilter, setPriorityFilter] = useState(0);
 
     const [displayMode, setDisplayMode] = useState("compact");
+
+    AsyncStorage.getItem("@cardStyle").then(
+        (value) => value && setDisplayMode(JSON.parse(value))
+    );
 
     useFocusEffect(
         useCallback(() => {
@@ -183,7 +188,7 @@ const TasksList = ({ navigation }) => {
                             refreshing={refreshing}
                             onRefresh={onRefresh}
                             colors={["white"]}
-                            progressBackgroundColor={theme.secondaryAccentColor}
+                            progressBackgroundColor={theme.colorAccentSecondary}
                         />
                     }
                 />
@@ -191,7 +196,7 @@ const TasksList = ({ navigation }) => {
             <FAB
                 style={[
                     styles.fab,
-                    { backgroundColor: theme.secondaryAccentColor },
+                    { backgroundColor: theme.colorAccentSecondary },
                 ]}
                 icon="plus"
                 color={Colors.iconColor}
@@ -217,7 +222,7 @@ const TasksList = ({ navigation }) => {
                         label: "Delete Task",
                         onPress: handleDeleteTask,
                     }}
-                    style={{ backgroundColor: theme.accentColor }}
+                    style={{ backgroundColor: theme.colorAccentPrimary }}
                     theme={{ colors: { accent: "white" } }}
                 >
                     Task Completed

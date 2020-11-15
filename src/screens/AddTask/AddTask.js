@@ -151,10 +151,10 @@ export default function AddTask({ navigation }) {
                                 dense={true}
                                 error={error}
                                 onChangeText={(text) => setEmail(text)}
-                                selectionColor={theme.secondaryAccentColor}
+                                selectionColor={theme.colorAccentSecondary}
                                 theme={{
                                     colors: {
-                                        primary: theme.secondaryAccentColor,
+                                        primary: theme.colorAccentSecondary,
                                         text: theme.textColor,
                                         underlineColor: "transparent",
                                     },
@@ -177,13 +177,13 @@ export default function AddTask({ navigation }) {
                         <Dialog.Actions>
                             <Button
                                 onPress={() => setEmails([])}
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                             >
                                 Clear emails
                             </Button>
                             <Button
                                 onPress={addEmail}
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                             >
                                 Add
                             </Button>
@@ -278,14 +278,14 @@ export default function AddTask({ navigation }) {
                 <View
                     style={[
                         styles.bottomSheetContainer,
-                        { backgroundColor: theme.bottomsheetColor },
+                        { backgroundColor: theme.bottomSheet },
                     ]}
                 >
                     <View style={styles.indicator} />
                     <Text
                         style={[
                             styles.priorityHeading,
-                            { color: theme.secondaryAccentColor },
+                            { color: theme.colorAccentSecondary },
                         ]}
                     >
                         Collaborators
@@ -309,7 +309,7 @@ export default function AddTask({ navigation }) {
                             <Switch
                                 value={sendEmail}
                                 onValueChange={onToggleSwitch}
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                             />
                         </>
                     </TouchableRipple>
@@ -317,7 +317,7 @@ export default function AddTask({ navigation }) {
                     <Text
                         style={[
                             styles.priorityHeading,
-                            { color: theme.secondaryAccentColor },
+                            { color: theme.colorAccentSecondary },
                         ]}
                     >
                         Priority

@@ -23,7 +23,9 @@ const SettingsScreen = ({ navigation }) => {
 
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
+            <Appbar.Header
+                style={{ backgroundColor: theme.colorAccentPrimary }}
+            >
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
@@ -40,7 +42,7 @@ const SettingsScreen = ({ navigation }) => {
             >
                 <List.Subheader
                     style={{
-                        color: theme.secondaryAccentColor,
+                        color: theme.colorAccentSecondary,
                         paddingTop: 20,
                         paddingBottom: 5,
                     }}
@@ -54,7 +56,7 @@ const SettingsScreen = ({ navigation }) => {
                     description="(Not added yet)"
                     right={() => (
                         <List.Icon
-                            color={theme.secondaryAccentColor}
+                            color={theme.colorAccentSecondary}
                             icon="trash-can-outline"
                         />
                     )}
@@ -65,7 +67,7 @@ const SettingsScreen = ({ navigation }) => {
                     titleStyle={{ color: theme.textColor }}
                     right={() => (
                         <List.Icon
-                            color={theme.secondaryAccentColor}
+                            color={theme.colorAccentSecondary}
                             icon="playlist-plus"
                         />
                     )}
@@ -74,7 +76,7 @@ const SettingsScreen = ({ navigation }) => {
                 <Divider />
                 <List.Subheader
                     style={{
-                        color: theme.secondaryAccentColor,
+                        color: theme.colorAccentSecondary,
                         paddingTop: 20,
                         paddingBottom: 5,
                     }}
@@ -89,7 +91,7 @@ const SettingsScreen = ({ navigation }) => {
                         <Checkbox
                             status={checked ? "checked" : "unchecked"}
                             onPress={() => handleCheckbox()}
-                            color={theme.secondaryAccentColor}
+                            color={theme.colorAccentSecondary}
                         />
                     )}
                     style={{ paddingRight: 20 }}
@@ -97,7 +99,7 @@ const SettingsScreen = ({ navigation }) => {
                 <Divider />
                 <List.Subheader
                     style={{
-                        color: theme.secondaryAccentColor,
+                        color: theme.colorAccentSecondary,
                         paddingTop: 20,
                         paddingBottom: 5,
                     }}
@@ -110,7 +112,7 @@ const SettingsScreen = ({ navigation }) => {
                     titleStyle={{ color: theme.textColor }}
                     right={() => (
                         <List.Icon
-                            color={theme.secondaryAccentColor}
+                            color={theme.colorAccentSecondary}
                             icon="email"
                         />
                     )}
@@ -121,7 +123,7 @@ const SettingsScreen = ({ navigation }) => {
                     titleStyle={{ color: theme.textColor }}
                     right={() => (
                         <List.Icon
-                            color={theme.secondaryAccentColor}
+                            color={theme.colorAccentSecondary}
                             icon="logout-variant"
                         />
                     )}

@@ -1,34 +1,40 @@
+/**
+ * Light Theme
+ */
+
 export const lightTheme = {
+    colorAccentPrimary: "#118086",
+    colorAccentSecondary: "#118086",
     textColor: "#484848",
-    iconColor: "#118086",
     subTextColor: "#767676",
-    headerActionColor: "#ffffff",
-    accentColor: "#118086",
-    secondaryAccentColor: "#118086",
+    iconColor: "#118086",
     priorityHigh: "#FF0000",
     priorityMid: "orange",
     priorityLow: "#1E90FF",
     background: "#FAFAFA",
-    deleteColor: "#E53935",
-    cardBackground: "#fff",
-    bottomsheetColor: "#FFFFFF",
-    taskCardColor: "#118086",
+    delete: "#E53935",
+    cardBackground: "#FFFFFF",
+    bottomSheet: "#FFFFFF",
+    cardIcon: "#118086",
     fabGroup: "white",
 };
 
+/**
+ * Dark Theme
+ */
+
 export const darkTheme = {
+    colorAccentPrimary: "#212121",
+    colorAccentSecondary: "#3399FF",
     textColor: "rgba(255,255,255,0.8)",
     subTextColor: "rgba(255,255,255,0.7)",
-    iconColor: "#ffffff",
-    headerActionColor: "#ffffff",
-    accentColor: "#212121",
-    secondaryAccentColor: "#3399ff",
+    iconColor: "#FFFFFF",
     priorityHigh: "red",
     priorityMid: "orange",
     priorityLow: "dodgerblue",
     background: "#1C1C1D",
     cardBackground: "#212121",
-    bottomsheetColor: "#212121",
-    taskCardColor: "rgba(255,255,255,0.9)",
+    bottomSheet: "#212121",
+    cardIcon: "rgba(255,255,255,0.9)",
     fabGroup: "#3399ff",
 };

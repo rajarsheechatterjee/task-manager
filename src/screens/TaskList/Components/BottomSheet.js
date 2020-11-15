@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Colors from "../../../theming/colors";
 
@@ -38,14 +39,14 @@ const BottomSheet = ({
             <View
                 style={[
                     styles.bottomSheetContainer,
-                    { backgroundColor: theme.bottomsheetColor },
+                    { backgroundColor: theme.bottomSheet },
                 ]}
             >
                 <View style={styles.indicator} />
                 <Text
                     style={[
                         styles.filterHeading,
-                        { color: theme.secondaryAccentColor },
+                        { color: theme.colorAccentSecondary },
                     ]}
                 >
                     Sort
@@ -60,7 +61,7 @@ const BottomSheet = ({
                         </Text>
                         {sortMode === "createdAt" && (
                             <MaterialCommunityIcons
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                                 name={
                                     sortOrder === "asc"
                                         ? "arrow-down"
@@ -82,7 +83,7 @@ const BottomSheet = ({
                         </Text>
                         {sortMode === "priorityIs" && (
                             <MaterialCommunityIcons
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                                 name={
                                     sortOrder === "asc"
                                         ? "arrow-down"
@@ -104,7 +105,7 @@ const BottomSheet = ({
                         </Text>
                         {sortMode === "taskTime" && (
                             <MaterialCommunityIcons
-                                color={theme.secondaryAccentColor}
+                                color={theme.colorAccentSecondary}
                                 name={
                                     sortOrder === "asc"
                                         ? "arrow-up"
@@ -120,7 +121,7 @@ const BottomSheet = ({
                     style={[
                         [
                             styles.filterHeading,
-                            { color: theme.secondaryAccentColor },
+                            { color: theme.colorAccentSecondary },
                         ],
                         { paddingTop: 5 },
                     ]}
@@ -135,7 +136,7 @@ const BottomSheet = ({
                         <Checkbox
                             status={completedFilter ? "checked" : "unchecked"}
                             onValueChange={() => handleCompletedFilter()}
-                            color={theme.secondaryAccentColor}
+                            color={theme.colorAccentSecondary}
                             uncheckedColor={theme.textColor}
                         />
                         <Text
@@ -153,7 +154,7 @@ const BottomSheet = ({
                     style={[
                         [
                             styles.filterHeading,
-                            { color: theme.secondaryAccentColor },
+                            { color: theme.colorAccentSecondary },
                         ],
                         { paddingTop: 5 },
                     ]}
@@ -161,21 +162,31 @@ const BottomSheet = ({
                     Display
                 </Text>
                 <RadioButton.Group
-                    onValueChange={(value) => handleDisplayMode(value)}
+                    onValueChange={(value) => {
+                        handleDisplayMode(value);
+                        AsyncStorage.setItem(
+                            "@cardStyle",
+                            JSON.stringify(value)
+                        );
+                    }}
                     value={displayMode}
                 >
                     <View style={{ flexDirection: "row" }}>
                         <RadioButton.Item
                             label="Compact"
                             value="compact"
-                            uncheckedColor={theme.secondaryAccentColor}
-                            color={theme.secondaryAccentColor}
+                            uncheckedColor={theme.colorAccentSecondary}
+                            color={theme.colorAccentSecondary}
+                            labelStyle={{ color: theme.textColor }}
+                            style={{ paddingHorizontal: 20 }}
                         />
                         <RadioButton.Item
                             label="Full Card"
                             value="fullcard"
-                            uncheckedColor={theme.secondaryAccentColor}
-                            color={theme.secondaryAccentColor}
+                            uncheckedColor={theme.colorAccentSecondary}
+                            color={theme.colorAccentSecondary}
+                            labelStyle={{ color: theme.textColor }}
+                            style={{ paddingHorizontal: 20 }}
                         />
                     </View>
                 </RadioButton.Group>

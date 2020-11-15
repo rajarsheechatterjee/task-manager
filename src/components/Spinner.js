@@ -9,7 +9,10 @@ export default function Spinner() {
 
     return (
         <View
-            style={[styles.container, { backgroundColor: theme.accentColor }]}
+            style={[
+                styles.container,
+                { backgroundColor: theme.colorAccentPrimary },
+            ]}
         >
             <ActivityIndicator size="large" color="white" />
         </View>

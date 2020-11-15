@@ -49,8 +49,8 @@ export default function TaskCard({
                     <View style={styles.checkbox}>
                         <CheckBox
                             center
-                            checkedColor={theme.taskCardColor}
-                            uncheckedColor={theme.taskCardColor}
+                            checkedColor={theme.cardIcon}
+                            uncheckedColor={theme.cardIcon}
                             checkedIcon="dot-circle-o"
                             uncheckedIcon="circle-o"
                             checked={checked}
@@ -103,7 +103,7 @@ export default function TaskCard({
                         >
                             <MaterialCommunityIcons
                                 name="chevron-right"
-                                color={theme.taskCardColor}
+                                color={theme.cardIcon}
                                 size={30}
                                 style={styles.icon}
                             />

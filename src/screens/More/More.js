@@ -8,7 +8,9 @@ const MoreScreen = ({ navigation }) => {
 
     return (
         <>
-            <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
+            <Appbar.Header
+                style={{ backgroundColor: theme.colorAccentPrimary }}
+            >
                 <Appbar.BackAction
                     onPress={() => {
                         navigation.goBack();
@@ -29,7 +31,7 @@ const MoreScreen = ({ navigation }) => {
                     title="Settings"
                     left={() => (
                         <List.Icon
-                            color={theme.secondaryAccentColor}
+                            color={theme.colorAccentSecondary}
                             icon="settings-outline"
                         />
                     )}
@@ -40,7 +42,7 @@ const MoreScreen = ({ navigation }) => {
                     title="About"
                     left={() => (
                         <List.Icon
-                            color={theme.secondaryAccentColor}
+                            color={theme.colorAccentSecondary}
                             icon="information-outline"
                         />
                     )}

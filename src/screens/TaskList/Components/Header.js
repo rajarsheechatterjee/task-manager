@@ -7,7 +7,7 @@ const Header = ({ navigation, handleSlider, handleSync }) => {
     const { theme } = useContext(ThemeContext);
 
     return (
-        <Appbar.Header style={{ backgroundColor: theme.accentColor }}>
+        <Appbar.Header style={{ backgroundColor: theme.colorAccentPrimary }}>
             <Appbar.Content title="Your Tasks" />
             <Appbar.Action icon="sync" onPress={() => handleSync()} />
             <Appbar.Action
