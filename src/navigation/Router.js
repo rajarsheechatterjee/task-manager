@@ -9,7 +9,7 @@ import { auth } from "../utils/firebase";
 
 import Spinner from "../components/Spinner";
 
-const StackNavigator = () => {
+const Router = () => {
     const { user, setUser } = useContext(AuthUserContext);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -37,4 +37,4 @@ const StackNavigator = () => {
     );
 };
 
-export default StackNavigator;
+export default Router;

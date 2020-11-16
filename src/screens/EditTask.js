@@ -24,7 +24,6 @@ import * as MailComposer from "expo-mail-composer";
 
 import { ThemeContext } from "../navigation/ThemeProvider";
 
-import Colors from "../theming/colors";
 import { updateTask } from "../utils/firebase";
 
 import moment from "moment";
@@ -164,7 +163,10 @@ export default function EditTask({ route, navigation }) {
                     <Dialog
                         visible={dialogVisible}
                         onDismiss={hideDialog}
-                        style={{ backgroundColor: theme.background }}
+                        style={{
+                            backgroundColor: theme.background,
+                            borderRadius: 10,
+                        }}
                     >
                         <Dialog.Title style={{ color: theme.textColor }}>
                             Add Collaborators

@@ -139,7 +139,10 @@ export default function AddTask({ navigation }) {
                     <Dialog
                         visible={dialogVisible}
                         onDismiss={hideDialog}
-                        style={{ backgroundColor: theme.background }}
+                        style={{
+                            backgroundColor: theme.background,
+                            borderRadius: 10,
+                        }}
                     >
                         <Dialog.Title style={{ color: theme.textColor }}>
                             Add Collaborators
