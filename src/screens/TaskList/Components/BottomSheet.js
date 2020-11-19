@@ -126,39 +126,6 @@ const BottomSheet = ({
                         { paddingTop: 5 },
                     ]}
                 >
-                    Filter
-                </Text>
-                <TouchableRipple
-                    style={styles.completedFilter}
-                    onPress={() => handleCompletedFilter()}
-                >
-                    <>
-                        <Checkbox
-                            status={completedFilter ? "checked" : "unchecked"}
-                            onValueChange={() => handleCompletedFilter()}
-                            color={theme.colorAccentSecondary}
-                            uncheckedColor={theme.textColor}
-                        />
-                        <Text
-                            style={{
-                                fontSize: 15,
-                                marginLeft: 10,
-                                color: theme.textColor,
-                            }}
-                        >
-                            Completed
-                        </Text>
-                    </>
-                </TouchableRipple>
-                <Text
-                    style={[
-                        [
-                            styles.filterHeading,
-                            { color: theme.colorAccentSecondary },
-                        ],
-                        { paddingTop: 5 },
-                    ]}
-                >
                     Display
                 </Text>
                 <RadioButton.Group
@@ -186,15 +153,51 @@ const BottomSheet = ({
                             uncheckedColor={theme.colorAccentSecondary}
                             color={theme.colorAccentSecondary}
                             labelStyle={{ color: theme.textColor }}
-                            style={{ paddingHorizontal: 20 }}
+                            style={{ paddingHorizontal: 20, marginLeft: 10 }}
                         />
                     </View>
                 </RadioButton.Group>
+                <Text
+                    style={[
+                        [
+                            styles.filterHeading,
+                            { color: theme.colorAccentSecondary },
+                        ],
+                        { paddingTop: 5 },
+                    ]}
+                >
+                    Filter
+                </Text>
+                <TouchableRipple
+                    style={styles.completedFilter}
+                    onPress={() => handleCompletedFilter()}
+                >
+                    <>
+                        <Text
+                            style={{
+                                fontSize: 15,
+                                color: theme.textColor,
+                            }}
+                        >
+                            Completed
+                        </Text>
+                        <Checkbox
+                            status={completedFilter ? "checked" : "unchecked"}
+                            onValueChange={() => handleCompletedFilter()}
+                            color={theme.colorAccentSecondary}
+                            uncheckedColor={theme.textColor}
+                        />
+                    </>
+                </TouchableRipple>
                 <View style={styles.priorityFilters}>
                     <Chip
                         selectedColor={prioFilter === 1 ? "white" : "black"}
                         style={[
-                            { marginRight: 10 },
+                            {
+                                marginRight: 15,
+                                elevation: 1,
+                                backgroundColor: theme.chipColor,
+                            },
                             prioFilter === 1 && {
                                 backgroundColor: "#A80000",
                             },
@@ -208,7 +211,11 @@ const BottomSheet = ({
                     <Chip
                         selectedColor={prioFilter === 2 ? "white" : "black"}
                         style={[
-                            { marginRight: 10 },
+                            {
+                                marginRight: 15,
+                                elevation: 1,
+                                backgroundColor: theme.chipColor,
+                            },
                             prioFilter === 2 && {
                                 backgroundColor: Colors.priorityMid,
                             },
@@ -222,7 +229,11 @@ const BottomSheet = ({
                     <Chip
                         selectedColor={prioFilter === 3 ? "white" : "black"}
                         style={[
-                            { marginRight: 10 },
+                            {
+                                marginRight: 15,
+                                elevation: 1,
+                                backgroundColor: theme.chipColor,
+                            },
                             prioFilter === 3 && {
                                 backgroundColor: Colors.priorityLow,
                             },
@@ -274,17 +285,19 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 20,
+
         height: 50,
     },
     completedFilter: {
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "space-between",
         paddingHorizontal: 20,
         paddingVertical: 10,
     },
     priorityFilters: {
         flexDirection: "row",
-        paddingHorizontal: 16,
         paddingVertical: 5,
+        paddingHorizontal: 20,
     },
 });

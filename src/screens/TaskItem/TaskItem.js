@@ -79,16 +79,16 @@ export default function TaskItem({ route, navigation }) {
                     visible={visible}
                     onDismiss={hideDialog}
                     style={{
-                        backgroundColor: theme.background,
+                        backgroundColor: theme.backgroundColor,
                         width: 320,
                         alignSelf: "center",
-                        borderRadius: 10,
+                        borderRadius: 15,
                     }}
                 >
                     <Dialog.Content>
-                        <Paragraph style={{ fontSize: 16 }}>
+                        <Text style={{ fontSize: 16 }}>
                             The note will be deleted
-                        </Paragraph>
+                        </Text>
                     </Dialog.Content>
                     <Dialog.Actions>
                         <Button
@@ -106,7 +106,7 @@ export default function TaskItem({ route, navigation }) {
                     </Dialog.Actions>
                 </Dialog>
             </Portal>
-            <View style={{ flex: 1, backgroundColor: theme.background }}>
+            <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
                 <View
                     style={[
                         styles.mainContainer,
@@ -214,7 +214,7 @@ export default function TaskItem({ route, navigation }) {
                                     });
                                 },
                                 style: {
-                                    backgroundColor: theme.background,
+                                    backgroundColor: theme.backgroundColor,
                                 },
                             },
                             // {
@@ -223,7 +223,7 @@ export default function TaskItem({ route, navigation }) {
                             //     label: "Share",
                             //     onPress: () => handleCopy(),
                             //     style: {
-                            //         backgroundColor: theme.background,
+                            //         backgroundColor: theme.backgroundColor,
                             //     },
                             // },
                             {
@@ -232,7 +232,7 @@ export default function TaskItem({ route, navigation }) {
                                 label: "Delete",
                                 onPress: () => showDialog(),
                                 style: {
-                                    backgroundColor: theme.background,
+                                    backgroundColor: theme.backgroundColor,
                                 },
                             },
                             {
@@ -245,7 +245,7 @@ export default function TaskItem({ route, navigation }) {
                                         route.params
                                     ),
                                 style: {
-                                    backgroundColor: theme.background,
+                                    backgroundColor: theme.backgroundColor,
                                 },
                             },
                         ]}

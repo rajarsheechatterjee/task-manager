@@ -6,6 +6,7 @@ import moment from "moment";
 import { priorityColor } from "../../../utils/priority";
 
 import { ThemeContext } from "../../../navigation/ThemeProvider";
+import { color } from "react-native-reanimated";
 
 export default function TaskCard({
     taskItem,
@@ -56,6 +57,9 @@ export default function TaskCard({
                             taskContent === "" && {
                                 paddingBottom: 10,
                             },
+                            taskTime !== "" && {
+                                paddingBottom: 0,
+                            },
                         ]}
                         numberOfLines={1}
                     >
@@ -91,6 +95,7 @@ export default function TaskCard({
                                 checked && {
                                     textDecorationLine: "line-through",
                                 },
+                                { color: theme.subTextColor },
                             ]}
                         >
                             {taskContent}

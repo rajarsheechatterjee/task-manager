@@ -21,7 +21,7 @@ const MoreScreen = ({ navigation }) => {
             <List.Section
                 style={{
                     flex: 1,
-                    backgroundColor: theme.background,
+                    backgroundColor: theme.backgroundColor,
                     marginTop: 0,
                     marginBottom: 0,
                 }}

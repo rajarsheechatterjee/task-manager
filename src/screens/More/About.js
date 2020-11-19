@@ -60,7 +60,7 @@ const AboutScreen = ({ navigation }) => {
                 style={{
                     flex: 1,
                     marginTop: 0,
-                    backgroundColor: theme.background,
+                    backgroundColor: theme.backgroundColor,
                     marginBottom: 0,
                 }}
             >

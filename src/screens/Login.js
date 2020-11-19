@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import React, { useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -12,7 +11,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Colors from "../theming/colors";
 
-import { isLoggedIn, loginUser } from "../utils/firebase";
+import { loginUser } from "../utils/firebase";
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState("");

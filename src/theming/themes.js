@@ -1,40 +1,53 @@
-/**
- * Light Theme
- */
+// Application Colors
+
+export const applicationColors = {};
+
+// Light Theme
 
 export const lightTheme = {
     colorAccentPrimary: "#118086",
     colorAccentSecondary: "#118086",
+    backgroundColor: "#FAFAFA",
+    priority: { high: "#FF0000", mid: "orange", low: "#1E90FF" },
     textColor: "#484848",
     subTextColor: "#767676",
+    chipColor: "#FFFFFF",
+
     iconColor: "#118086",
-    priorityHigh: "#FF0000",
-    priorityMid: "orange",
-    priorityLow: "#1E90FF",
-    background: "#FAFAFA",
+
     delete: "#E53935",
     cardBackground: "#FFFFFF",
     bottomSheet: "#FFFFFF",
     cardIcon: "#118086",
-    fabGroup: "white",
+    fabGroup: "#FFFFFF",
 };
 
-/**
- * Dark Theme
- */
+// Dark Theme
 
 export const darkTheme = {
     colorAccentPrimary: "#212121",
     colorAccentSecondary: "#3399FF",
-    textColor: "rgba(255,255,255,0.8)",
+    backgroundColor: "#1C1C1D",
+    priority: { high: "#FF0000", mid: "orange", low: "#3399FF" },
+    textColor: "#FFFFFF",
     subTextColor: "rgba(255,255,255,0.7)",
+    chipColor: "#FFFFFF",
+
     iconColor: "#FFFFFF",
-    priorityHigh: "red",
-    priorityMid: "orange",
-    priorityLow: "dodgerblue",
-    background: "#1C1C1D",
     cardBackground: "#212121",
     bottomSheet: "#212121",
     cardIcon: "rgba(255,255,255,0.9)",
     fabGroup: "#3399ff",
+};
+
+const theme = {
+    colorAccentPrimary: "",
+    colorAccentSecondary: "",
+    backgroundColor: "",
+    priority: { high: "", mid: "", low: "" },
+    headerColor: "",
+    headerTextColor: "",
+    textColor: "",
+    subTextColor: "",
+    chipColor: "",
 };

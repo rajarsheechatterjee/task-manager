@@ -37,7 +37,7 @@ const SettingsScreen = ({ navigation }) => {
                 style={{
                     flex: 1,
                     marginVertical: 0,
-                    backgroundColor: theme.background,
+                    backgroundColor: theme.backgroundColor,
                 }}
             >
                 <List.Subheader

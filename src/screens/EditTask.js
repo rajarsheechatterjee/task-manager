@@ -156,7 +156,7 @@ export default function EditTask({ route, navigation }) {
             <View
                 style={[
                     styles.mainContainer,
-                    { backgroundColor: theme.background },
+                    { backgroundColor: theme.backgroundColor },
                 ]}
             >
                 <Portal>
@@ -164,7 +164,7 @@ export default function EditTask({ route, navigation }) {
                         visible={dialogVisible}
                         onDismiss={hideDialog}
                         style={{
-                            backgroundColor: theme.background,
+                            backgroundColor: theme.backgroundColor,
                             borderRadius: 10,
                         }}
                     >
@@ -187,7 +187,7 @@ export default function EditTask({ route, navigation }) {
                                     },
                                 }}
                                 style={{
-                                    backgroundColor: theme.background,
+                                    backgroundColor: theme.backgroundColor,
                                 }}
                             />
                             {error !== "" && (
@@ -386,22 +386,22 @@ export default function EditTask({ route, navigation }) {
                         <RadioButton.Item
                             label="High"
                             value={1}
-                            color={theme.priorityHigh}
-                            uncheckedColor={theme.priorityHigh}
+                            color={theme.priority.high}
+                            uncheckedColor={theme.priority.high}
                             style={{ paddingHorizontal: 20, paddingRight: 35 }}
                         />
                         <RadioButton.Item
                             label="Medium"
                             value={2}
-                            color={theme.priorityMid}
-                            uncheckedColor={theme.priorityMid}
+                            color={theme.priority.mid}
+                            uncheckedColor={theme.priority.mid}
                             style={{ paddingHorizontal: 20, paddingRight: 35 }}
                         />
                         <RadioButton.Item
                             label="Low"
                             value={3}
-                            color={theme.priorityLow}
-                            uncheckedColor={theme.priorityLow}
+                            color={theme.priority.low}
+                            uncheckedColor={theme.priority.low}
                             style={{ paddingHorizontal: 20, paddingRight: 35 }}
                         />
                     </RadioButton.Group>

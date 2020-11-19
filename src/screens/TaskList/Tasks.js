@@ -68,7 +68,11 @@ const TasksList = ({ navigation }) => {
 
     useFocusEffect(
         useCallback(() => {
+            let isMounted = true;
+
             getTasks(sortMode, sortOrder);
+
+            return () => (isMounted = false);
         }, [sorting, completedFilter, priorityFilter, displayMode])
     );
 
@@ -170,7 +174,7 @@ const TasksList = ({ navigation }) => {
             <View
                 style={[
                     styles.flatListContainer,
-                    { backgroundColor: theme.background },
+                    { backgroundColor: theme.backgroundColor },
                 ]}
             >
                 <FlatList

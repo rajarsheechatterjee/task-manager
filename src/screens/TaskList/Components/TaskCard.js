@@ -23,6 +23,8 @@ export default function TaskCard({
 
     const [checked, setChecked] = useState(taskItem.isCompleted);
 
+    const { taskTime } = taskItem;
+
     const handleCompleted = () => {
         setChecked(!checked);
         updateCompleted(checked, taskItem.id);
@@ -60,6 +62,7 @@ export default function TaskCard({
                             containerStyle={styles.checkBoxStyle}
                         />
                     </View>
+
                     <Text
                         style={[
                             styles.taskItemTitle,
@@ -81,9 +84,11 @@ export default function TaskCard({
                         ]}
                         numberOfLines={1}
                     >
-                        {taskItem.isUpdated && "Updated on "}
-                        {moment(taskItem.createdAt.toDate()).calendar()}
+                        {taskTime !== ""
+                            ? "Due " + moment(taskTime.toDate()).calendar()
+                            : moment(taskItem.createdAt.toDate()).calendar()}
                     </Text>
+
                     <View style={styles.priorityMarker}>
                         <View
                             style={[
