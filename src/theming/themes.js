@@ -25,17 +25,17 @@ export const lightTheme = {
 // Dark Theme
 
 export const darkTheme = {
-    colorAccentPrimary: "#212121",
+    colorAccentPrimary: "#242529",
     colorAccentSecondary: "#3399FF",
-    backgroundColor: "#1C1C1D",
+    backgroundColor: "#202125",
     priority: { high: "#FF0000", mid: "orange", low: "#3399FF" },
     textColor: "#FFFFFF",
     subTextColor: "rgba(255,255,255,0.7)",
     chipColor: "#FFFFFF",
 
     iconColor: "#FFFFFF",
-    cardBackground: "#212121",
-    bottomSheet: "#212121",
+    cardBackground: "#242529",
+    bottomSheet: "#242529",
     cardIcon: "rgba(255,255,255,0.9)",
     fabGroup: "#3399ff",
 };

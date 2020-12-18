@@ -43,6 +43,7 @@
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.7",
     "react-native-windows": "^1.0.0",
+    "react-navigation-collapsible": "^5.8.1",
     "react-navigation-transitions": "^1.0.12",
     "rn-sliding-up-panel": "^2.4.3"
   },

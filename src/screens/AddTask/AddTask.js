@@ -18,6 +18,7 @@ import {
     Switch,
     RadioButton,
 } from "react-native-paper";
+import NetInfo from "@react-native-community/netinfo";
 
 import moment from "moment";
 import BottomSheet from "rn-sliding-up-panel";
@@ -100,6 +101,14 @@ export default function AddTask({ navigation }) {
 
             ToastAndroid.show("Task Added", ToastAndroid.SHORT);
             clearFields();
+
+            NetInfo.fetch().then((state) => {
+                !state.isConnected &&
+                    ToastAndroid.show(
+                        "Cannot add task at this moment. Please check your internet connection",
+                        ToastAndroid.SHORT
+                    );
+            });
         }
     };
 
@@ -245,6 +254,7 @@ export default function AddTask({ navigation }) {
                                         marginVertical: 5,
                                         marginRight: 5,
                                         backgroundColor: theme.chipColor,
+                                        elevation: 1,
                                     }}
                                 >
                                     {item}
@@ -258,6 +268,7 @@ export default function AddTask({ navigation }) {
                                     marginVertical: 5,
                                     marginRight: 5,
                                     backgroundColor: theme.chipColor,
+                                    elevation: 1,
                                 }}
                             >
                                 Add Collaborators

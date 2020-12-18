@@ -9,6 +9,7 @@ import {
 import { useFocusEffect } from "@react-navigation/native";
 import { Provider, FAB, Portal, Snackbar } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from "@react-native-community/netinfo";
 
 import { deleteTask, getAllTasks, updateCompleted } from "../../utils/firebase";
 
@@ -47,6 +48,14 @@ const TasksList = ({ navigation }) => {
             (list = list.filter((item) => item.priorityIs === priorityFilter));
         setTasksList(list);
         setRefreshing(false);
+
+        NetInfo.fetch().then((state) => {
+            !state.isConnected &&
+                ToastAndroid.show(
+                    "Cannot retrieve tasks at this moment. Please check your internet connection",
+                    ToastAndroid.SHORT
+                );
+        });
     };
 
     /**

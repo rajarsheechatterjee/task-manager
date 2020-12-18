@@ -389,6 +389,7 @@ export default function EditTask({ route, navigation }) {
                             color={theme.priority.high}
                             uncheckedColor={theme.priority.high}
                             style={{ paddingHorizontal: 20, paddingRight: 35 }}
+                            labelStyle={{ color: theme.textColor }}
                         />
                         <RadioButton.Item
                             label="Medium"
@@ -396,6 +397,7 @@ export default function EditTask({ route, navigation }) {
                             color={theme.priority.mid}
                             uncheckedColor={theme.priority.mid}
                             style={{ paddingHorizontal: 20, paddingRight: 35 }}
+                            labelStyle={{ color: theme.textColor }}
                         />
                         <RadioButton.Item
                             label="Low"
@@ -403,6 +405,7 @@ export default function EditTask({ route, navigation }) {
                             color={theme.priority.low}
                             uncheckedColor={theme.priority.low}
                             style={{ paddingHorizontal: 20, paddingRight: 35 }}
+                            labelStyle={{ color: theme.textColor }}
                         />
                     </RadioButton.Group>
                 </View>
